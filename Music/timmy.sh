@@ -4,5 +4,5 @@
 # outputs song.wav (keeps the original name)
 
 output=${1%.*}".wav"
-timidity $1 -Ow -o $output
+timidity $1 -OwM -o $output
 
