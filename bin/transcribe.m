@@ -22,15 +22,33 @@ function [out] = transcribe(wav_file, midi_file)
   % Compute the FFT magnitudes
   magS = abs(S);
   % Normalize, whiten the FFT magnitudes (to-do)
-  
-  % Open the MIDI file
-  
-  # Train 88 SVMs for each piano key
+
+  % Add the libsvm and midi libraries  
   addpath("../lib/libsvm");
-  addpath("../lib/matlab-midi/src")
-  
+  addpath("../lib/matlab-midi/src");
+
+  % Open the MIDI file
+  midi = readmidi(midi_file);
+  notes = midiInfo(midi,0);
+  % T is in increments of 10ms, the same as our STFT'd wav file
+  [pr, t, nn] = piano_roll(notes);
+  % size(pr,2)
+  % sum(pr,2)
+
+  % View piano roll:
+  % figure;
+  % imagesc(t,nn,pr);
+  % axis xy;
+  % xlabel('time');
+  % pause;
+
+  % This is a way to convert midi to wav, but it wasn't working for me:
+  % [y,Fs] = midi2audio(midi);
+  % wavwrite(y,Fs,'out.wav');
+
+  % Train 88 SVMs for each piano key
   for i=1:88
-      fprintf('Training SVM %d...\n', i);
+      % fprintf('Training SVM %d...\n', i);
   end
 
 end
