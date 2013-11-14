@@ -35,8 +35,8 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   % Normalize, whiten the FFT magnitudes (to-do)
 
   % Add the libsvm and midi libraries  
-  addpath("../lib/libsvm");
-  addpath("../lib/matlab-midi/src");
+  addpath('../lib/libsvm');
+  addpath('../lib/matlab-midi/src');
 
   % Open the MIDI file
   midi = readmidi(midi_file);
@@ -56,8 +56,7 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   % Train 88 SVMs for each piano key
   % For reasons I do not understand, the note number goes from 20s to 90s
   num_notes = nn(end)-nn(1);
-  svm_models = {};
-  svm_models{100} = 0; % This is bad, but it stops the index out of bounds complaint
+  svm_models = {num_notes};
   for i=1:num_notes
       fprintf('Training SVM %d...\n', i);
       note_vec = pr(i,:);   
@@ -78,17 +77,18 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
       end
 
       pos = pos(1:num_examples);
-      pos_examples = S(:,pos);
+      pos_examples = magS(:,pos);
 
       % Randomly sample same number of negative examples
       neg = find(note_vec == 0);
-      neg = neg(randperm(length(neg)))(1:num_examples);
-      neg_examples = S(:,neg);      
+      neg = neg(randperm(length(neg)));
+      neg = neg(1:num_examples);
+      neg_examples = magS(:,neg);      
 
       % Train SVM on these samples
       training_labels = [ones(1,num_examples) -1*ones(1,num_examples)]';
       training_input = [pos_examples neg_examples]';
-      svm_models(i) = svmtrain(training_labels, training_input, '-s 2 -t 2 -q'); 
+      svm_models{i} = svmtrain(training_labels, training_input, '-s 2 -t 2 -c 0.1 -q'); 
   end
 
   % Just to test this for now, rerun these svms on the wave file and generate a piano roll
@@ -99,14 +99,14 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
 
   subset = 2000;
   for i=1:subset % size(S,2)
-      fprintf("Predicting time step %d of %d\n", i, size(S,2));
+      fprintf('Predicting time step %d of %d\n', i, size(magS,2));
       for j=1:num_notes
       	  if isempty(svm_models{j})
 	     % We had no notes to train on 
 	     continue
 	  end
       	  % Evaluate note SVM on STFT 
-	  [predict_label, accuracy, dec] = svmpredict([1], S(:,i)', svm_models{j},'-q');
+	  [predict_label, accuracy, dec] = svmpredict([1], magS(:,i)', svm_models{j},'-q');
 	  estimated_pr(j,i) = (predict_label > 0); % Converts -1 -> 0, 1 -> 1
       end
   end
