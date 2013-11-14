@@ -56,7 +56,7 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   % Train 88 SVMs for each piano key
   % For reasons I do not understand, the note number goes from 20s to 90s
   num_notes = nn(end)-nn(1);
-  svm_models = {num_notes};
+  svm_models = cell(num_notes);
   for i=1:num_notes
       fprintf('Training SVM %d...\n', i);
       note_vec = pr(i,:);   
@@ -101,10 +101,10 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   for i=1:subset % size(S,2)
       fprintf('Predicting time step %d of %d\n', i, size(magS,2));
       for j=1:num_notes
-      	  if isempty(svm_models{j})
+        if isempty(svm_models{j})
 	     % We had no notes to train on 
 	     continue
-	  end
+        end
       	  % Evaluate note SVM on STFT 
 	  [predict_label, accuracy, dec] = svmpredict([1], magS(:,i)', svm_models{j},'-q');
 	  estimated_pr(j,i) = (predict_label > 0); % Converts -1 -> 0, 1 -> 1
