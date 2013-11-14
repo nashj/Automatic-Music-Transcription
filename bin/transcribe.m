@@ -32,8 +32,9 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   % pause
   % Compute the FFT magnitudes
   magS = abs(S);
-  % Normalize, whiten the FFT magnitudes (to-do)
 
+  % Normalize, whiten the FFT magnitudes (to-do)
+    
   % Add the libsvm and midi libraries  
   addpath('../lib/libsvm');
   addpath('../lib/matlab-midi/src');
@@ -47,7 +48,7 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   % pause
   % sum(pr,2)
 
-  % view_piano_roll(t,nn,pr)
+  view_piano_roll(t,nn,pr)
 
   % This is a way to convert midi to wav, but it wasn't working for me:
   % [y,Fs] = midi2audio(midi);
@@ -88,7 +89,8 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
       % Train SVM on these samples
       training_labels = [ones(1,num_examples) -1*ones(1,num_examples)]';
       training_input = [pos_examples neg_examples]';
-      svm_models{i} = svmtrain(training_labels, training_input, '-s 2 -t 2 -c 0.1 -q'); 
+      training_input = training_input(:, :);
+      svm_models{i} = svmtrain(training_labels, training_input, '-s 1 -t 2 -c 0.01 -q'); 
   end
 
   % Just to test this for now, rerun these svms on the wave file and generate a piano roll
@@ -99,15 +101,15 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
 
   subset = 2000;
   for i=1:subset % size(S,2)
-      fprintf('Predicting time step %d of %d\n', i, size(magS,2));
+      fprintf('Predicting time step %d of %d\n', i,subset);
       for j=1:num_notes
         if isempty(svm_models{j})
 	     % We had no notes to train on 
 	     continue
         end
       	  % Evaluate note SVM on STFT 
-	  [predict_label, accuracy, dec] = svmpredict([1], magS(:,i)', svm_models{j},'-q');
-	  estimated_pr(j,i) = (predict_label > 0); % Converts -1 -> 0, 1 -> 1
+	  [predict_label, accuracy, dec] = svmpredict(rand(1), magS(:,i)', svm_models{j},'-q');
+	  estimated_pr(j,i) = dec; % Converts -1 -> 0, 1 -> 1
       end
   end
 
