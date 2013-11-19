@@ -1,4 +1,4 @@
-function [estimated_pr] = transcribe(wav_file, midi_file)
+function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   % Warning: this is written for Octave and not tested with MATLAB
   % This also uses libsvm. The libsvm I have included has been built for Octave
 
@@ -26,7 +26,9 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   % .128*fs
   %.01*fs
   % Compute the STFT on 128ms frames with 10ms hops
-  [S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
+  %[S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
+  [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+  
   size(S) 
   spec_t(end)
   % pause
@@ -60,7 +62,7 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
   svm_models = cell(num_notes);
   for i=1:num_notes
       fprintf('Training SVM %d...\n', i);
-      note_vec = pr(i,:);   
+      note_vec = pr(i,:);
       
       if sum(note_vec) == 0
       	 continue
@@ -84,13 +86,25 @@ function [estimated_pr] = transcribe(wav_file, midi_file)
       neg = find(note_vec == 0);
       neg = neg(randperm(length(neg)));
       neg = neg(1:num_examples);
-      neg_examples = magS(:,neg);      
+      neg_examples = magS(:,neg);
+      
+      midi_note = nn(i);
+      if (midi_note >= 21 && midi_note <= 83) %0-2K
+          pos_examples = pos_examples(1:256, :);
+          neg_examples = neg_examples(1:256, :);
+      elseif (midi_note > 83 && midi_note <= 95) %1K-3K
+          pos_examples = pos_examples(128:384, :);
+          neg_examples = neg_examples(128:384, :);              
+      else                                          %2K-4K
+          pos_examples = pos_examples(256:512, :);
+          neg_examples = neg_examples(256:512, :);   
+      end
 
       % Train SVM on these samples
       training_labels = [ones(1,num_examples) -1*ones(1,num_examples)]';
       training_input = [pos_examples neg_examples]';
       training_input = training_input(:, :);
-      svm_models{i} = svmtrain(training_labels, training_input, '-s 1 -t 2 -c 0.01 -q'); 
+      svm_models{i} = svmtrain(training_labels, training_input, '-s 1 -t 2 -c 0.1 -q'); 
   end
 
   % Just to test this for now, rerun these svms on the wave file and generate a piano roll
