@@ -40,6 +40,7 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   % Add the libsvm and midi libraries  
   addpath('../lib/libsvm');
   addpath('../lib/matlab-midi/src');
+  addpath('C:\Users\Pschro\Desktop\HMM_mat\');
 
   % Open the MIDI file
   midi = readmidi(midi_file);
@@ -60,6 +61,8 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   % For reasons I do not understand, the note number goes from 20s to 90s
   num_notes = nn(end)-nn(1);
   svm_models = cell(num_notes);
+  means = cell(num_notes,1);
+  vars = cell(num_notes,1);
   for i=1:num_notes
       fprintf('Training SVM %d...\n', i);
       note_vec = pr(i,:);
@@ -93,17 +96,20 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
           pos_examples = pos_examples(1:256, :);
           neg_examples = neg_examples(1:256, :);
       elseif (midi_note > 83 && midi_note <= 95) %1K-3K
-          pos_examples = pos_examples(128:384, :);
-          neg_examples = neg_examples(128:384, :);              
+          pos_examples = pos_examples(129:384, :);
+          neg_examples = neg_examples(129:384, :);              
       else                                          %2K-4K
-          pos_examples = pos_examples(256:512, :);
-          neg_examples = neg_examples(256:512, :);   
+          pos_examples = pos_examples(257:512, :);
+          neg_examples = neg_examples(257:512, :);   
       end
 
       % Train SVM on these samples
       training_labels = [ones(1,num_examples) -1*ones(1,num_examples)]';
       training_input = [pos_examples neg_examples]';
-      training_input = training_input(:, :);
+      means{i} = mean(training_input);
+      training_input = bsxfun(@minus,training_input,means{i});
+      vars{i} = std(training_input);
+      training_input = bsxfun(@rdivide, training_input, vars{i}); 
       svm_models{i} = svmtrain(training_labels, training_input, '-s 1 -t 2 -c 0.1 -q'); 
   end
 
@@ -121,8 +127,22 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
 	     % We had no notes to train on 
 	     continue
         end
+        
+      midi_note = nn(j);
+      if (midi_note >= 21 && midi_note <= 83) %0-2K
+          feature = magS(1:256, i);
+      elseif (midi_note > 83 && midi_note <= 95) %1K-3K
+          feature = magS(129:384, i);          
+      else                                          %2K-4K
+          feature = magS(257:512, i);
+      end        
+        
+
       	  % Evaluate note SVM on STFT 
-	  [predict_label, accuracy, dec] = svmpredict(rand(1), magS(:,i)', svm_models{j},'-q');
+      feature = feature - means{j}';
+      feature = feature./vars{j}';
+
+	  [predict_label, accuracy, dec] = svmpredict(rand(1), feature', svm_models{j},'-q');
 	  estimated_pr(j,i) = dec; % Converts -1 -> 0, 1 -> 1
       end
   end
@@ -130,7 +150,6 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset));
 
   % Run a hidden markov model over the piano roll for smoothing the raw log posterior probabilities
-  
 
 end
 
