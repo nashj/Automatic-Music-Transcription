@@ -26,9 +26,13 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   % .128*fs
   %.01*fs
   % Compute the STFT on 128ms frames with 10ms hops
-  %[S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
-  [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
-  
+  isOctave = exist('OCTAVE_VERSION') ~= 0;
+  if isOctave
+    [S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
+  else
+    [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+  end
+
   size(S) 
   spec_t(end)
   % pause
@@ -51,7 +55,10 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   % pause
   % sum(pr,2)
 
-  view_piano_roll(t,nn,pr)
+  % Only display a subset of the ground truth for comparison to computed piano roll later
+  subset = 2000;
+  view_piano_roll(t(1:subset),nn,pr(:,1:subset), 'Ground truth')
+  %view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset));
 
   % This is a way to convert midi to wav, but it wasn't working for me:
   % [y,Fs] = midi2audio(midi);
@@ -120,7 +127,7 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
 
   % pr time length should equal S time length, but they're off by a few hundred samples, so I'm suspicious that timidity is adding extra time somewhere
 
-  subset = 2000;
+
   for i=1:subset % size(S,2)
       fprintf('Predicting time step %d of %d\n', i,subset);
       for j=1:num_notes
@@ -148,7 +155,11 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
       end
   end
 
-  view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset));
+  view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset), 'SVM output');
+
+  fprintf('Running HMM on SVM output\n');
+
+  % === HMM ===
 
   % Run a hidden markov model over the piano roll for smoothing the raw log posterior probabilities
   % Estimation of priors and transition matrix can be done using MIDI files (ground truth)
@@ -160,6 +171,7 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   smooth_labels = zeros(size(estimated_pr));
   true_labels = bsxfun(@minus,true_labels,1); %initialize true_labels to -1
   for i=1:size(nn,2)
+    fprintf('Smoothing note %d\n', i);
     cur_note = nn(i);
   % If cur_note is not actually played in song, skip it
     if (isempty(find(notes_list==cur_note, 1)))
@@ -226,13 +238,11 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
     smooth_labels(i,1:subset)= STATES;
     
   end
-  view_piano_roll(spec_t(1:subset), nn, smooth_labels(:,1:subset));  
+  view_piano_roll(spec_t(1:subset), nn, smooth_labels(:,1:subset), 'Smoothed output');  
 
 end
 
-
-
-function [out] = view_piano_roll(t, nn, pr)
+function view_piano_roll(t, nn, pr, title_str)
   % View piano roll
   % t is an array of times, usually in increments of .01s
   % nn are the note numbers 
@@ -241,8 +251,9 @@ function [out] = view_piano_roll(t, nn, pr)
   figure;
   imagesc(t,nn,pr);
   axis xy;
+  title(title_str);
   xlabel('Time');
   ylabel('Notes');
-  pause;
-  out = 0;
+  % pause;
+  drawnow
 end
