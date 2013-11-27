@@ -40,7 +40,7 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   % Add the libsvm and midi libraries  
   addpath('../lib/libsvm');
   addpath('../lib/matlab-midi/src');
-  addpath('C:\Users\Pschro\Desktop\HMM_mat\');
+  
 
   % Open the MIDI file
   midi = readmidi(midi_file);
@@ -59,7 +59,8 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   
   % Train 88 SVMs for each piano key
   % For reasons I do not understand, the note number goes from 20s to 90s
-  num_notes = nn(end)-nn(1);
+  num_notes = nn(end)-nn(1)+1;
+
   svm_models = cell(num_notes);
   means = cell(num_notes,1);
   vars = cell(num_notes,1);
@@ -143,13 +144,89 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
       feature = feature./vars{j}';
 
 	  [predict_label, accuracy, dec] = svmpredict(rand(1), feature', svm_models{j},'-q');
-	  estimated_pr(j,i) = dec; % Converts -1 -> 0, 1 -> 1
+	  estimated_pr(j,i) = predict_label; % Converts -1 -> 0, 1 -> 1
       end
   end
 
   view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset));
 
   % Run a hidden markov model over the piano roll for smoothing the raw log posterior probabilities
+  % Estimation of priors and transition matrix can be done using MIDI files (ground truth)
+  % Estimation of emission matrix should be done using predict_label from
+  % SVM
+  
+  notes_list = unique(notes(:,3)); %list of notes that are played
+  true_labels = zeros(size(estimated_pr));
+  smooth_labels = zeros(size(estimated_pr));
+  true_labels = bsxfun(@minus,true_labels,1); %initialize true_labels to -1
+  for i=1:size(nn,2)
+    cur_note = nn(i);
+  % If cur_note is not actually played in song, skip it
+    if (isempty(find(notes_list==cur_note, 1)))
+        continue;
+    end
+  % Estimate prior
+    on_times = notes(notes(:,3)==cur_note,:);
+    on_time_total = 0;
+    time_total = t(size(t,2)); %using this as proxy for total length of time
+    for j = 1:size(on_times,1)
+        %sum the differences between on and off time of note to get total
+        %on_time
+        on_time_total=on_time_total+(on_times(j,6)-on_times(j,5));
+    end
+    prior_on = on_time_total/time_total;
+    prior_off = 1-prior_on;
+  % Estimate a transition matrix
+  % Probability of becoming on from off should be total number of on's
+  % divided by total number of off frames in song..? And vice versa as well
+    total_frames = time_total*100;
+    
+  % trans_mat(1,2) will be probability of going to on from off
+    trans_mat = zeros(2,2);
+    trans_mat(1,2) = size(on_times,1)/(prior_on*total_frames);
+    trans_mat(2,1) = size(on_times,1)/(prior_off*total_frames);
+    trans_mat(1,1) = 1-trans_mat(1,2);
+    trans_mat(2,2) = 1-trans_mat(2,1);
+
+  % Estimate emission matrix
+  
+  % Construct a matrix of true labels of same size as estimated_pr
+  % if end of interval occurs after start of note onset
+  
+  % if note onset starts at 15.000 seconds, ends at 16.000 seconds, then
+  % frames completely in the range 14.872 to 16.128 should contain it.
+  % this corresponds to frame 1488 through 1600
+    
+    for j = 1:size(on_times,1)
+        start_frame = max(ceil((on_times(j,5)-0.128)*100),1);
+        end_frame = min(floor(on_times(j,6)*100),size(true_labels,2));
+        true_labels(i,start_frame:end_frame)=ones(1,end_frame-start_frame+1);
+    end
+    %compare estimated_pr(i,j) with...true_labels(i,j)
+    em_mat = zeros(2,2);
+    diffs = estimated_pr(i,1:subset)-true_labels(i,1:subset);
+    adds = estimated_pr(i,1:subset)+true_labels(i,1:subset);
+    em_mat(1,2)= sum(diffs==2);%true value is -1, estimated is 1
+    em_mat(2,1)= sum(diffs==-2);%true value is 1, estimated is -1
+    em_mat(1,1)= sum(adds==-2); %truevalue is -1, estimated is -1
+    em_mat(2,2)= sum(adds==2);
+    if sum(em_mat(1,:))~=0
+        em_mat(1,:)=em_mat(1,:)/sum(em_mat(1,:));
+    end
+    if sum(em_mat(2,:))~=0
+        em_mat(2,:)=em_mat(2,:)/sum(em_mat(2,:));
+    end
+    %SEQ must be 1's and 2's.
+    SEQ = estimated_pr(i,1:2000);  
+    SEQ(SEQ==1)=2;
+    SEQ(SEQ==-1)=1;
+    STATES = hmmviterbi(SEQ,trans_mat,em_mat);
+    STATES(STATES==1)=-1;
+    STATES(STATES==2)=1;
+    smooth_labels(i,1:subset)= STATES;
+    
+  end
+  view_piano_roll(spec_t(1:subset), nn, smooth_labels(:,1:subset));  
 
 end
 
