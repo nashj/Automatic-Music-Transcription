@@ -1,0 +1,167 @@
+%\documentclass[3p]{elsarticle}
+\documentclass[5p]{elsarticle}
+\usepackage{natbib,graphicx,amsmath, mhchem,url,colortbl,fancyhdr,subfigure}
+\usepackage{multicol}
+
+\journal{EECS 545}
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+
+\begin{document}
+\begin{frontmatter}
+
+%\input{header.tex}
+\title{Methods for Polyphonic Music Transcription} % Remove Piano part?
+\author[add]{Jeremy Nash}
+\ead{nashj@umich.edu}
+\author[add]{Mark Liu}
+\ead{markmliu@umich.edu}
+\author[add]{Paul Schroeder}
+\ead{pschro@umich.edu}
+\address[add]{Electrical Engineering Department, University of Michigan, Ann Arbor, MI 48109}
+
+%\input{abstract.tex}
+\begin{abstract}
+This paper presents a review of modern methods for polyphonic music transcription. NNN
+\end{abstract}
+\begin{keyword}
+Transcription \sep sparse coding \sep non-negative matrix factorization \sep Bayesian non-parametrics \sep music information retrieval
+\end{keyword}
+
+\end{frontmatter}
+
+\setcounter{topnumber}{1}
+
+\section{Motivation}
+% Explain like you're at a whiteboard
+
+% Here's why people want to do this
+% Study of music - understanding music
+% recommender systems
+% Music information database
+% For learning musicians 
+
+% Here's why it's difficult
+% Musical timbres
+% Time varying - attack, decay, sustain, release
+% Number of sources?
+% Human perception of pitch
+% Musical instrument tuning
+% Completely new instruments - software created
+
+
+% Here's a teaser on how I'm going to solve this problem
+
+% Here's what I'm about to show you
+
+
+\section{Problem Statement}
+
+
+\section{Related Work}
+% Contain a table with metrics data, brief description, year published 
+
+\section{Methodologies}
+
+The two main methodologies in modern polyphonic music transcription reflect the supervised/unsupervised learning dichotomy in machine learning. The first approach learns separate discriminative models for the presence of a note over spectral features.
+
+% Constant Q transform
+
+% Semitone filter bank
+
+\subsection{Spectrogram}
+% Hint at the matrix factorization approach
+\subsection{Constant Q transform}
+\subsection{Semitone filter bank}
+\subsection{Discriminative models}
+% SVM, logistic regression
+\subsection{SVM}
+\subsection{Feed forward neural network}
+
+\subsection{Non-negative matrix factorization}
+% Non-negative Matrix factorization
+\subsection{Bayesian nonparametric models}
+\subsection{Smoothing}
+\subsubsection{HMM smoothing}
+\subsubsection{Probabilistic spectral smoothness}
+\subsection{Recurrent neural network}
+
+\section{Evaluation}
+
+
+\section{Conclusion}
+% Which method is fastest
+
+% Which method has the best performance
+
+% Which one is the simplest method
+
+% Future directions
+
+
+\section{Individual Effort}
+\begin{description}
+\item[$\bullet$ Jeremy] wrote and evaluted the SVM method in \cite{poliner2006discriminative}, the Bayesian nonparametric method in \cite{blei2010bayesian}, and the sparse non-negative matrix factorization method in \cite{abdallah2004polyphonic}. Jeremy also wrote the paper.
+\item[$\bullet$ Mark] implemented the hidden Markov model in \cite{poliner2006discriminative} and the LSTM network in \cite{bock2012polyphonic}.
+\item[$\bullet$ Paul] implemented the LSTM network in \cite{bock2012polyphonic}.
+\end{description}
+
+%    Problem statement, both conceptual and mathematical.
+%    Motivation: why is the problem important.
+%    Related work.
+%    Methodologies explored and developed, and their advantages and disadvantages
+%    Evaluation: experiments on sythetic and real data, performance measures used, results. I hope to see quantitative, objective evaluations, and comparisons with competitors
+%    Conclusions: what did you learn, what were the project's success and failures?
+%    Description of individual effort: At the end of the report, in a paragraph (included in the page limit), please include a brief description of each project member's contribution to the project.
+
+
+% Support vector machines + HMM 
+
+% Honglak Lee's approach: use knn or RBM for input
+
+% Non-negative matrix factorization 
+
+% Supervised NMF
+
+% Combination NMF + svm 
+
+% Recurrent neural network (LSTM)
+
+% Bayesian non-parametric method
+
+% Bayesian non-parametric II (infinite hidden markov model)
+
+% Our approach: Bayesian non parametrics with stochastic ... 
+
+
+
+
+%\input{1.tex}
+%\input{fig1.tex}
+%\input{2.tex}
+%\input{3.tex}
+%\input{fig2.tex}
+%\input{4.tex}
+%\input{5.tex}
+
+% Your project should involve experiments that compare a few different algorithms. These should be well known or state-of-the-art methods, plus possibly any new methods you develop. The experiments should use real (as opposed to simulated) data sets. There is a large repository of machine learning data sets called the ``UCI Machine Learning Repository.'' There are other more domain-specific sources as well that you might find by searching. 
+
+
+
+%Your project should focus on a topic that has previously been studied in the machine learning literature. I include this requirement because in the past, some groups have defined entirely new problems for themselves, and been unable to make any progress.
+%Your project report should contain an extensive literature review that summarizes fundamental ideas and state-of-the-art methods, with critiques of their strengths and weaknesses. My favorite reports to read are the ones that teach me something interesting.
+%You are also encouraged to develop your own methods to solve your chosen problem. 
+%Your project should involve experiments that compare a few different algorithms. These should be well known or state-of-the-art methods, plus possibly any new methods you develop. The experiments should use real (as opposed to simulated) data sets. There is a large repository of machine learning data sets called the ``UCI Machine Learning Repository.'' There are other more domain-specific sources as well that you might find by searching. 
+
+%Every report should address the following (but don't feel obligated to make these the section headings)
+%    Problem statement, both conceptual and mathematical.
+%    Motivation: why is the problem important.
+%    Related work.
+%    Methodologies explored and developed, and their advantages and disadvantages
+%    Evaluation: experiments on sythetic and real data, performance measures used, results. I hope to see quantitative, objective evaluations, and comparisons with competitors
+%    Conclusions: what did you learn, what were the project's success and failures?
+%    Description of individual effort: At the end of the report, in a paragraph (included in the page limit), please include a brief description of each project member's contribution to the project.
+
+
+\bibliographystyle{model1-num-names}
+\bibliography{transcription}
+\end{document}

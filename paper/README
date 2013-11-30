@@ -1,0 +1,9 @@
+%%%%%%%%%%
+%%README%%
+%%%%%%%%%%
+
+% For building the LaTeX paper:
+sudo apt-get install texlive-full
+
+% For running the examples:
+sudo apt-get install octave

@@ -1,0 +1,36 @@
+\begin{thebibliography}{4}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Poliner and Ellis(2006)}]{poliner2006discriminative}
+\bibinfo{author}{G.~E. Poliner}, \bibinfo{author}{D.~P. Ellis},
+\newblock \bibinfo{title}{A discriminative model for polyphonic piano
+  transcription},
+\newblock \bibinfo{journal}{EURASIP Journal on Advances in Signal Processing}
+  \bibinfo{volume}{2007} (\bibinfo{year}{2006}).
+%Type = Inproceedings
+\bibitem[{Blei et~al.(2010)Blei, Cook, and Hoffman}]{blei2010bayesian}
+\bibinfo{author}{D.~M. Blei}, \bibinfo{author}{P.~R. Cook},
+  \bibinfo{author}{M.~Hoffman},
+\newblock \bibinfo{title}{Bayesian nonparametric matrix factorization for
+  recorded music},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 27th International
+  Conference on Machine Learning (ICML-10)}, pp. \bibinfo{pages}{439--446}.
+%Type = Inproceedings
+\bibitem[{Abdallah and Plumbley(2004)}]{abdallah2004polyphonic}
+\bibinfo{author}{S.~A. Abdallah}, \bibinfo{author}{M.~D. Plumbley},
+\newblock \bibinfo{title}{Polyphonic music transcription by non-negative sparse
+  coding of power spectra},
+\newblock in: \bibinfo{booktitle}{Proc. 5th Int’l Conf. on Music Information
+  Retrieval (ISMIR)}, pp. \bibinfo{pages}{10--14}.
+%Type = Inproceedings
+\bibitem[{Bock and Schedl(2012)}]{bock2012polyphonic}
+\bibinfo{author}{S.~Bock}, \bibinfo{author}{M.~Schedl},
+\newblock \bibinfo{title}{Polyphonic piano note transcription with recurrent
+  neural networks},
+\newblock in: \bibinfo{booktitle}{Acoustics, Speech and Signal Processing
+  (ICASSP), 2012 IEEE International Conference on},
+  \bibinfo{organization}{IEEE}, pp. \bibinfo{pages}{121--124}.
+
+\end{thebibliography}
