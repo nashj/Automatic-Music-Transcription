@@ -29,7 +29,15 @@
 % 4 sentences - write this last
 
 % State the problem
-We present a review of modern methods for polyphonic music transcription.
+%We present a review of modern methods for polyphonic music transcription.
+
+Music transcription is the process of converting an audio recording into a musical score. 
+Musicians have been transcribing music manually for centuries to learn new songs and gain musical insight.
+Transcription, however, is an arduous manual process for musicians, and it's a difficult problem for computers because the pitches in a musical score are the human perceptions of a time-varying and frequency-varying physical phenomenon. 
+There has been a flurry of research on how to solve this problem. 
+We investigate the best solutions to the automated transcription problem and evaluate and compare their performance.
+
+
 
 % Say why it's an interesting problem
 
@@ -49,7 +57,6 @@ Transcription \sep sparse coding \sep non-negative matrix factorization \sep Bay
 
 \section{Introduction}
 
-
 \subsection{Terminology}
 Semitones are the smallest music interval in Western music. On a piano, semitones are the adjacent keys.
 
@@ -57,8 +64,29 @@ Timbre represents the spectral envelope, time envelope, noise, tonality, and ons
 
 Pitches are represented by the notes used in musical notation. Pitches are a psychological perception and not an objective physical property. While we can intuitively assign a linear order to pitches (by referring to pitches as lower or higher than other pitches), pitches are rarely a single frequency and are instead a function of their timbre. 
 
+Polyphony means multiple simultaneous notes. Monophony means only a single note at a time. These terms carry slightly different meanings outside of the automated transcription field. 
+
 \section{Motivation}
 % No more than one page
+
+% Introduction 
+
+% Explain motivation
+
+% This is just copied from 'A Connectionist Approach to Automatic Transcription of Polyphonic Piano Music' for now:
+Applications of a music transcription are versatile. Transcription produces a compact and standardized parametric representation of music. Such representation is needed for content-based retrieval of music in most current musical databases. It is useful in music analysis systems for tasks such as melody extraction, music segmentation and rhythm tracking. Transcription aids musicologists in analyzing music that has never been written down, such as improvised or ethnical music. The conversion of an acoustical waveform into parametric description is also useful in the process of making music, as well as in newer coding standards, such as MPEG-4, which may include such descriptions. 
+
+
+
+
+% According to Simon Peyton Jones:
+% Here is a problem
+% It's an interesting problem
+% It's an unsolved problem
+% Here is my idea
+% My idea works 
+% Here's how my idea compares to other approaches
+
 
 % Describe the problem 
 %    Use an example to introduce the problem
@@ -67,6 +95,9 @@ Pitches are represented by the notes used in musical notation. Pitches are a psy
 
 
 % Explain like you're at a whiteboard
+
+
+
 
 % Here's why people want to do this
 % Study of music - understanding music
@@ -87,13 +118,7 @@ Pitches are represented by the notes used in musical notation. Pitches are a psy
 
 % Here's what I'm about to show you
 
-% According to Simon Peyton Jones:
-% Here is a problem
-% It's an interesting problem
-% It's an unsolved problem
-% Here is my idea
-% My idea works 
-% Here's how my idea compares to other approaches
+
 
 
 \section{Problem Statement}
@@ -115,6 +140,8 @@ There are currently two main approaches to polyphonic music transcription. The f
 % Hint at the matrix factorization approach
 \subsection{Constant Q transform}
 
+
+
 \subsection{Semitone filter bank}
 Unlike the linear frequency scale used in an FFT, semitones in Western music are spaced logarithmically. This logarithmic spacing derives from our roughly logarithmic perception of pitches, first captured by \citet{stevens1937scale} through the mel scale. 
 
@@ -133,8 +160,27 @@ This method proposes restricting the problem to determining note onsets. This is
 
 \subsection{Non-negative matrix factorization}
 
+Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduction technique that factors a non-negative matrix $V$ with dimensions $FxN$ into two matrices,
+
+\[ V \approx WH \]
+
+\noindent where $W$ is an $FxK$ matrix and $H$ is a $KxN$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$. 
+
+In piano transcription, for example, $V$ might be a spectrogram with dimensions $2048xN$, $W$ might be $2048x88$ and encode the spectral envelope for each piano key in each column of the matrix, and $H$ might be $88xN$ sparse piano roll matrix. 
+
+There are two cost functions commonly used for NMF. The first is a euclidean distance cost function, defined as the squared difference between the corresponding elements in each matrix:
+
+\[ \displaystyle ||V-WH||^{2} = \sum_{ij} (V_{ij} - (WH)_{ij})^{2} \]
+
+\noindent Another commonly used measure is the KL divergence:
+
+\[ \displaystyle D(V||WH) = \sum_{ij} (V_{ij} \log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij}) \]
+
+The KL divergence cost function is more often used by transcription researchers because it XXX. 
+
 \citet{lee1999learning}
 \citet{seung2001algorithms}
+
 
 \subsection{Sparse non-negative matrix factorization}
 
