@@ -1,7 +1,50 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{8}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Stevens et~al.(1937)Stevens, Volkmann, and Newman}]{stevens1937scale}
+\bibinfo{author}{S.~S. Stevens}, \bibinfo{author}{J.~Volkmann},
+  \bibinfo{author}{E.~B. Newman},
+\newblock \bibinfo{title}{A scale for the measurement of the psychological
+  magnitude pitch},
+\newblock \bibinfo{journal}{The Journal of the Acoustical Society of America}
+  \bibinfo{volume}{8} (\bibinfo{year}{1937}) \bibinfo{pages}{185}.
+%Type = Inproceedings
+\bibitem[{Bock and Schedl(2012)}]{bock2012polyphonic}
+\bibinfo{author}{S.~Bock}, \bibinfo{author}{M.~Schedl},
+\newblock \bibinfo{title}{Polyphonic piano note transcription with recurrent
+  neural networks},
+\newblock in: \bibinfo{booktitle}{Acoustics, Speech and Signal Processing
+  (ICASSP), 2012 IEEE International Conference on},
+  \bibinfo{organization}{IEEE}, pp. \bibinfo{pages}{121--124}.
+%Type = Article
+\bibitem[{Lee and Seung(1999)}]{lee1999learning}
+\bibinfo{author}{D.~D. Lee}, \bibinfo{author}{H.~S. Seung},
+\newblock \bibinfo{title}{Learning the parts of objects by non-negative matrix
+  factorization},
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{401}
+  (\bibinfo{year}{1999}) \bibinfo{pages}{788--791}.
+%Type = Article
+\bibitem[{Seung and Lee(2001)}]{seung2001algorithms}
+\bibinfo{author}{D.~Seung}, \bibinfo{author}{L.~Lee},
+\newblock \bibinfo{title}{Algorithms for non-negative matrix factorization},
+\newblock \bibinfo{journal}{Advances in neural information processing systems}
+  \bibinfo{volume}{13} (\bibinfo{year}{2001}) \bibinfo{pages}{556--562}.
+%Type = Article
+\bibitem[{Hoyer(2004)}]{hoyer2004non}
+\bibinfo{author}{P.~O. Hoyer},
+\newblock \bibinfo{title}{Non-negative matrix factorization with sparseness
+  constraints},
+\newblock \bibinfo{journal}{The Journal of Machine Learning Research}
+  \bibinfo{volume}{5} (\bibinfo{year}{2004}) \bibinfo{pages}{1457--1469}.
+%Type = Inproceedings
+\bibitem[{Abdallah and Plumbley(2004)}]{abdallah2004polyphonic}
+\bibinfo{author}{S.~A. Abdallah}, \bibinfo{author}{M.~D. Plumbley},
+\newblock \bibinfo{title}{Polyphonic music transcription by non-negative sparse
+  coding of power spectra},
+\newblock in: \bibinfo{booktitle}{Proc. 5th Int’l Conf. on Music Information
+  Retrieval (ISMIR)}, pp. \bibinfo{pages}{10--14}.
 %Type = Article
 \bibitem[{Poliner and Ellis(2006)}]{poliner2006discriminative}
 \bibinfo{author}{G.~E. Poliner}, \bibinfo{author}{D.~P. Ellis},
@@ -17,20 +60,5 @@
   recorded music},
 \newblock in: \bibinfo{booktitle}{Proceedings of the 27th International
   Conference on Machine Learning (ICML-10)}, pp. \bibinfo{pages}{439--446}.
-%Type = Inproceedings
-\bibitem[{Abdallah and Plumbley(2004)}]{abdallah2004polyphonic}
-\bibinfo{author}{S.~A. Abdallah}, \bibinfo{author}{M.~D. Plumbley},
-\newblock \bibinfo{title}{Polyphonic music transcription by non-negative sparse
-  coding of power spectra},
-\newblock in: \bibinfo{booktitle}{Proc. 5th Int’l Conf. on Music Information
-  Retrieval (ISMIR)}, pp. \bibinfo{pages}{10--14}.
-%Type = Inproceedings
-\bibitem[{Bock and Schedl(2012)}]{bock2012polyphonic}
-\bibinfo{author}{S.~Bock}, \bibinfo{author}{M.~Schedl},
-\newblock \bibinfo{title}{Polyphonic piano note transcription with recurrent
-  neural networks},
-\newblock in: \bibinfo{booktitle}{Acoustics, Speech and Signal Processing
-  (ICASSP), 2012 IEEE International Conference on},
-  \bibinfo{organization}{IEEE}, pp. \bibinfo{pages}{121--124}.
 
 \end{thebibliography}

@@ -2,44 +2,44 @@ This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: paper.aux
 The style file: model1-num-names.bst
 Database file #1: transcription.bib
-You've used 4 entries,
+You've used 8 entries,
             2616 wiz_defined-function locations,
-            603 strings with 5253 characters,
-and the built_in function-call counts, 2557 in all, are:
-= -- 216
-> -- 84
-< -- 6
-+ -- 33
-- -- 27
-* -- 259
-:= -- 371
-add.period$ -- 4
-call.type$ -- 4
-change.case$ -- 29
-chr.to.int$ -- 4
-cite$ -- 4
-duplicate$ -- 172
-empty$ -- 180
-format.name$ -- 45
-if$ -- 501
+            633 strings with 5912 characters,
+and the built_in function-call counts, 4805 in all, are:
+= -- 404
+> -- 159
+< -- 9
++ -- 63
+- -- 51
+* -- 533
+:= -- 712
+add.period$ -- 8
+call.type$ -- 8
+change.case$ -- 57
+chr.to.int$ -- 8
+cite$ -- 8
+duplicate$ -- 314
+empty$ -- 330
+format.name$ -- 83
+if$ -- 907
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 29
-newline$ -- 26
-num.names$ -- 16
-pop$ -- 45
+missing$ -- 61
+newline$ -- 46
+num.names$ -- 32
+pop$ -- 67
 preamble$ -- 1
-purify$ -- 29
+purify$ -- 57
 quote$ -- 0
-skip$ -- 81
+skip$ -- 120
 stack$ -- 0
-substring$ -- 138
-swap$ -- 133
+substring$ -- 278
+swap$ -- 262
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 36
+type$ -- 72
 warning$ -- 0
-while$ -- 21
+while$ -- 40
 width$ -- 0
-write$ -- 58
+write$ -- 110
