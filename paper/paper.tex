@@ -160,11 +160,11 @@ This method proposes restricting the problem to determining note onsets. This is
 
 \subsection{Non-negative matrix factorization}
 
-Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduction technique that factors a non-negative matrix $V$ with dimensions $FxN$ into two matrices,
+Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduction technique that factors a non-negative matrix $V$ with dimensions $F \times N$ into two matrices,
 
 \[ V \approx WH \]
 
-\noindent where $W$ is an $FxK$ matrix and $H$ is a $KxN$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$. 
+\noindent where $W$ is an $F \times K$ matrix and $H$ is a $K \times N$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$. 
 
 In piano transcription, for example, $V$ might be a spectrogram with dimensions $2048xN$, $W$ might be $2048x88$ and encode the spectral envelope for each piano key in each column of the matrix, and $H$ might be $88xN$ sparse piano roll matrix. 
 
