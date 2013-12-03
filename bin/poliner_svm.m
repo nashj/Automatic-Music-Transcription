@@ -1,4 +1,4 @@
-function [estimated_pr, pr] = transcribe(wav_file, midi_file)
+function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
   % Warning: this is written for Octave and not tested with MATLAB
   % This also uses libsvm. The libsvm I have included has been built for Octave
 
@@ -51,6 +51,10 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
   notes = midiInfo(midi,0);
   % T is in increments of 10ms, the same as our STFT'd wav file
   [pr, t, nn] = piano_roll(notes);
+  notes
+  pause
+  
+
   size(pr)
   % pause
   % sum(pr,2)
@@ -163,42 +167,46 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
 
   % Run a hidden markov model over the piano roll for smoothing the raw log posterior probabilities
   % Estimation of priors and transition matrix can be done using MIDI files (ground truth)
-  % Estimation of emission matrix should be done using predict_label from
-  % SVM
+  % Estimation of emission matrix should be done using predict_label from SVM
   
   notes_list = unique(notes(:,3)); %list of notes that are played
   true_labels = zeros(size(estimated_pr));
   smooth_labels = zeros(size(estimated_pr));
   true_labels = bsxfun(@minus,true_labels,1); %initialize true_labels to -1
+
   for i=1:size(nn,2)
     fprintf('Smoothing note %d\n', i);
     cur_note = nn(i);
+
   % If cur_note is not actually played in song, skip it
-    if (isempty(find(notes_list==cur_note, 1)))
+    if (isempty(find(notes_list == cur_note, 1)))
         continue;
     end
+
   % Estimate prior
-    on_times = notes(notes(:,3)==cur_note,:);
+    on_times = notes(notes(:,3) == cur_note,:);
     on_time_total = 0;
-    time_total = t(size(t,2)); %using this as proxy for total length of time
+    time_total = t(end); %using this as proxy for total length of time
     for j = 1:size(on_times,1)
         %sum the differences between on and off time of note to get total
         %on_time
-        on_time_total=on_time_total+(on_times(j,6)-on_times(j,5));
+        on_time_total = on_time_total + (on_times(j,6) - on_times(j,5));
     end
-    prior_on = on_time_total/time_total;
-    prior_off = 1-prior_on;
+
+    prior_on = on_time_total / time_total;
+    prior_off = 1 - prior_on;
+
   % Estimate a transition matrix
   % Probability of becoming on from off should be total number of on's
   % divided by total number of off frames in song..? And vice versa as well
-    total_frames = time_total*100;
+    total_frames = time_total * 100;
     
   % trans_mat(1,2) will be probability of going to on from off
     trans_mat = zeros(2,2);
-    trans_mat(1,2) = size(on_times,1)/(prior_on*total_frames);
-    trans_mat(2,1) = size(on_times,1)/(prior_off*total_frames);
-    trans_mat(1,1) = 1-trans_mat(1,2);
-    trans_mat(2,2) = 1-trans_mat(2,1);
+    trans_mat(1,2) = size(on_times,1) / (prior_on*total_frames);
+    trans_mat(2,1) = size(on_times,1) / (prior_off*total_frames);
+    trans_mat(1,1) = 1 - trans_mat(1,2);
+    trans_mat(2,2) = 1 - trans_mat(2,1);
 
   % Estimate emission matrix
   
@@ -242,18 +250,3 @@ function [estimated_pr, pr] = transcribe(wav_file, midi_file)
 
 end
 
-function view_piano_roll(t, nn, pr, title_str)
-  % View piano roll
-  % t is an array of times, usually in increments of .01s
-  % nn are the note numbers 
-  % pr is the piano roll binary matrix
-  
-  figure;
-  imagesc(t,nn,pr);
-  axis xy;
-  title(title_str);
-  xlabel('Time');
-  ylabel('Notes');
-  % pause;
-  drawnow
-end
