@@ -27,8 +27,8 @@ function [estimated_pr, pr, H, W] = smaragdis_nmf(wav_file, midi_file)
   % Compute the FFT magnitudes
   magS = abs(S);
 
-  magS(1:40,1:40)
-  pause
+  %magS(1:40,1:40)
+  %pause
 
   num_steps = size(S,2);  
 
@@ -47,38 +47,37 @@ function [estimated_pr, pr, H, W] = smaragdis_nmf(wav_file, midi_file)
   % Run NMF on the spectrogram
   
   % Randomly generate W and H
-  W = rand(1024, 88);
-  %H = rand(88, num_steps);
+  k = 25;
+  W = rand(1024, k);
+  %H = rand(k, num_steps);
 
   % Perform on subset 
   magS = magS(:,1:subset);
-  H = rand(88, subset);
+  H = rand(k, subset);
   
+  V = magS; 
+
   % Iterate on W and H until convergence
-  for i=1:1000 % Use actual stopping criteria here
+  for i=1:200 % Use actual stopping criteria here
       fprintf('Update #%d:\n', i);
       
       % Apply update rule to W and H
       %Wnew = W + (W*H - magS) * H';
       %Hnew = H + W'*(W*H - magS);
-      Hnew = H + ((W'*magS) ./ (W'*W*H));
-      Wnew = W + ((magS*H') ./ (W*H*H'));
-
+      H = H .* ((W'*V) ./ (W'*W*H + 1e-9));
+      W = W .* ((V*H') ./ (W*H*H' + 1e-9));
+ 
       % Compute the Frobenius norm
-      H_norm = norm(H-Hnew,'fro');
-      W_norm = norm(W-Wnew,'fro');
-      fprintf('H_norm: %g\nW_norm: %g\n\n', H_norm, W_norm);
-
-      H = Hnew;
-      W = Wnew;
+      S_norm = norm(V - W*H, 'fro'); % Shows how close W*H is to the spectrogram
+      fprintf('S_norm: %g\n\n', S_norm);
   end
   
   % Threshold the values in the H piano roll matrix
 
+  eta = .1
   estimated_pr = zeros(size(pr,1), size(pr,2));
-  eta = .75;
   H = H ./ max(max(H)); % Adding this to make the threshold meaningful
-  for i=1:88
+  for i=1:k
       for j=1:subset
       	  if (H(i,j) > eta)
 	     estimated_pr(i,j) = 1;
