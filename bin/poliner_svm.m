@@ -1,4 +1,4 @@
-function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
+function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
   % Warning: this is written for Octave and not tested with MATLAB
   % This also uses libsvm. The libsvm I have included has been built for Octave
 
@@ -47,10 +47,15 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
   
 
   % Open the MIDI file
-  midi = readmidi(midi_file);
+  midi = readmidi(midi_file_1);
+  midi_2 = readmidi(midi_file_2);
   notes = midiInfo(midi,0);
+  notes_2 = midiInfo(midi_2,0);
+  %notes = [notes; notes_2];
   % T is in increments of 10ms, the same as our STFT'd wav file
   [pr, t, nn] = piano_roll(notes);
+  [pr_2,t_2,nn_2]= piano_roll(notes_2);
+  %seems that piano_roll can't handle that many notes..?
   notes
   pause
   
@@ -83,14 +88,14 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
       	 continue
       end
 
-      % Randomly sample postive examples (<=50)
+      % Randomly sample postive examples (<=100)
       pos = find(note_vec == 1);
 
       num_examples = 0;
-      if length(pos) < 50
+      if length(pos) < 100
       	 num_examples = length(pos);
       else
-	 num_examples = 50;
+	 num_examples = 100;
          pos = pos(randperm(length(pos)));
       end
 
@@ -122,13 +127,13 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
       training_input = bsxfun(@minus,training_input,means{i});
       vars{i} = std(training_input);
       training_input = bsxfun(@rdivide, training_input, vars{i}); 
-      svm_models{i} = svmtrain(training_labels, training_input, '-s 1 -t 2 -c 0.1 -q'); 
+      svm_models{i} = svmtrain(training_labels, training_input, '-s 1 -t 2 -c .1 -q'); 
   end
 
   % Just to test this for now, rerun these svms on the wave file and generate a piano roll
   % estimated_pr = zeros(size(pr));
   estimated_pr = zeros(size(pr,1), length(spec_t));
-
+  estimated_pr = estimated_pr-1;
   % pr time length should equal S time length, but they're off by a few hundred samples, so I'm suspicious that timidity is adding extra time somewhere
 
 
@@ -158,9 +163,9 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
 	  estimated_pr(j,i) = predict_label; % Converts -1 -> 0, 1 -> 1
       end
   end
-
+  
   view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset), 'SVM output');
-
+  
   fprintf('Running HMM on SVM output\n');
 
   % === HMM ===
@@ -172,6 +177,7 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
   notes_list = unique(notes(:,3)); %list of notes that are played
   true_labels = zeros(size(estimated_pr));
   smooth_labels = zeros(size(estimated_pr));
+  smooth_labels = smooth_labels-1;
   true_labels = bsxfun(@minus,true_labels,1); %initialize true_labels to -1
 
   for i=1:size(nn,2)
@@ -203,8 +209,8 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
     
   % trans_mat(1,2) will be probability of going to on from off
     trans_mat = zeros(2,2);
-    trans_mat(1,2) = size(on_times,1) / (prior_on*total_frames);
-    trans_mat(2,1) = size(on_times,1) / (prior_off*total_frames);
+    trans_mat(1,2) = size(on_times,1) / (prior_off*total_frames);
+    trans_mat(2,1) = size(on_times,1) / (prior_on*total_frames);
     trans_mat(1,1) = 1 - trans_mat(1,2);
     trans_mat(2,2) = 1 - trans_mat(2,1);
 
@@ -247,6 +253,52 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file)
     
   end
   view_piano_roll(spec_t(1:subset), nn, smooth_labels(:,1:subset), 'Smoothed output');  
-
+  %Calculate error for raw and smoothed labels
+  TP_R=0;
+  FP_R=0;
+  FN_R=0;
+  TP_S=0;
+  FP_S=0;  
+  FN_S=0;
+  ETOT_S=0;
+  ETOT_R=0;
+  for j =1:subset
+    for i =1:size(pr,1)
+      
+          tn = pr(i,j);
+          sl = smooth_labels(i,j);
+          rl = estimated_pr(i,j);
+          if (tn==1 && sl==1)
+              TP_S=TP_S+1;              
+          elseif (tn==0 && sl ==1)
+              FP_S=FP_S+1;
+          elseif (tn==1 && sl ==0)
+              FN_S=FN_S+1;
+          end
+          if (tn==1 && rl==1)
+              TP_R=TP_R+1;              
+          elseif (tn==0 && rl ==1)
+              FP_R=FP_R+1;
+          elseif (tn==1 && rl ==0)
+              FN_R=FN_R+1;
+          
+          end
+    end
+      
+      %2nd error measure
+      N_ref = sum(pr(:,j)==1);
+      N_sys_S = sum(smooth_labels(:,j)==1);
+      N_sys_R = sum(estimated_pr(:,j)==1);
+      N_corr_S =   sum((pr(:,j)==1)+ (smooth_labels(:,j)==1)==2);
+      N_corr_R =   sum((pr(:,j)==1)+ (estimated_pr(:,j)==1)==2);
+      
+      ETOT_S = ETOT_S+max(N_ref,N_sys_S)-N_corr_S;
+      ETOT_R = ETOT_R+max(N_ref,N_sys_R)-N_corr_R;
+  end
+  Dixon_Acc_R=(TP_R)/(TP_R+FP_R+FN_R); %0.426 for 50 samples, .51 for 100
+  Dixon_Acc_S=(TP_S)/(TP_S+FP_S+FN_S); %0.4689 for 50, .54 for 100
+  ETOT_S_Normed = ETOT_S/sum(sum(pr(:,1:subset)==1)); % number of frames that are actually on
+  ETOT_R_Normed = ETOT_R/sum(sum(pr(:,1:subset)==1));
+ 
 end
 
