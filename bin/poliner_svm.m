@@ -31,11 +31,11 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
     [S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
   else
     [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
-    %S = qgram(y, fs); 
+    %[S, f, spec_t] = qgram(y, fs,1); 
   end
 
   size(S) 
-  spec_t(end)
+  %spec_t(end)
   % pause
   % Compute the FFT magnitudes
   magS = abs(S);
@@ -93,10 +93,10 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
       pos = find(note_vec == 1);
 
       num_examples = 0;
-      if length(pos) < 100
+      if length(pos) < 200
       	 num_examples = length(pos);
       else
-	 num_examples = 100;
+	 num_examples = 200;
          pos = pos(randperm(length(pos)));
       end
 
@@ -110,16 +110,17 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
       neg_examples = magS(:,neg);
       
       midi_note = nn(i);
-      if (midi_note >= 21 && midi_note <= 83) %0-2K
-          pos_examples = pos_examples(1:256, :);
-          neg_examples = neg_examples(1:256, :);
-      elseif (midi_note > 83 && midi_note <= 95) %1K-3K
-          pos_examples = pos_examples(129:384, :);
-          neg_examples = neg_examples(129:384, :);              
-      else                                          %2K-4K
-          pos_examples = pos_examples(257:512, :);
-          neg_examples = neg_examples(257:512, :);   
-      end
+      
+%       if (midi_note >= 21 && midi_note <= 83) %0-2K
+%           pos_examples = pos_examples(1:256, :);
+%           neg_examples = neg_examples(1:256, :);
+%       elseif (midi_note > 83 && midi_note <= 95) %1K-3K
+%           pos_examples = pos_examples(129:384, :);
+%           neg_examples = neg_examples(129:384, :);              
+%       else                                          %2K-4K
+%           pos_examples = pos_examples(257:512, :);
+%           neg_examples = neg_examples(257:512, :);   
+%       end
 
       % Train SVM on these samples
       training_labels = [ones(1,num_examples) -1*ones(1,num_examples)]';
@@ -133,7 +134,7 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
 
   % Just to test this for now, rerun these svms on the wave file and generate a piano roll
   % estimated_pr = zeros(size(pr));
-  estimated_pr = zeros(size(pr,1), length(spec_t));
+  estimated_pr = zeros(size(pr,1), size(S,2));
   estimated_pr = estimated_pr-1;
   % pr time length should equal S time length, but they're off by a few hundred samples, so I'm suspicious that timidity is adding extra time somewhere
 
@@ -147,16 +148,17 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
         end
         
       midi_note = nn(j);
-      if (midi_note >= 21 && midi_note <= 83) %0-2K
-          feature = magS(1:256, i);
-      elseif (midi_note > 83 && midi_note <= 95) %1K-3K
-          feature = magS(129:384, i);          
-      else                                          %2K-4K
-          feature = magS(257:512, i);
-      end        
+%       if (midi_note >= 21 && midi_note <= 83) %0-2K
+%           feature = magS(1:256, i);
+%       elseif (midi_note > 83 && midi_note <= 95) %1K-3K
+%           feature = magS(129:384, i);          
+%       else                                          %2K-4K
+%           feature = magS(257:512, i);
+%       end        
         
 
       	  % Evaluate note SVM on STFT 
+      feature = magS(:,i); %hacky
       feature = feature - means{j}';
       feature = feature./vars{j}';
 
@@ -255,71 +257,6 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
   end
   view_piano_roll(spec_t(1:subset), nn, smooth_labels(:,1:subset), 'Smoothed output');  
   %Calculate error for raw and smoothed labels
-  TP_R=0;
-  FP_R=0;
-  FN_R=0;
-  TP_S=0;
-  FP_S=0;  
-  FN_S=0;
-  ETOT_R=0;
-  ESUB_R=0;
-  EMISS_R=0;
-  EFA_R=0;
-  ETOT_S=0;
-  ESUB_S=0;
-  EMISS_S=0;
-  EFA_S=0;
-  for j =1:subset
-    for i =1:size(pr,1)
-      
-          tn = pr(i,j);
-          sl = smooth_labels(i,j);
-          rl = estimated_pr(i,j);
-          if (tn==1 && sl==1)
-              TP_S=TP_S+1;              
-          elseif (tn==0 && sl ==1)
-              FP_S=FP_S+1;
-          elseif (tn==1 && sl ==0)
-              FN_S=FN_S+1;
-          end
-          if (tn==1 && rl==1)
-              TP_R=TP_R+1;              
-          elseif (tn==0 && rl ==1)
-              FP_R=FP_R+1;
-          elseif (tn==1 && rl ==0)
-              FN_R=FN_R+1;
-          
-          end
-    end
-      
-      %2nd error measure
-      N_ref = sum(pr(:,j)==1);
-      
-      N_sys_S = sum(smooth_labels(:,j)==1);
-      N_corr_S =   sum((pr(:,j)==1)+ (smooth_labels(:,j)==1)==2);
-      ETOT_S = ETOT_S+max(N_ref,N_sys_S)-N_corr_S; 
-      ESUB_S = ESUB_S+min(N_ref,N_sys_S)-N_corr_S;
-      EMISS_S = EMISS_S+max(0,(N_ref-N_sys_S));
-      EFA_S = EFA_S+max(0,(N_sys_S-N_ref));
-      
-      N_sys_R = sum(estimated_pr(:,j)==1);
-      N_corr_R =   sum((pr(:,j)==1)+ (estimated_pr(:,j)==1)==2);
-      ETOT_R = ETOT_R+max(N_ref,N_sys_R)-N_corr_R;      
-      ESUB_R = ESUB_R+min(N_ref,N_sys_R)-N_corr_R;  
-      EMISS_R = EMISS_R+max(0,(N_ref-N_sys_R));
-      EFA_R = EFA_R+max(0,(N_sys_R-N_ref));
-  end
-  Norm = sum(sum(pr(:,1:subset)==1));
-  Dixon_Acc_S=(TP_S)/(TP_S+FP_S+FN_S); %0.4689 for 50, .54 for 100
-  ETOT_S_Normed = ETOT_S/Norm; % number of frames that are actually on
-  ESUB_S_Normed = ESUB_S/Norm;
-  EMISS_S_Normed = EMISS_S/Norm;
-  EFA_S_Normed = EFA_S/Norm;
-  
-  Dixon_Acc_R=(TP_R)/(TP_R+FP_R+FN_R); %0.426 for 50 samples, .51 for 100
-  ETOT_R_Normed = ETOT_R/Norm;
-  ESUB_R_Normed = ESUB_R/Norm
-  EMISS_R_Normed = EMISS_R/Norm;
-  EFA_R_Normed = EFA_R/Norm; 
+  %calc_error(pr,smooth_labels,
 end
 
