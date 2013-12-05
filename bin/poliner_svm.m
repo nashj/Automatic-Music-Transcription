@@ -31,6 +31,7 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
     [S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
   else
     [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+    %S = qgram(y, fs); 
   end
 
   size(S) 
@@ -260,8 +261,14 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
   TP_S=0;
   FP_S=0;  
   FN_S=0;
-  ETOT_S=0;
   ETOT_R=0;
+  ESUB_R=0;
+  EMISS_R=0;
+  EFA_R=0;
+  ETOT_S=0;
+  ESUB_S=0;
+  EMISS_S=0;
+  EFA_S=0;
   for j =1:subset
     for i =1:size(pr,1)
       
@@ -287,18 +294,32 @@ function [estimated_pr, pr] = poliner_svm(wav_file, midi_file_1, midi_file_2)
       
       %2nd error measure
       N_ref = sum(pr(:,j)==1);
-      N_sys_S = sum(smooth_labels(:,j)==1);
-      N_sys_R = sum(estimated_pr(:,j)==1);
-      N_corr_S =   sum((pr(:,j)==1)+ (smooth_labels(:,j)==1)==2);
-      N_corr_R =   sum((pr(:,j)==1)+ (estimated_pr(:,j)==1)==2);
       
-      ETOT_S = ETOT_S+max(N_ref,N_sys_S)-N_corr_S;
-      ETOT_R = ETOT_R+max(N_ref,N_sys_R)-N_corr_R;
+      N_sys_S = sum(smooth_labels(:,j)==1);
+      N_corr_S =   sum((pr(:,j)==1)+ (smooth_labels(:,j)==1)==2);
+      ETOT_S = ETOT_S+max(N_ref,N_sys_S)-N_corr_S; 
+      ESUB_S = ESUB_S+min(N_ref,N_sys_S)-N_corr_S;
+      EMISS_S = EMISS_S+max(0,(N_ref-N_sys_S));
+      EFA_S = EFA_S+max(0,(N_sys_S-N_ref));
+      
+      N_sys_R = sum(estimated_pr(:,j)==1);
+      N_corr_R =   sum((pr(:,j)==1)+ (estimated_pr(:,j)==1)==2);
+      ETOT_R = ETOT_R+max(N_ref,N_sys_R)-N_corr_R;      
+      ESUB_R = ESUB_R+min(N_ref,N_sys_R)-N_corr_R;  
+      EMISS_R = EMISS_R+max(0,(N_ref-N_sys_R));
+      EFA_R = EFA_R+max(0,(N_sys_R-N_ref));
   end
-  Dixon_Acc_R=(TP_R)/(TP_R+FP_R+FN_R); %0.426 for 50 samples, .51 for 100
+  Norm = sum(sum(pr(:,1:subset)==1));
   Dixon_Acc_S=(TP_S)/(TP_S+FP_S+FN_S); %0.4689 for 50, .54 for 100
-  ETOT_S_Normed = ETOT_S/sum(sum(pr(:,1:subset)==1)); % number of frames that are actually on
-  ETOT_R_Normed = ETOT_R/sum(sum(pr(:,1:subset)==1));
- 
+  ETOT_S_Normed = ETOT_S/Norm; % number of frames that are actually on
+  ESUB_S_Normed = ESUB_S/Norm;
+  EMISS_S_Normed = EMISS_S/Norm;
+  EFA_S_Normed = EFA_S/Norm;
+  
+  Dixon_Acc_R=(TP_R)/(TP_R+FP_R+FN_R); %0.426 for 50 samples, .51 for 100
+  ETOT_R_Normed = ETOT_R/Norm;
+  ESUB_R_Normed = ESUB_R/Norm
+  EMISS_R_Normed = EMISS_R/Norm;
+  EFA_R_Normed = EFA_R/Norm; 
 end
 
