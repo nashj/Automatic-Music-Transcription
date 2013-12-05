@@ -1,4 +1,4 @@
-function Q = qgram(y, fs, bins_multiplier)
+function [Q, f, spec_t] = qgram(y, fs, bins_multiplier)
 % y is the signal
 % fs is the sampling frequency
 % bins_multiplier multiples the number of bins per octave. When bins_multiplier=1, bins=12 (which is the number of semitones per octave). It seems like researchers typically choose bins_multiplier=2 for more resolution
@@ -30,6 +30,18 @@ Q = zeros(spec_bins, steps);
 for i=1:steps
    q = const_q_fast(y(1+(i-1)*step_size:end), sparkernel);
    Q(:,i) = q; 
+end
+
+% Compute the frequency grid
+f = zeros(1,spec_bins);
+for i=1:spec_bins
+    f(i) = lowest_key * 2^((i-1)/semitones_per_octave/bins_multiplier);
+end
+
+% Compute the time grid
+spec_t = zeros(1, steps);
+for i=1:steps
+   spec_t(i) = .01*(i-1);
 end
 
 % To plot:
