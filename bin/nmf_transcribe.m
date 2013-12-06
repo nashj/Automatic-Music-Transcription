@@ -2,11 +2,23 @@
   % This also uses libsvm. The libsvm I have included has been built for Octave
 
   fs = 0;
-  filelist = readdir('../data/notes');
-  for i = 1:numel(filelist)
-    if (regexp (filelist{i},'^\w+.wav$'))
-        wavs{i} = filelist{i};
-    end
+  
+  % Get list of training notes
+  isOctave = exist('OCTAVE_VERSION') ~= 0;
+  if isOctave
+         filelist = readdir('../data/notes');
+      for i = 1:numel(filelist)
+        if (regexp (filelist{i},'^\w+.wav$'))
+            wavs{i} = filelist{i};
+        end
+      end
+  else
+      filelist = dir('../data/notes');
+      for i = 1:numel(filelist)
+        if (regexp (filelist(i).name,'^\w+.wav$'))
+            wavs{i} = filelist(i).name;
+        end
+      end
   end
 
   W = [];
@@ -18,12 +30,12 @@
       [S, f, spec_t] = qgram(y, fs,1); 
 
       Sen = abs(sum(S));
-      S(:, Sen < 0.00001) = zeros(88,sum(Sen < 0.00001));
+      S(:, Sen <  0.0000001) = zeros(88,sum(Sen < 0.0000001));
 
       Sm = abs(S(:,30))';
-      Sm2 = sm;
-      g = mean(S(:, j));
-      Sm2 = log(1 + (1/g).*
+      %Sm2 = sm;
+      %g = mean(S(:, j));
+      %Sm2 = log(1 + (1/g).*
 
       plot(Sm);
       drawnow;
