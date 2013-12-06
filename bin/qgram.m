@@ -24,7 +24,7 @@ sparkernel = sparse_kernel(lowest_key, highest_key, semitones_per_octave*bins_mu
 spec_bins = size(sparkernel,2);
 step_size = .01*fs; % 10 ms
 steps = (length(y) - size(sparkernel,1))/step_size + 1;
-Q = zeros(spec_bins, steps);
+Q = zeros(spec_bins, floor(steps));
 
 % Compute the constant-q transform at every .01*fs seconds
 for i=1:steps
@@ -39,7 +39,7 @@ for i=1:spec_bins
 end
 
 % Compute the time grid
-spec_t = zeros(1, steps);
+spec_t = zeros(1, floor(steps));
 for i=1:steps
    spec_t(i) = .01*(i-1);
 end
