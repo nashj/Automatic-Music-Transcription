@@ -31,8 +31,8 @@
       [y,fs,bps] = wavread(wavs{i});
       
       % Constant Q Transform
-      %[S, f, spec_t] = qgram(y, fs,1); 
-      [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+      [S, f, spec_t] = qgram(y, fs,1); 
+      %[S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
 
       % Zero-out spectra with low energy (for noise reduction)
       Sen = sum(abs(S).^2);
@@ -60,8 +60,8 @@
   % Open wav file
   [y,fs,bps] = wavread(wav_file);
 
-  %[S, f, spec_t] = qgram(y, fs,1);
-   [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+  [S, f, spec_t] = qgram(y, fs,1);
+  %[S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
 
  %% 
   % Add the libsvm and midi libraries  
@@ -74,7 +74,7 @@
   %[W2, H, iter, ~] = nmf(abs(S), 88, 'verbose',2, 'w_init', W);
 
   %H = rand(88, length(S));
-  %Wt = W';
+  Wt = W';
   bins = size(S,1);
   H = [];
 for i = 1:length(magS)
