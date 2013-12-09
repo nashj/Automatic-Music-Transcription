@@ -11,7 +11,7 @@
 
 %\input{header.tex}
 \title{Methods for Polyphonic Music Transcription} % Remove Piano part?
-% 'Everything you wanted to know about polyphonic music transcription' 
+% 'Everything you wanted to know about polyphonic music transcription'
 % Note: according to Scott's final report list, it looks like the best paper according to him is a really thorough survey of an already established field, and he repeatedly indicates that he doesn't necessarily expect any new methods
 \author[eadd]{Jeremy Nash}
 \ead{nashj@umich.edu}
@@ -47,10 +47,10 @@
 % State the problem
 %We present a review of modern methods for polyphonic music transcription.
 
-Music transcription is the process of converting an audio recording into a musical score. 
+Music transcription is the process of converting an audio recording into a musical score.
 Musicians have been transcribing music manually for centuries to learn new songs and gain musical insight.
-Transcription, however, is an arduous manual process for musicians, and it's a difficult problem for computers because the pitches in a musical score are the human perceptions of a time-varying and frequency-varying physical phenomenon. 
-There has been a flurry of research on how to solve this problem. 
+Transcription, however, is an arduous manual process for musicians, and it's a difficult problem for computers because the pitches in a musical score are the human perceptions of a time-varying and frequency-varying physical phenomenon.
+There has been a flurry of research on how to solve this problem.
 We investigate the best solutions to the automated transcription problem and evaluate and compare their performance.
 
 
@@ -79,19 +79,19 @@ Semitones are the smallest music interval in Western music. On a piano, semitone
 
 Timbre represents the spectral envelope, time envelope, noise, tonality, and onset of a musical note. Timbre captures the unique properties of a musical instrument.
 
-Pitches are represented by the notes used in musical notation. Pitches are a psychological perception and not an objective physical property. While we can intuitively assign a linear order to pitches (by referring to pitches as lower or higher than other pitches), pitches are rarely a single frequency and are instead a function of their timbre. 
+Pitches are represented by the notes used in musical notation. Pitches are a psychological perception and not an objective physical property. While we can intuitively assign a linear order to pitches (by referring to pitches as lower or higher than other pitches), pitches are rarely a single frequency and are instead a function of their timbre.
 
 Polyphony means multiple simultaneous notes. Monophony means only a single note at a time. These terms carry slightly different meanings outside of automated transcription research.
 
 \section{Motivation}
 % No more than one page
 
-% Introduction 
+% Introduction
 
 % Explain motivation
 
 % This is just copied from 'A Connectionist Approach to Automatic Transcription of Polyphonic Piano Music' for now:
-Applications of a music transcription are versatile. Transcription produces a compact and standardized parametric representation of music. Such representation is needed for content-based retrieval of music in most current musical databases. It is useful in music analysis systems for tasks such as melody extraction, music segmentation and rhythm tracking. Transcription aids musicologists in analyzing music that has never been written down, such as improvised or ethnical music. The conversion of an acoustical waveform into parametric description is also useful in the process of making music, as well as in newer coding standards, such as MPEG-4, which may include such descriptions. 
+Applications of a music transcription are versatile. Transcription produces a compact and standardized parametric representation of music. Such representation is needed for content-based retrieval of music in most current musical databases. It is useful in music analysis systems for tasks such as melody extraction, music segmentation and rhythm tracking. Transcription aids musicologists in analyzing music that has never been written down, such as improvised or ethnical music. The conversion of an acoustical waveform into parametric description is also useful in the process of making music, as well as in newer coding standards, such as MPEG-4, which may include such descriptions.
 
 
 
@@ -101,11 +101,11 @@ Applications of a music transcription are versatile. Transcription produces a co
 % It's an interesting problem
 % It's an unsolved problem
 % Here is my idea
-% My idea works 
+% My idea works
 % Here's how my idea compares to other approaches
 
 
-% Describe the problem 
+% Describe the problem
 %    Use an example to introduce the problem
 % State your contributions
 %    Bulleted list of contributions
@@ -120,7 +120,7 @@ Applications of a music transcription are versatile. Transcription produces a co
 % Study of music - understanding music
 % recommender systems
 % Music information database
-% For learning musicians 
+% For learning musicians
 
 % Here's why it's difficult
 % Musical timbres
@@ -142,11 +142,11 @@ Applications of a music transcription are versatile. Transcription produces a co
 % No more than one page
 
 \section{Related Work}
-% Contain a table with metrics data, brief description, year published 
+% Contain a table with metrics data, brief description, year published
 
 
 \section{Methodologies}
-There are currently two main approaches to polyphonic music transcription. The first approach learns a supervised learning model that uses frequency magnitudes to predict the presence of a note. The second approach uses unsupervised learning techniques to extract 
+There are currently two main approaches to polyphonic music transcription. The first approach learns a supervised learning model that uses frequency magnitudes to predict the presence of a note. The second approach uses unsupervised learning techniques to extract
 
 \subsection{Audio data}
 
@@ -160,14 +160,14 @@ There are currently two main approaches to polyphonic music transcription. The f
 
 
 \subsection{Semitone filter bank}
-Unlike the linear frequency scale used in an FFT, semitones in Western music are spaced logarithmically. This logarithmic spacing derives from our roughly logarithmic perception of pitches, first captured by \citet{stevens1937scale} through the mel scale. 
+Unlike the linear frequency scale used in an FFT, semitones in Western music are spaced logarithmically. This logarithmic spacing derives from our roughly logarithmic perception of pitches, first captured by \citet{stevens1937scale} through the mel scale.
 
-Transforming the spectra to a logarithmic frequency scale achieves two main benefits. It reduces the dimensionality of the training data, since most of the spectral energy occupies a logarithmic grid of frequencies. In practice, \citet{bock2012polyphonic} were able to reduce the dimensionality of their training data from 5120 FFT magnitudes down to 183. 
+Transforming the spectra to a logarithmic frequency scale achieves two main benefits. It reduces the dimensionality of the training data, since most of the spectral energy occupies a logarithmic grid of frequencies. In practice, \citet{bock2012polyphonic} were able to reduce the dimensionality of their training data from 5120 FFT magnitudes down to 183.
 
 The logarithmic frequency scale also decreases sensitivty to detuning. In a linear frequency scale, detuning, especially in higher semitones, will cause spectral energy to leak into neighboring frequency bins, creating more variability in the training data. On a logarithmic frequency scale, minor detuning would result in less spectral energy leakage and less unnecessary variability in the training data.
 
 \subsection{Note onset detection}
-This method proposes restricting the problem to determining note onsets. This is a simpler problem than detecting note durations because of the possibility for time-varying timbres in instruments. Most researchers in this field evaluate their music transcription methods on their note onset detection performance. 
+This method proposes restricting the problem to determining note onsets. This is a simpler problem than detecting note durations because of the possibility for time-varying timbres in instruments. Most researchers in this field evaluate their music transcription methods on their note onset detection performance.
 \subsection{Discriminative models}
 % SVM, logistic regression
 \subsection{SVM}
@@ -181,9 +181,9 @@ Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduc
 
 \[ V \approx WH \]
 
-\noindent where $W$ is an $F \times K$ matrix and $H$ is a $K \times N$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$. 
+\noindent where $W$ is an $F \times K$ matrix and $H$ is a $K \times N$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$.
 
-In piano transcription, for example, $V$ might be a spectrogram with dimensions $2048xN$, $W$ might be $2048x88$ and encode the spectral envelope for each piano key in each column of the matrix, and $H$ might be $88xN$ sparse piano roll matrix. 
+In piano transcription, for example, $V$ might be a spectrogram with dimensions $2048xN$, $W$ might be $2048x88$ and encode the spectral envelope for each piano key in each column of the matrix, and $H$ might be $88xN$ sparse piano roll matrix.
 
 There are two cost functions commonly used for NMF. The first is a euclidean distance cost function, defined as the squared difference between the corresponding elements in each matrix:
 
@@ -193,7 +193,7 @@ There are two cost functions commonly used for NMF. The first is a euclidean dis
 
 \[ \displaystyle D(V||WH) = \sum_{ij} (V_{ij} \log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij}) \]
 
-The KL divergence cost function is more often used by transcription researchers because it XXX. 
+The KL divergence cost function is more often used by transcription researchers because it XXX.
 
 \citet{lee1999learning}
 \citet{seung2001algorithms}
@@ -217,14 +217,26 @@ The sparse NMF method in \citet{hoyer2004non} was adopted by \citet{abdallah2004
 
 There is no standard metric to evaluate the performance of a transcription method. However, many researchers use the following methods:
 
-\subsection{MIDI databases} 
+\subsection{MIDI databases}
 
 \subsection{Evaluation measures}
 
-\subsubsection{}
+We use a few metrics for evaluation, as per the existing literature.
 
-\subsubsection{Frame-level transcription error score}
+\subsubsection{Overall accuracy}
+$$Acc = \frac{TP}{TP+FP+FN} $$
+where TP (true positives) is the number of correctly transcribed notes (over all notes), FP (false positives) is the number of unvoiced frames transcribed as voiced, and FN (false negatives) is the number of voiced frames transcribed as unvoiced.  Note that notes that are missed and notes that are inserted are weighed equally.
+\subsection{Frame-level transcription error score}
+In the previous measure "double counts" notes transcribed correctly but at the wrong time.  Frame-level transcription error score seeks to avoid that.
+At each time frame, let $N_{sys}$ be the number of reported pitches, $N_{ref}$ the ground truth number of pitches, and $N_{corr}$, their intersection, is the number of correctly reported pitches.  Then we define 
+$$E_{tot}=\frac{\sum_{t=1}^T \text{max}(N_{ref}(t),N_{sys}(t))-N_{corr}(t)}{\sum_{t=1}^T N_{ref}(t)}$$
+$E_{tot}$ can be further split into three separate scores: $E_{sub}$, which counts the number (at each frame) of ground truth notes for which some other note was reported, $E_{miss}$, the number of ground truth notes which cannot be accounted for, and $E_{fa}$, the number of reported notes which cannot be paired with a ground truth note.  The equations for these, respectively, are 
+$$E_{sub}=\frac{\sum_{t=1}^T \text{min}(N_{ref}(t),N_{sys}(t))-N_{corr}(t)}{\sum_{t=1}^T N_{ref}(t)}$$
+$$E_{miss}=\frac{\sum_{t=1}^T \text{max}(0,N_{ref}(t))-N_{sys}(t)}{\sum_{t=1}^T N_{ref}(t)}$$
+$$E_{fa}=\frac{\sum_{t=1}^T \text{max}(0,N_{sys}(t))-N_{ref}(t)}{\sum_{t=1}^T N_{ref}(t)}$$
 
+\subsubsection{Note Onset Detection}
+Frame-level transcription error requires a high level of precision.  An error-measure perhaps more fitting for this problem is note onset detection, since onset is usually more important than offset.  To be counted as correct, our transcribed note must be turned "on" within $100$ milliseconds of the ground truth onset.
 \subsection{Method comparison}
 
 \subsubsection{Reported measures}
@@ -241,7 +253,7 @@ Sparse NMF & 24\% & 24 \\ \hline
 
 \subsubsection{Our evaluation}
 
-The following table captures our evaluation of these methods. We expect these accuracy measures to be lower than they were reported in the original papers because we are using a smaller training dataset and not attempting to optimize the methods. 
+The following table captures our evaluation of these methods. We expect these accuracy measures to be lower than they were reported in the original papers because we are using a smaller training dataset and not attempting to optimize the methods.
 
 \begin{center}
 \begin{tabular}{|l|l|l|}
@@ -280,15 +292,15 @@ Sparse NMF & 21\% & 21 \\ \hline
 %    Description of individual effort: At the end of the report, in a paragraph (included in the page limit), please include a brief description of each project member's contribution to the project.
 
 
-% Support vector machines + HMM 
+% Support vector machines + HMM
 
 % Honglak Lee's approach: use knn or RBM for input
 
-% Non-negative matrix factorization 
+% Non-negative matrix factorization
 
 % Supervised NMF
 
-% Combination NMF + svm 
+% Combination NMF + svm
 
 % Recurrent neural network (LSTM)
 
@@ -296,7 +308,7 @@ Sparse NMF & 21\% & 21 \\ \hline
 
 % Bayesian non-parametric II (infinite hidden markov model)
 
-% Our approach: Bayesian non parametrics with stochastic ... 
+% Our approach: Bayesian non parametrics with stochastic ...
 
 
 
@@ -309,14 +321,14 @@ Sparse NMF & 21\% & 21 \\ \hline
 %\input{4.tex}
 %\input{5.tex}
 
-% Your project should involve experiments that compare a few different algorithms. These should be well known or state-of-the-art methods, plus possibly any new methods you develop. The experiments should use real (as opposed to simulated) data sets. There is a large repository of machine learning data sets called the ``UCI Machine Learning Repository.'' There are other more domain-specific sources as well that you might find by searching. 
+% Your project should involve experiments that compare a few different algorithms. These should be well known or state-of-the-art methods, plus possibly any new methods you develop. The experiments should use real (as opposed to simulated) data sets. There is a large repository of machine learning data sets called the ``UCI Machine Learning Repository.'' There are other more domain-specific sources as well that you might find by searching.
 
 
 
 %Your project should focus on a topic that has previously been studied in the machine learning literature. I include this requirement because in the past, some groups have defined entirely new problems for themselves, and been unable to make any progress.
 %Your project report should contain an extensive literature review that summarizes fundamental ideas and state-of-the-art methods, with critiques of their strengths and weaknesses. My favorite reports to read are the ones that teach me something interesting.
-%You are also encouraged to develop your own methods to solve your chosen problem. 
-%Your project should involve experiments that compare a few different algorithms. These should be well known or state-of-the-art methods, plus possibly any new methods you develop. The experiments should use real (as opposed to simulated) data sets. There is a large repository of machine learning data sets called the ``UCI Machine Learning Repository.'' There are other more domain-specific sources as well that you might find by searching. 
+%You are also encouraged to develop your own methods to solve your chosen problem.
+%Your project should involve experiments that compare a few different algorithms. These should be well known or state-of-the-art methods, plus possibly any new methods you develop. The experiments should use real (as opposed to simulated) data sets. There is a large repository of machine learning data sets called the ``UCI Machine Learning Repository.'' There are other more domain-specific sources as well that you might find by searching.
 
 %Every report should address the following (but don't feel obligated to make these the section headings)
 %    Problem statement, both conceptual and mathematical.
