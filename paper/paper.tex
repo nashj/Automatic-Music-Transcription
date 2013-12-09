@@ -210,6 +210,7 @@ The sparse NMF method in \citet{hoyer2004non} was adopted by \citet{abdallah2004
 \subsection{Bayesian nonparametric models}
 \subsection{Smoothing}
 \subsubsection{HMM smoothing}
+In many of the techniques used (such as SVM's), frames are classified independently of their neighbors.  Since this does not take advantage of the temporal structure of piano music, Hidden Markov Models (HMM's) are often used for post-processing.  We model each note independently using a two-state (corresponding to on/off) HMM.  The transition matrix and state priors can be easily estimated from the ground truth.  The emission matrix can also be estimated by applying the main classifier to the training data.  With these estimates, we can smooth the output by finding the most likely state sequence using the Viterbi algorithm.
 \subsubsection{Probabilistic spectral smoothness}
 \subsection{Recurrent neural network}
 
