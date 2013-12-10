@@ -1,4 +1,4 @@
-function [Acc, E_tot, E_sub, E_miss, E_fa] = calc_error( true_pr, observed_pr, subset )
+function [Acc, E_tot, E_sub, E_miss, E_fa, precision, recall, f] = calc_error( true_pr, observed_pr, subset )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -46,6 +46,10 @@ function [Acc, E_tot, E_sub, E_miss, E_fa] = calc_error( true_pr, observed_pr, s
   E_sub = ESUB/Norm;
   E_miss = EMISS/Norm;
   E_fa = EFA/Norm;
+  
+  precision = (TP) / (TP  + FP);
+  recall = (TP) / (TP  + FN);
+  f = 2*precision*recall / (precision + recall);
 
 end
 
