@@ -18,7 +18,7 @@ end
 semitones_per_octave = 12;
 lowest_key = 27.5;
 highest_key = 4186.01;
-sparkernel = sparse_kernel(lowest_key, highest_key, semitones_per_octave*bins_multiplier, fs);
+sparkernel = sparse_kernel(lowest_key, highest_key, semitones_per_octave*bins_multiplier, fs/2);
 
 % Initialize the Q-gram matrix
 spec_bins = size(sparkernel,2);
