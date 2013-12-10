@@ -21,7 +21,7 @@
       end
   end
 
-  W = [];
+  W = zeros(2049, 88);
   for i = 1:numel(wavs)
     if (~isempty(wavs{i}))
         
@@ -29,17 +29,17 @@
       wavs{i} = strcat('../data/notes/', wavs{i});
       disp(wavs{i});
       [y,fs,bps] = wavread(wavs{i});
+      y = [zeros(length(y),1); y];
       
       % Constant Q Transform
-      [S, f, spec_t] = qgram(y, fs,1); 
-      %[S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
-
-      % Zero-out spectra with low energy (for noise reduction)
-      Sen = sum(abs(S).^2);
-      S(:, Sen <  1e-9) = zeros(88,sum(Sen < 1e-9));
+      %[S, f, spec_t] = qgram(y, fs); 
+      [S, f, spec_t] = spectrogram(y, 4096, 4096-160, 4096, fs);
+      S = abs(S);
+      Sen = (sum(S).^2);
+      S(:, Sen < 100) = 0;
 
       % Average the signal-containing spectra
-      Sm = mean(abs(S)');
+      Sm = mean(S, 2);
      
       % Magnitude warping and mean subtraction proposed by Niedermeyer
       g = mean(Sm); % What average should we use (mean? outlier resistant?)
@@ -49,43 +49,54 @@
       y = filter(ones(9,1)/9, 1, S_warp);
       wi = max(0, S_warp - y);
       
-      %plot(wi);
-      %drawnow;
-      W = [W wi'];
+      plot(wi);
+      drawnow;
+      W(:, i-2) = wi';
     end
   end
-  W = abs(W);
-  for i = 1:88
-    W(:, i)  = W(:, i) ./ norm(W(:, i), 2); 
-  end
-  imagesc(W);
-  pause;
+ W = abs(W);
+ figure; imagesc(W);
+
 
 %%
   wav_file = '../data/br_im2.wav';
   % Open wav file
   [y,fs,bps] = wavread(wav_file);
 
-  [S, f, spec_t] = qgram(y, fs,1);
-  %[S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+  %[Sy, f, spec_t] = qgram(y, fs);
+  [Sy, f, spec_t] = spectrogram(y, 4096, 4096-160, 4096, fs);
+  
+%%
+ 
+magS = abs(Sy);
+V = magS;
+for i = 1:length(magS)
+      Sm = magS(:, i);
+     
+      % Magnitude warping and mean subtraction proposed by Niedermeyer
+      g = mean(Sm); % What average should we use (mean? outlier resistant?)
+      S_warp = log(1 + (1/g).*Sm);
+      
+      %%y = smooth(S_warp, 9);
+      y = filter(ones(9,1)/9, 1, S_warp);
+      wi = max(0, S_warp - y);
+      V(:, i) = wi';
+end
+V = V(1:1024,:); % Drop upper half freqs
+  W = W(1:1024, :);
 
  %% 
   % Add the libsvm and midi libraries  
-  addpath('../lib/libsvm');
+  addpath('../lib/nmf');
   addpath('../lib/matlab-midi/src');
- 
-  magS = abs(S);
-  magS = magS ./ (max(max(magS)));
 
-  %[W2, H, iter, ~] = nmf(abs(S), 88, 'verbose',2, 'w_init', W);
 
-  %H = rand(88, length(S));
   Wt = W';
-  bins = size(S,1);
+  bins = size(magS,1);
   H = [];
- H = rand(88, 2000);
- V = magS(:, 1:2000);
- for i=1:300 % Use actual stopping criteria here
+ H = rand(88, length(V));
+
+ for i=1:200 % Use actual stopping criteria here
      fprintf('Update #%d:\n', i);
      
      % Apply update rule to W and H
@@ -157,8 +168,60 @@
 %end
 
 
+%%
+H2 = H;
+H3 = zeros(size(H));
+% Smoothing
+for i = 1:88
+    H2(i, :) = medfilt1(H(i,:), 40);
+end
+
+% Frame Level Normalization
+H3 = H2;
+for i = 1:length(H2)
+    H3(:,i) = H2(:,i) ./ mean(H2(:,i));
+end
+
+%%
+% Thresholding
+
+H4 = zeros(size(H));
+for i = 1:88
+    i
+    for j = 1:length(H)
+        %thresh = 1.5*std(H3(i,:));
+            thresh = std(H3(:, j));
+
+        H4(i, H3(i,:) > thresh ) = 1;
+    end
+end
+
+
+imagesc(H4(:, 1:2000));
+
+
+
 midi = readmidi('../data/br_im2.mid');
 notes = midiInfo(midi,0);
 [pr, t, nn] = piano_roll(notes);
-subset = 2000;
-figure; view_piano_roll(t(1:subset),nn,pr(:,1:subset), 'Ground truth');
+
+pr_norm = zeros(88, length(pr));
+pr_norm((nn(1)-20):end-(108-nn(end)), :) = pr(:, 1:length(pr));
+[Acc, E_tot, E_sub, E_miss, E_fa, precision, recall, f] = calc_error( pr_norm, H4, 15996 )
+%subset = 2000;
+%figure; view_piano_roll(t(1:subset),nn,pr(:,1:subset), 'Ground truth');
+%%
+start = 9000;
+stop = 11000;
+ subplot 411
+imagesc(H(:, start:stop))
+title('Raw Note Activity (H)');
+subplot 412; 
+imagesc(H3(:, start:stop))
+title('Smoothed Note Activity (H)');
+subplot 413
+imagesc(H4(:, start:stop))
+title('Threshold Note Activity (H)');
+subplot 414
+imagesc(pr_norm(:, start:stop))
+title('Ground Truth')
