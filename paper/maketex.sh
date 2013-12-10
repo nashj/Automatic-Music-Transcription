@@ -1,5 +1,5 @@
 #!/bin/bash
-pdflatex paper.tex
+pdflatex -shell-escape paper.tex
 bibtex paper
 pdflatex paper.tex
 pdflatex paper.tex

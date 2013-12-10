@@ -1,7 +1,11 @@
 %\documentclass[3p]{elsarticle}
 \documentclass[5p]{elsarticle}
+\usepackage{epstopdf}
+\epstopdfsetup{outdir=./}
+\DeclareGraphicsRule{.eps}{pdf}{.pdf}{`epstopdf #1}
 \usepackage{natbib,graphicx,amsmath, mhchem,url,colortbl,fancyhdr,subfigure}
 \usepackage{multicol}
+
 
 \journal{EECS 545}
 \providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
@@ -141,6 +145,23 @@ Applications of a music transcription are versatile. Transcription produces a co
 \section{Problem Statement}
 % No more than one page
 
+In Western music, each note corresponds to a single, fundamental frequency. The musical note A above middle C corresponds to 440Hz. If this were the complete story, there would be a one-to-one correspondence between frequencies and notes, and the transcription problem would be as simple as converting the frequencies into notes. The reality, however, is that each instrument has a unique timbre with a set of overtones that vary over time and overlap with the frequencies of other notes.
+
+Like most research in automatic music transcription, we restrict our problem to transcribing polyphonic piano music. The reason for this is primarily the availability of online piano MIDI databases and the popularity of the piano in Western music. At the same time, the piano has a complex timbre and adequately represents the difficulties in the generic transcription problem.
+
+\subsection{Piano physics}
+
+\citet{bank2003physically} details the physics of piano sound synthesis. We will just note here that...
+
+
+Figure X shows the spectral profile of a low C note played over a couple seconds. 
+
+This is typically the lowest 
+(But it's more complicated than that...)
+- Show why it's complicated 
+- Show some of the physics 
+
+
 \section{Related Work}
 % Contain a table with metrics data, brief description, year published
 
@@ -150,30 +171,77 @@ There are currently two main approaches to polyphonic music transcription. The f
 
 \subsection{Audio data}
 
+Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying...
+%musical score
+%While MIDI specifies the type of instrument, 
+% MIDI instrument not specified in the file 
+%a standard for specifying 
+
+%Wav files are...
+
+%44.1kHz
+
+%16kHz sampling rate, 16 bit,
+%Databases
+
 % Sampling rate for piano
 
 % STFT
 \subsection{Spectrogram}
 % Hint at the matrix factorization approach
+
+In all of the methods we explored, we computed a spectrogram of the wav file with a window size of 128ms, a Hanning windowing function, and a 10ms hop between frames. This window size gives us a frequency resolution of 8Hz, which is slightly inadequate for resolving the fundamental frequencies of lower notes and overly resolute for the higher frequencies due to the logarithmic spacing of the semitone fundamental frequencies. 
+
+To the authors' knowledge, all of the methods in the transcription literature compute a spectrogram as a preprocessing step before applying their specialized algorithm. In the NMF methods, the spectrogram matrix is decomposed into a piano roll matrix and the note spectrum dictionary matrix. In the supervised classifier methods, the classifiers use features from the spectrogram matrix to predict the presence of a note. 
+
+
+\begin{figure*}[t]
+\begin{center}
+\subfigure[]{
+\includegraphics[scale=.6]{pianorollsong}
+\label{fig:pianorollsong}
+}
+\subfigure[]{
+\includegraphics[scale=.6]{brim2ud}
+\label{fig:brim2ud}
+}
+\end{center}
+\caption{(a) shows the piano roll generated from a MIDI file. (b) shows a spectrogram of the wav file using the constant Q transform with a step size of 10ms. One can immediately see the similarity in the shape of the two plots, although the transcription process is complicated by the overlapping frequencies, changing volume, and noise in the spectrogram plot.}
+\end{figure*}
+
 \subsection{Constant Q transform}
-
-
-
-\subsection{Semitone filter bank}
 Unlike the linear frequency scale used in an FFT, semitones in Western music are spaced logarithmically. This logarithmic spacing derives from our roughly logarithmic perception of pitches, first captured by \citet{stevens1937scale} through the mel scale.
 
-Transforming the spectra to a logarithmic frequency scale achieves two main benefits. It reduces the dimensionality of the training data, since most of the spectral energy occupies a logarithmic grid of frequencies. In practice, \citet{bock2012polyphonic} were able to reduce the dimensionality of their training data from 5120 FFT magnitudes down to 183.
+Transforming the spectra to a logarithmic frequency scale achieves two main benefits. It reduces the dimensionality of the training data, since most of the spectral energy occupies a logarithmic grid of frequencies. In practice, \citet{bock2012polyphonic} were able to reduce the dimensionality of their training data from 2048 FFT magnitudes down to 183.
 
 The logarithmic frequency scale also decreases sensitivty to detuning. In a linear frequency scale, detuning, especially in higher semitones, will cause spectral energy to leak into neighboring frequency bins, creating more variability in the training data. On a logarithmic frequency scale, minor detuning would result in less spectral energy leakage and less unnecessary variability in the training data.
 
 \subsection{Note onset detection}
 This method proposes restricting the problem to determining note onsets. This is a simpler problem than detecting note durations because of the possibility for time-varying timbres in instruments. Most researchers in this field evaluate their music transcription methods on their note onset detection performance.
+
 \subsection{Discriminative models}
 % SVM, logistic regression
 \subsection{SVM}
-% Frequency partition
+
+% one vs all
+\citet{poliner2006discriminative}
+
+% frequency partition
+
+
+\subsection{Restricted Boltzmann machine}
+
+\citet{nam2011classification} proposes ...
+ training a restricted Boltzmann machine on the spectrogram features. The features computed by the RBM are used by an SVM 
+
+
+\subsection{Boosted classifier}
+
+\citet{boogaart2009note} proposes a cascade of boosted classifiers.
 
 \subsection{Feed forward neural network}
+
+
 
 \subsection{Non-negative matrix factorization}
 
@@ -193,40 +261,72 @@ There are two cost functions commonly used for NMF. The first is a euclidean dis
 
 \[ \displaystyle D(V||WH) = \sum_{ij} (V_{ij} \log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij}) \]
 
-The KL divergence cost function is more often used by transcription researchers because it XXX.
+% \citet{lee1999learning}
+The functions $||V-WH||^{2}$ and $D(V||WH)$ are convex in W only and H only, but they are not convex in W and H together. There is no known procedure for finding the global minimum of these functions, but \citet{seung2001algorithms} have proposed methods for updating W and H such that the measures above will decrease or remain constant after every update. Their paper proposes a multiplicative update rule and a gradient descent rule.
 
-\citet{lee1999learning}
-\citet{seung2001algorithms}
+The multiplicative update rule for improving the Euclidean distance error measure $||V-WH||^{2}$ is:
 
+\[ H_{\alpha \mu} \leftarrow H_{\alpha \mu} \frac{ (W^{T} V)_{\alpha \mu}}{(W^{T} W H )_{\alpha \mu}}, W_{\gamma \alpha} \leftarrow W_{\gamma \alpha} \frac{ (V H^{T})_{\gamma \alpha}} {(W H H^{T})_{\gamma \alpha}} \]
+
+\noindent Typically, $W$ and $H$ are initialized with random, nonnegative values and iterated until convergence. 
+
+
+% Applying NMF to the piano transcription problem is not as straightforward as computing the above update rules. 
+
+There are a few problems applying NMF as it is presented above to the piano transcription problem:
+
+
+\begin{description}
+\item[$\bullet$] The algorithms from \citet{seung2001algorithms} require that the number of keys present in the song is specified in advance. While a full piano keyboard contains a constant 88 keys, a piano song will often only use a subset of all the keys. In practice, pre-selecting the $W$ matrix to find more keys than are present results in the algorithm discovering parts of notes or the same note at different points in the note's ADSR envelope; for example, the attack of a note can have a different spectral signature than its release. \citet{weninger2013discriminative} use this fact explicitly to learn notes at different points in the ADSR envelope using NMF as a preprocessing step to SVM classification. \citet{} uses cross-validation to select the appropriate number of keys.
+\item[$\bullet$] The piano roll matrix $H$ and the spectrogram $V$ are large and often dense matrices, so convergence using the multiplicative update rules can take on the order of minutes on a modern laptop. 
+\item[$\bullet$] The notes represented in the $W$ and $H$ matrix are not ordered properly. \citet{} resorted to ordering the notes in $W$ by hand. 
+\end{description}
 
 \subsection{Sparse non-negative matrix factorization}
 
-One of the great side-effects of NMF is that it often produces a sparse, parts-based representation. This is desirable in music transcription because the piano roll matrix, $H$, is a sparse matrix of note activations. However, the NMF method does not contain an explicit sparsity objective. \citet{hoyer2004non} extended NMF to contain a tunable sparsity objective.
-
-The sparse NMF method in \citet{hoyer2004non} was adopted by \citet{abdallah2004polyphonic} in their transcription system.
-
+One of the great side-effects of NMF is that it often produces a sparse, parts-based representation. This is desirable in music transcription because the piano roll matrix, $H$, is a sparse matrix of note activations. However, the NMF method does not contain an explicit sparsity objective, and so the update rules do not always converge to a sparse solution. \citet{hoyer2004non} extended NMF to contain a tunable sparsity objective. This sparse NMF method in \citet{hoyer2004non} was adopted by \citet{abdallah2004polyphonic} in their transcription system. 
 
 % Non-negative Matrix factorization
+
+\subsection{Supervised NMF}
+
+In the previous NMF methods, we extracted both the note dictionary matrix and the piano roll from the spectrogram. In piano transcription, however, the dictionary matrix should be similar across multiple transcriptions. We can use 
+
+
+
 \subsection{Bayesian nonparametric models}
+One of the downsides of the NMF methods is that they require the number of notes (or sources) to be specified 
+
+
 \subsection{Smoothing}
 \subsubsection{HMM smoothing}
-In many of the techniques used (such as SVM's), frames are classified independently of their neighbors.  Since this does not take advantage of the temporal structure of piano music, Hidden Markov Models (HMM's) are often used for post-processing.  We model each note independently using a two-state (corresponding to on/off) HMM.  The transition matrix and state priors can be easily estimated from the ground truth.  The emission matrix can also be estimated by applying the main classifier to the training data.  With these estimates, we can smooth the output by finding the most likely state sequence using the Viterbi algorithm.
+In many of the techniques used (such as SVM's), notes at a single time step are classified independently of the notes at adjacent time steps. Since these methods do not take advantage of the temporal structure of piano music, hidden Markov models are often used for post-processing the output of the discriminative models. We model each note independently using a two-state HMM, where the states correspond to the note being on or off. The transition matrix and state priors can be estimated from the ground truth piano roll, while the emission matrix can be estimated using the output from the classifier as the observable variables. Applying the Viterbi algorithm to each note class results in a smoother piano roll that eliminates unlikely, spurious, isolated notes. 
+
 \subsubsection{Probabilistic spectral smoothness}
+
+
 \subsection{Recurrent neural network}
 
 \section{Evaluation}
 
-There is no standard metric to evaluate the performance of a transcription method. However, many researchers use the following methods:
-
 \subsection{MIDI databases}
+
+The MIDI music used to evaluate these methods came from the Classical Piano MIDI Page at http://www.piano-midi.de/, a free, online database of piano MIDI files with a wide range of composers. This database, along with the MAPS database, are a popular choice for piano transcription researchers. Table X gives a list of the composers and songs we used for testing. 
+
+The MIDI files represent the ground truth data. To generate training data, we synthesized wav files from the MIDI files using Timidity...
+
+Synthesized with Timidity -> 16kHz
+
 
 \subsection{Evaluation measures}
 
-We use a few metrics for evaluation, as per the existing literature.
+% We use a few metrics for evaluation, as per the existing literature.
+
+There is no standard metric to evaluate the performance of a transcription method. However, many researchers use the following methods:
 
 \subsubsection{Overall accuracy}
 $$Acc = \frac{TP}{TP+FP+FN} $$
-where TP (true positives) is the number of correctly transcribed notes (over all notes), FP (false positives) is the number of unvoiced frames transcribed as voiced, and FN (false negatives) is the number of voiced frames transcribed as unvoiced.  Note that notes that are missed and notes that are inserted are weighed equally.
+where TP (true positives) is the number of correctly transcribed notes (over all notes), FP (false positives) is the number of unvoiced frames transcribed as voiced, and FN (false negatives) is the number of voiced frames transcribed as unvoiced. Note that notes that are missed and notes that are inserted are weighed equally.
 \subsection{Frame-level transcription error score}
 In the previous measure "double counts" notes transcribed correctly but at the wrong time.  Frame-level transcription error score seeks to avoid that.
 At each time frame, let $N_{sys}$ be the number of reported pitches, $N_{ref}$ the ground truth number of pitches, and $N_{corr}$, their intersection, is the number of correctly reported pitches.  Then we define 
@@ -249,6 +349,7 @@ SVM & 21\% & 21 \\ \hline
 SVM with HMM & 22\% & 22 \\ \hline
 NMF & 23\% & 23 \\ \hline
 Sparse NMF & 24\% & 24 \\ \hline
+AdaBoost & 25\% & 25 \\ \hline
 \end{tabular}
 \end{center}
 
@@ -264,6 +365,7 @@ SVM & 18\% & 18 \\ \hline
 SVM with HMM & 19\% & 19 \\ \hline
 NMF & 20\% & 20 \\ \hline
 Sparse NMF & 21\% & 21 \\ \hline
+AdaBoost & 22\% & 22 \\ \hline
 \end{tabular}
 \end{center}
 
