@@ -1,6 +1,14 @@
 function [Acc, E_tot, E_sub, E_miss, E_fa] = calc_error( true_pr, observed_pr, subset )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
+
+% Acc - Overall Accuracy
+% E_tot  - total fram level error
+% E_sub  - Substitution (Some note was reported but not the correct one)
+% E_miss - Missed 
+% E_fa   - False Alarms
+
+
   TP=0;
   FP=0;
   FN=0;
