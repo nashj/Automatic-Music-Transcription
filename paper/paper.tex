@@ -304,7 +304,7 @@ Once $W$ is determined, the next step is to recover the piano roll matrix $H$. $
 
 \subsection{Our Implementation}
 
-We implemented a NMF transcription system. We used constructed our $W$ matrix by concatenating spectra from training recording. We tried both a standard STFT spectrogram and constant Q transform spectrogram. We use the normalizations proposed by \citet{niedermayer2008non}. After creating the $W$ matrix, we calculate the $H$ matrix using the previously-defined multiplicative update rule. The $H$ matrix is smoothed using a median filter and thresholded. 
+We implemented a NMF transcription system. We used constructed our $W$ matrix by concatenating spectra from training recording. We tried both a standard STFT spectrogram and constant Q transform spectrogram. We use the normalizations proposed by \citet{niedermayer2008non}. After creating the $W$ matrix, we calculate the $H$ matrix using the previously-defined multiplicative update rule. The $H$ matrix is smoothed using a median filter and thresholded. The STFT $W$ matrix and a sample of the smoothed $H$ are shown in figure 2.
 
 \subsection{Bayesian nonparametric models}
 One of the downsides of the NMF methods is that they require the number of notes (or sources) to be specified in advance. In piano transcription, we know that there are a constant 88 keys, but it is very often the case that only a subset of all keys will be used in a given song. Choosing the number of sources to be 88 in this case often results in duplicate notes or parts of notes in the dictionary matrix. \citet{blei2010bayesian} offers a Bayesian nonparametric method for transcription, similar to topic modeling, that automatically determines the appropriate number of sources.
@@ -416,7 +416,7 @@ We were surprised by the difficulties automated transcription presents. The ASDR
 \begin{description}
 \item[$\bullet$ Jeremy] wrote and evaluted the SVM method in \citet{poliner2006discriminative}, the non-negative matrix factorization method in \citet{abdallah2004polyphonic}, the AdaBoost method in \citet{boogaart2009note}, and wrote the paper.
 \item[$\bullet$ Mark] implemented the hidden Markov model and error measures in \citet{poliner2006discriminative}, evaluated the methods, and wrote the paper.
-\item[$\bullet$ Paul] implemented the non-negative matrix factorization method in \citet{abdallah2004polyphonic} and wrote the paper.
+\item[$\bullet$ Paul] implemented the non-negative matrix factorization methods in \citet{abdallah2004polyphonic} and \citet{niedermayer2008non} and wrote the paper.
 \end{description}
 
 \begin{center}

@@ -1,73 +1,22 @@
-  % Warning: this is written for Octave and not tested with MATLAB
-  % This also uses libsvm. The libsvm I have included has been built for Octave
-  more off;
-  fs = 0;
-  
-  % Get list of training notes
-  isOctave = exist('OCTAVE_VERSION') ~= 0;
-  if isOctave
-         filelist = readdir('../data/notes');
-      for i = 1:numel(filelist)
-        if (regexp (filelist{i},'^\w+.wav$'))
-            wavs{i} = filelist{i};
-        end
-      end
+function [ H, H_proc, Acc, E_tot, E_sub, E_miss, E_fa, precision, recall, f ] = nmf_transcribe(W, wav_file, midi_file, use_qgram, plots)
+
+  if (nargin < 5)
+      plots = 0;
+  end
+  if (nargin < 4)
+    use_qgram = 0;
+  end
+      
+  if (use_qgram)
+    [Sy, f, spec_t] = qgram_cache(wav_file);
   else
-      filelist = dir('../data/notes');
-      for i = 1:numel(filelist)
-        if (regexp (filelist(i).name,'^\w+.wav$'))
-            wavs{i} = filelist(i).name;
-        end
-      end
+    [y,fs,bps] = wavread(wav_file);
+    y = [zeros(length(y),1); y(:, 1)];
+    [Sy, f, spec_t] = spectrogram(y, 4096, 4096-160, 4096, fs);
+    half = floor(length(Sy) / 2);
+    Sy = Sy(:, half:end);
   end
-
-  W = zeros(2049, 88);
-  for i = 1:numel(wavs)
-    if (~isempty(wavs{i}))
-        
-      % Read File
-      wavs{i} = strcat('../data/notes/', wavs{i});
-      disp(wavs{i});
-      [y,fs,bps] = wavread(wavs{i});
-      y = [zeros(length(y),1); y];
-      
-      % Constant Q Transform
-      %[S, f, spec_t] = qgram(y, fs); 
-      [S, f, spec_t] = spectrogram(y, 4096, 4096-160, 4096, fs);
-      S = abs(S);
-      Sen = (sum(S).^2);
-      S(:, Sen < 100) = 0;
-
-      % Average the signal-containing spectra
-      Sm = mean(S, 2);
-     
-      % Magnitude warping and mean subtraction proposed by Niedermeyer
-      g = mean(Sm); % What average should we use (mean? outlier resistant?)
-      S_warp = log(1 + (1/g).*Sm);
-      
-      %%y = smooth(S_warp, 9);
-      y = filter(ones(9,1)/9, 1, S_warp);
-      wi = max(0, S_warp - y);
-      
-      plot(wi);
-      drawnow;
-      W(:, i-2) = wi';
-    end
-  end
- W = abs(W);
- figure; imagesc(W);
-
-
-%%
-  wav_file = '../data/br_im2.wav';
-  % Open wav file
-  [y,fs,bps] = wavread(wav_file);
-
-  %[Sy, f, spec_t] = qgram(y, fs);
-  [Sy, f, spec_t] = spectrogram(y, 4096, 4096-160, 4096, fs);
   
-%%
- 
 magS = abs(Sy);
 V = magS;
 for i = 1:length(magS)
@@ -80,10 +29,13 @@ for i = 1:length(magS)
       %%y = smooth(S_warp, 9);
       y = filter(ones(9,1)/9, 1, S_warp);
       wi = max(0, S_warp - y);
-      V(:, i) = wi';
+      V(:, i) = Sm';
 end
-V = V(1:1024,:); % Drop upper half freqs
-  W = W(1:1024, :);
+
+if (~(use_qgram))
+    V = V(1:1024, :); % Drop upper half freqs
+    W = W(1:1024, :);
+end
 
  %% 
   % Add the libsvm and midi libraries  
@@ -184,43 +136,35 @@ end
 
 %%
 % Thresholding
-
 H4 = zeros(size(H));
-
 for i = 1:88
-
 	thresh = std(H3(i,:));
-
 	H4(i, H3(i,:) > thresh ) = 1;
-
 end
 
-
 imagesc(H4(:, 1:2000));
+H_proc = H4;
 
+[pr nn] = midi_cache(midi_file);
 
-
-midi = readmidi('../data/br_im2.mid');
-notes = midiInfo(midi,0);
-[pr, t, nn] = piano_roll(notes);
-
+subset = min( length(pr), 15996);
 pr_norm = zeros(88, length(pr));
 pr_norm((nn(1)-20):end-(108-nn(end)), :) = pr(:, 1:length(pr));
-[Acc, E_tot, E_sub, E_miss, E_fa, precision, recall, f] = calc_error( pr_norm, H4, 15996 )
+[Acc, E_tot, E_sub, E_miss, E_fa, precision, recall, f] = calc_error( pr_norm, H4, subset )
 %subset = 2000;
 %figure; view_piano_roll(t(1:subset),nn,pr(:,1:subset), 'Ground truth');
 %%
-start = 9000;
-stop = 11000;
- subplot 411
-imagesc(H(:, start:stop))
-title('Raw Note Activity (H)');
-subplot 412; 
-imagesc(H3(:, start:stop))
-title('Smoothed Note Activity (H)');
-subplot 413
-imagesc(H4(:, start:stop))
-title('Threshold Note Activity (H)');
-subplot 414
-imagesc(pr_norm(:, start:stop))
-title('Ground Truth')
+% start = 9000;
+% stop = 11000;
+%  subplot 411
+% imagesc(H(:, start:stop))
+% title('Raw Note Activity (H)');
+% subplot 412; 
+% imagesc(H3(:, start:stop))
+% title('Smoothed Note Activity (H)');
+% subplot 413
+% imagesc(H4(:, start:stop))
+% title('Threshold Note Activity (H)');
+% subplot 414
+% imagesc(pr_norm(:, start:stop))
+% title('Ground Truth')

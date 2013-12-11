@@ -1,7 +1,7 @@
 function [absQ, f, spec_t] = qgram_cache(wav_file)
   % Note: I'm returning absQ instead of Q. We never use Q and absQ saves space
   more off;
-  mat_cache = strcat(wav_file, '.cache');
+  mat_cache = strcat(wav_file, '.cache.mat');
   try 
     load(mat_cache);
     fprintf('Cached qgram found!\n');
