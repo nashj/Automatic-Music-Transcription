@@ -294,8 +294,6 @@ There are a few problems applying NMF as it is presented above to the piano tran
 \subsection{Sparse non-negative matrix factorization}
 
 One of the great side-effects of NMF is that it often produces a sparse, parts-based representation. This is desirable in music transcription because the piano roll matrix, $H$, is a sparse matrix of note activations. However, the NMF method does not contain an explicit sparsity objective, and so the update rules do not always converge to a sparse solution. \citet{hoyer2004non} extended NMF to contain a tunable sparsity objective. This sparse NMF method in \citet{hoyer2004non} was adopted by \citet{abdallah2004polyphonic} in their transcription system.
-
-
 % Non-negative Matrix factorization
 
 \subsection{Weakly Supervised NMF}
@@ -333,6 +331,11 @@ In many of the techniques used (such as SVM's), notes at a single time step are 
 %\subsubsection{Probabilistic spectral smoothness}
 %\subsection{Recurrent neural network}
 
+% \subsubsection{Median filtering}
+
+
+
+
 \section{Evaluation}
 
 \subsection{MIDI databases}
@@ -368,13 +371,14 @@ Frame-level transcription error requires a high level of precision.  An error-me
 \begin{tabular}{|l|l|l|}
 \hline
 Algorithm & Accuracy & $E_{tot}$ \\ \hline
-SVM & 67.7\% & NR \\ \hline
+SVM & 67.7\% & - \\ \hline
 SVM with HMM & 70\% & 34.2 \\ \hline
-NMF & 23\% & 23 \\ \hline
-Sparse NMF & 24\% & 24 \\ \hline
-AdaBoost & 25\% & 25 \\ \hline
+Sup. NMF & - & - \\ \hline
+AdaBoost & 75.2\% & - \\ \hline
 \end{tabular}
 \end{center}
+% precision, recall, f
+% 42.3, 68.8, .524
 
 \subsubsection{Our evaluation}
 
@@ -386,9 +390,8 @@ The following table captures our evaluation of these methods. We expect these ac
 Algorithm & Accuracy & $E_{tot}$ \\ \hline
 SVM & 51.7\% & 84.7  \\ \hline
 SVM with HMM & 62.7\% & 53.8  \\ \hline
-NMF & 20\% & 20 \\ \hline
-Sparse NMF & 21\% & 21 \\ \hline
-AdaBoost & 22\% & 22 \\ \hline
+Sup. NMF & 30.4\% & 92.4 \\ \hline
+AdaBoost & 42.5\% & 113.9 \\ \hline
 \end{tabular}
 \end{center}
 
