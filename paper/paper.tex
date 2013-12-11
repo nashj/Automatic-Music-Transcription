@@ -10,6 +10,8 @@
 \journal{EECS 545}
 \providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
 
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
 \begin{document}
 \begin{frontmatter}
 
@@ -243,6 +245,21 @@ This method proposes restricting the problem to determining note onsets. This is
 
 
 
+
+\begin{figure*}[t]
+\begin{center}
+\subfigure[]{
+\includegraphics[scale=.6]{stft-dictionary}
+\label{fig:stftdict}
+}
+\subfigure[]{
+\includegraphics[scale=.6]{cqt-dictionary}
+\label{fig:cqtdict}
+}
+\end{center}
+\caption{(a) shows the W dictionary matrix computed for the supervised NMF method. Each column represents the spectral signature of a piano note. Notice how the base frequencies follow an exponential curve. (b) shows the H piano roll matrix output from the supervised NMF method.}
+\end{figure*}
+
 \subsection{Non-negative matrix factorization}
 
 Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduction technique that factors a non-negative matrix $V$ with dimensions $F \times N$ into two non-negative matrices $W$ and $H$.
@@ -393,10 +410,47 @@ AdaBoost & 22\% & 22 \\ \hline
 
 \section{Individual Effort}
 \begin{description}
-\item[$\bullet$ Jeremy] wrote and evaluted the SVM method in \citet{poliner2006discriminative}, the Bayesian nonparametric method in \citet{blei2010bayesian}, and the sparse non-negative matrix factorization method in \citet{abdallah2004polyphonic}. Jeremy also wrote the paper.
-\item[$\bullet$ Mark] implemented the hidden Markov model in \citet{poliner2006discriminative} and the LSTM network in \citet{bock2012polyphonic}.
-\item[$\bullet$ Paul] implemented the LSTM network in \citet{bock2012polyphonic}.
+\item[$\bullet$ Jeremy] wrote and evaluted the SVM method in \citet{poliner2006discriminative}, the non-negative matrix factorization method in \citet{abdallah2004polyphonic}, the AdaBoost method in \citet{boogaart2009note}, and wrote the paper.
+\item[$\bullet$ Mark] implemented the hidden Markov model and error measures in \citet{poliner2006discriminative}, evaluated the methods, and wrote the paper.
+\item[$\bullet$ Paul] implemented the non-negative matrix factorization method in \citet{abdallah2004polyphonic} and wrote the paper.
 \end{description}
+
+\begin{center}
+\begin{table*}[ht]
+%   \caption{Table of midi songs used for testing and training the algorithms in the paper.}
+\caption{MIDI songs used for testing and training the methods in the paper.}
+\begin{center}
+% \setlength{\tabcolsep}{4.0em}
+\begin{tabular}{L{2cm} L{4cm} L{4cm}}
+% \textbf{Composer} & \textbf{Training} & \textbf{Testing} \\ \hline
+Composer & Training & Testing \\ \hline
+Brahms & 
+Sonata C major, Op. 1 (Allegro, Andante), 7 Fantasia, Op. 116 (Andante), 3 Intermezzi, Op. 117 (Andante moderato)
+& 
+Sonata C major, Op. 1 (Finale), 7 Fantasia, Op. 116 (Andantino teneramente), 3 Intermezzi, Op. 117 (Andante moderato)
+\\
+
+Beethoven & Sonata No. 5, Op. 10 (Prestissimo), Sonata No. 8, Op. 13 (Rondo Allegro) & Sonata No. 11, Op. 22 (Minuetto), Sonata No. 21, Op. 53 (Adagio molto) \\
+
+Chopin & 5 Mazurkas, Op. 7 (Vivace), Etudes, Op. 10 (Allegro, Vivace), Etudes, Op. 25 (Allegro) 
+& 5 Mazurkas, Op. 7 (Vivo ma non troppo), Etudes, Op. 10 (Allegro con fuoco), Etudes, Op. 25 (Lento)
+\\
+Debussy & Suite bergamasque (Moderato, Menuet) & Suite bergamasque (Andante, Allegretto) \\
+Mozart & Sonata No. 8 (Andantino), Sonata No. 12 (Adagio)
+ & Sonata No. 8 (Allegro con spirito), Sonata No. 16 (Allegro)  \\
+
+Schubert & 
+6 Moments musicaux, Op. 94 (Allegretto moderato), Fantasia C major (Presto)
+& 6 Moments musicaux, Op. 94 (Allegro vivace), Fantasia C major (Allegro)
+\\
+
+% AdaBoost & 22\% & 22 \\ 
+\end{tabular}
+\end{center}
+\end{table*}
+\end{center}
+
+
 
 %    Problem statement, both conceptual and mathematical.
 %    Motivation: why is the problem important.
