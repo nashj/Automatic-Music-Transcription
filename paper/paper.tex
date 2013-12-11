@@ -160,11 +160,11 @@ The physical description of sound production in a piano is complex. \citet{bank2
 
 
 \section{Methodologies}
-There are currently two main approaches to polyphonic music transcription. The first approach learns a supervised learning model that uses frequency magnitudes to predict the presence of a note. The second approach uses unsupervised learning techniques to extract
+There are currently two main approaches to polyphonic music transcription. The first approach learns a supervised learning model that uses frequency magnitudes to predict the presence of a note. The second approach uses unsupervised learning techniques to simultaneously extract notes and a musical score from a spectrogram. The following sections detail the most popular techniques within these general approaches.
 
-\subsection{Audio data}
+%\subsection{Audio data}
 
-Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying...
+%Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying...
 %musical score
 %While MIDI specifies the type of instrument, 
 % MIDI instrument not specified in the file 
@@ -210,32 +210,30 @@ Transforming the spectra to a logarithmic frequency scale achieves two main bene
 The logarithmic frequency scale also decreases sensitivty to detuning. In a linear frequency scale, detuning, especially in higher semitones, will cause spectral energy to leak into neighboring frequency bins, creating more variability in the training data. On a logarithmic frequency scale, minor detuning would result in less spectral energy leakage and less unnecessary variability in the training data.
 
 \subsection{Note onset detection}
-This method proposes restricting the problem to determining note onsets. This is a simpler problem than detecting note durations because of the possibility for time-varying timbres in instruments. Most researchers in this field evaluate their music transcription methods on their note onset detection performance.
+This method proposes restricting the problem to determining note onsets. This is a simpler problem than detecting note durations because of the possibility for time-varying timbres in instruments. Many researchers in this field evaluate their music transcription methods on their note onset detection performance. In this paper, we chose to evaluate our methods over the entire duration of the notes; while this brings us closer to the original musical score, it also results in higher error measures. 
 
 \subsection{Discriminative models}
 % SVM, logistic regression
+Applying discriminative machine learning models to detect notes is a dominant approach in transcription research. A discriminative model can be learned for each note (for pianos, 88 classifiers) over the frequency magnitudes of the song's spectrogram. Each note classifier outputs whether the note is present or absent at each time step determined by the time step used in the spectrogram. Many researchers have chosen nonlinear or kernel-based methods due to the complexity of the input space. 
+
 \subsection{SVM}
 
+\citet{poliner2006discriminative} 
+
+% use support vector machines to predict note presence or absence at 10ms time steps based on 
+
 % one vs all
-\citet{poliner2006discriminative}
-
 % frequency partition
-
 
 \subsection{Restricted Boltzmann machine}
 
-\citet{nam2011classification} proposes ...
- training a restricted Boltzmann machine on the spectrogram features. The features computed by the RBM are used by an SVM 
-
+To increase the previous system's robustness to noise, \citet{nam2011classification} proposed a preprocessing stage using a restricted Boltzmann machine on the spectrogram features. The RBM would be able to learn noise invariant features over the spectrogram and provide a new input to the SVM classifiers. The researchers found a modest improvement in performance as they increased noise levels in their input data.
 
 \subsection{Boosted classifier}
 
 \citet{boogaart2009note} proposes using AdaBoost with decision stumps for the weak learners to detect note onsets. The motivation for using AdaBoost in transcription over other methods is its robustness to overfitting the spectral features and its interpretability in the transcription process. The interpretation is that the decision stumps decide on the presence of a note based on the magnitudes of the fundamental frequency of a note and then its overtones. In some sense, this is a more sophisticated version of applying a threshold to the constant Q transform, but it suffers from the same problems; the method has difficulty with volume changes in the song, and dense chords with many overlapping overtones can also confuse the decision stumps. 
 
 % \subsection{Feed forward neural network}
-
-
-
 
 \begin{figure*}[t]
 \begin{center}
@@ -313,36 +311,30 @@ Once $W$ is determined, the next step is to recover the piano roll matrix $H$. $
 We implemented a NMF transcription system. We used constructed our $W$ matrix by concatenating spectra from training recording. We tried both a standard STFT spectrogram and constant Q transform spectrogram. We use the normalizations proposed by \citet{niedermayer2008non}. After creating the $W$ matrix, we calculate the $H$ matrix using the previously-defined multiplicative update rule. The $H$ matrix is smoothed using a median filter and thresholded. [TODO: Results]
 
 \subsection{Bayesian nonparametric models}
-One of the downsides of the NMF methods is that they require the number of notes (or sources) to be specified 
-
+One of the downsides of the NMF methods is that they require the number of notes (or sources) to be specified in advance. In piano transcription, we know that there are a constant 88 keys, but it is very often the case that only a subset of all keys will be used in a given song. Choosing the number of sources to be 88 in this case often results in duplicate notes or parts of notes in the dictionary matrix. \citet{blei2010bayesian} offers a Bayesian nonparametric method for transcription, similar to topic modeling, that automatically determines the appropriate number of sources. 
 
 \subsection{Smoothing}
-The raw output of many transcription techniques is often noisey and contains many short, spurious notes. Additionally, otherwise correctly transcribed notes may contain small unwanted gaps. Obviously these detracts from the quality of the transcription. Smoothing can be used to improve the transcription by removing the small errors described above. Some smoothing techniques are as simple as moving average or median filters, others take advantage of prior knowledge of the temporal structure of music.
+One downside of the previous methods is that each time step and each note is classified independently of every other note. The raw output of these techniques is often noisy and contains many short, spurious notes. Additionally, otherwise correctly transcribed notes may contain small unwanted gaps. These gaps detract from the quality of the transcription. Smoothing can be used to improve the transcription by removing the small errors described above. Some smoothing techniques are as simple as moving average or median filters, others take advantage of prior knowledge of the temporal structure of music.
 
 \subsubsection{HMM smoothing}
 In many of the techniques used (such as SVM's), notes at a single time step are classified independently of the notes at adjacent time steps. Since these methods do not take advantage of the temporal structure of piano music, hidden Markov models are often used for post-processing the output of the discriminative models. We model each note independently using a two-state HMM, where the states correspond to the note being on or off. The transition matrix and state priors can be estimated from the ground truth piano roll, while the emission matrix can be estimated using the output from the classifier as the observable variables. Applying the Viterbi algorithm to each note class results in a smoother piano roll that eliminates unlikely, spurious, isolated notes. 
 
-\subsubsection{Probabilistic spectral smoothness}
-
-
-\subsection{Recurrent neural network}
+%\subsubsection{Probabilistic spectral smoothness}
+%\subsection{Recurrent neural network}
 
 \section{Evaluation}
 
 \subsection{MIDI databases}
 
-The MIDI music used to evaluate these methods came from the Classical Piano MIDI Page at http://www.piano-midi.de/, a free, online database of piano MIDI files with a wide range of composers. This database, along with the MAPS database, are a popular choice for piano transcription researchers. Table \ref{table:songs} on page 7 gives a list of the composers and songs we used for testing and training.
+The MIDI music we used to evaluate these methods comes from the Classical Piano MIDI Page\footnote{http://www.piano-midi.de/}, a free, online database of piano MIDI files with a wide range of composers. This database, along with the MAPS database, are a popular choice for piano transcription researchers. Table \ref{table:songs} on page 7 gives a list of the composers and songs we used for testing and training.
 
-The MIDI files represent the ground truth data. To generate training data, we synthesized wav files from the MIDI files using Timidity...
-
-Synthesized with Timidity -> 16kHz
-
+The MIDI files represent the ground truth data and the training labels for our classifiers. To generate training features, we synthesized the MIDI files into WAV files using Timidity++\footnote{http://timidity.sourceforge.net/}. Since the highest fundamental frequency on a piano is 4186Hz, we chose a sampling rate of 16kHz to capture the majority of the overtone frequencies. Many researchers choose an 8kHz sampling rate to decrease the size of their input data.
 
 \subsection{Evaluation measures}
 
 % We use a few metrics for evaluation, as per the existing literature.
 
-There is no standard metric to evaluate the performance of a transcription method. However, many researchers use the following methods:
+There is no standard metric to evaluate the performance of a transcription method. Researchers use a variety of error measures, described in the sections below. 
 
 \subsubsection{Overall accuracy}
 $$Acc = \frac{TP}{TP+FP+FN} $$
@@ -390,6 +382,10 @@ AdaBoost & 22\% & 22 \\ \hline
 \end{center}
 
 \section{Conclusion}
+
+We achieved the best results with...
+
+
 % Which method is fastest
 
 % Which method has the best performance
