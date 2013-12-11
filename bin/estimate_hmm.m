@@ -25,7 +25,7 @@ function [priors_cell, trans_mat_cell, em_mat_cell] = estimate_hmm(raw_pr, nn, t
     %end
 
     % Estimate prior
-    prior_on = sum(true_pr(i,:)) / num_frames;
+    prior_on = sum(true_pr(i,:)) / num_frames + 1e-5;
     prior_off = 1 - prior_on;
 
     % Estimate transition matrix
@@ -37,15 +37,22 @@ function [priors_cell, trans_mat_cell, em_mat_cell] = estimate_hmm(raw_pr, nn, t
 	prev_frame = cur_frame;
     end
     trans_mat = trans_mat ./ num_frames;
+    trans_mat(1,2) = trans_mat(1,2) / prior_off;
+    trans_mat(2,1) = trans_mat(2,1) / prior_on;
+    trans_mat(1,1) = 1 - trans_mat(1,2);
+    trans_mat(2,2) = 1 - trans_mat(2,1);
 
     % Estimate emission matrix
     em_mat = zeros(2,2);
     for j=1:num_frames
     	% 1 gr, 1 emission
-
 	em_mat(true_pr(i,j)+1, raw_pr(i,j)+1) = em_mat(true_pr(i,j)+1, raw_pr(i,j)+1) + 1; 
     end
     em_mat =  em_mat ./ num_frames;
+    em_mat(1,2) = em_mat(1,2) / prior_off;
+    em_mat(2,1) = em_mat(2,1) / prior_on;
+    em_mat(1,1) = 1 - em_mat(1,2);
+    em_mat(2,2) = 1 - em_mat(2,1);
 
     % Save results to cells
     trans_mat_cell{i} = trans_mat;
@@ -53,7 +60,7 @@ function [priors_cell, trans_mat_cell, em_mat_cell] = estimate_hmm(raw_pr, nn, t
     priors_cell{i} = [prior_off prior_on];
     trans_mat
     em_mat
-    [prior_ff prior on]
+    [prior_off prior_on]
     
   end
 
