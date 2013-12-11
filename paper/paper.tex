@@ -153,18 +153,9 @@ Like most research in automatic music transcription, we restrict our problem to 
 
 \subsection{Piano physics}
 
-\citet{bank2003physically} details the physics of piano sound synthesis. We will just note here that...
+The physical description of sound production in a piano is complex. \citet{bank2003physically} describes physics-based synthesis algorithm that models the piano hammer as a nonlinear spring connect to a lumped mass, a nonideal, lossy piano string with digital waveguides, and soundboard radiation with a linear filter. This model gives rise to the rich and variable set of overtones across the keyboard. Furthermore, in a procedure called stretched tuning, real pianos have their higher notes tuned slightly higher and their lower notes tuned slightly lower to compensate for psychoacoustic detuning effect in our ears. These factors give rise to the complex spectral feature space for our machine learning methods. 
 
-
-Figure X shows the spectral profile of a low C note played over a couple seconds. 
-
-This is typically the lowest 
-(But it's more complicated than that...)
-- Show why it's complicated 
-- Show some of the physics 
-
-
-\section{Related Work}
+% \section{Related Work}
 % Contain a table with metrics data, brief description, year published
 
 
@@ -239,9 +230,9 @@ This method proposes restricting the problem to determining note onsets. This is
 
 \subsection{Boosted classifier}
 
-\citet{boogaart2009note} proposes a cascade of boosted classifiers.
+\citet{boogaart2009note} proposes using AdaBoost with decision stumps for the weak learners to detect note onsets. The motivation for using AdaBoost in transcription over other methods is its robustness to overfitting the spectral features and its interpretability in the transcription process. The interpretation is that the decision stumps decide on the presence of a note based on the magnitudes of the fundamental frequency of a note and then its overtones. In some sense, this is a more sophisticated version of applying a threshold to the constant Q transform, but it suffers from the same problems; the method has difficulty with volume changes in the song, and dense chords with many overlapping overtones can also confuse the decision stumps. 
 
-\subsection{Feed forward neural network}
+% \subsection{Feed forward neural network}
 
 
 
@@ -340,7 +331,7 @@ In many of the techniques used (such as SVM's), notes at a single time step are 
 
 \subsection{MIDI databases}
 
-The MIDI music used to evaluate these methods came from the Classical Piano MIDI Page at http://www.piano-midi.de/, a free, online database of piano MIDI files with a wide range of composers. This database, along with the MAPS database, are a popular choice for piano transcription researchers. Table X gives a list of the composers and songs we used for testing. 
+The MIDI music used to evaluate these methods came from the Classical Piano MIDI Page at http://www.piano-midi.de/, a free, online database of piano MIDI files with a wide range of composers. This database, along with the MAPS database, are a popular choice for piano transcription researchers. Table \ref{table:songs} on page 7 gives a list of the composers and songs we used for testing and training.
 
 The MIDI files represent the ground truth data. To generate training data, we synthesized wav files from the MIDI files using Timidity...
 
@@ -447,6 +438,7 @@ Schubert &
 % AdaBoost & 22\% & 22 \\ 
 \end{tabular}
 \end{center}
+\label{table:songs}
 \end{table*}
 \end{center}
 
