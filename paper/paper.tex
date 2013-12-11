@@ -77,10 +77,8 @@ Transcription \sep sparse coding \sep non-negative matrix factorization \sep Bay
 
 \setcounter{topnumber}{1}
 
-\section{Introduction}
+\section{Terminology}
 
-
-\subsection{Terminology}
 Semitones are the smallest music interval in Western music. On a piano, semitones are the adjacent keys.
 
 Timbre represents the spectral envelope, time envelope, noise, tonality, and onset of a musical note. Timbre captures the unique properties of a musical instrument.
@@ -300,7 +298,7 @@ One of the great side-effects of NMF is that it often produces a sparse, parts-b
 
 In the previous NMF methods, we extracted both the note dictionary matrix $W$ and the piano roll from the spectrogram. In piano transcription, however, the dictionary matrix should be similar across multiple transcriptions. We can guide the NMF process by explicity creating a dictionary matrix $W$ off-line. Not only does this alleviate the problem where notes aren't represented in $W$, but it does not require any manual or automatic sorting that is normally required when $W$ is produced by NMF. \citet{weninger2013discriminative} suggest that the W matrix may be constructed by performing NMF with rank one (i.e. K = 1) on recordings of isolated notes, once for each note. The first column of each $W$ matrix is concatenated to form a dictionary matrix for later transcription. One can also construct a dictionary matrix by directly concatenating normalized spectral features\cite{niedermayer2008non}.
 
-Some have suggested adding additional bases to $W$. For example, one could add multiple examples of the same note played on different pianos to prevent from overemphasizing the characterisics of a specific instrument [cite FINDTHIS]. \citet{weninger2013discriminative} found including different spectral features for the onset, sustain and decay of each note to be useful. In these cases, note activations from different bases but which correspond to the same pitch are summed to form $88 \times N$ piano roll matrix.
+Some have suggested adding additional bases to $W$. For example, one could add multiple examples of the same note played on different pianos to prevent from overemphasizing the characterisics of a specific instrument. \citet{weninger2013discriminative} found including different spectral features for the onset, sustain and decay of each note to be useful. In these cases, note activations from different bases but which correspond to the same pitch are summed to form $88 \times N$ piano roll matrix.
 
 Once $W$ is determined, the next step is to recover the piano roll matrix $H$. $W$ can be used as an initial value in a standard NMF formulation. Another way to recover $H$ is to use the standard multiplicative update rule for $H$ and skip the updating of $W$ since it is already known. \citet{niedermayer2008non} refers to this variant of NMF as Non-Negative Matrix \textit{Division}, as we're only estimating $H$ in the approximation.
 
@@ -367,13 +365,15 @@ Frame-level transcription error requires a high level of precision.  An error-me
 \subsection{Method comparison}
 
 \subsubsection{Reported measures}
+The table below reports the error measures from the original papers. $E_{tot}$, originally defined in \citet{poliner2006discriminative}, does not appear in all the papers, and the supervised NVM method only reports precision, recall, and f-score figures. 
+
 \begin{center}
 \begin{tabular}{|l|l|l|}
 \hline
 Algorithm & Accuracy & $E_{tot}$ \\ \hline
 SVM & 67.7\% & - \\ \hline
 SVM with HMM & 70\% & 34.2 \\ \hline
-Sup. NMF & - & - \\ \hline
+Sup. NMF & 32.3\% & - \\ \hline
 AdaBoost & 75.2\% & - \\ \hline
 \end{tabular}
 \end{center}
@@ -382,7 +382,7 @@ AdaBoost & 75.2\% & - \\ \hline
 
 \subsubsection{Our evaluation}
 
-Table \ref{table:ourevals} captures our evaluation of these methods. We expect these accuracy measures to be lower than they were reported in the original papers because we are using a smaller training dataset and not attempting to optimize the methods.
+Table \ref{table:ourevals} captures our evaluation of these methods. We expect these accuracy measures to be lower than they were reported in the original papers because we are using a smaller training dataset and left the methods unoptimized.
 
 \begin{center}
 \label{table:ourevals}
@@ -392,7 +392,7 @@ Table \ref{table:ourevals} captures our evaluation of these methods. We expect t
 Algorithm & Accuracy & $E_{tot}$ \\ \hline
 SVM & 51.7\% & 84.7  \\ \hline
 SVM with HMM & 62.7\% & 53.8  \\ \hline
-Sup. NMF & 30.4\% & 92.4 \\ \hline
+Sup. NMF & 30.8\% & 151.0 \\ \hline
 AdaBoost & 42.5\% & 113.9 \\ \hline
 
 \end{tabular}
@@ -401,17 +401,16 @@ AdaBoost & 42.5\% & 113.9 \\ \hline
 
 \section{Conclusion}
 
-We achieved the best accuracy with the SVM method with HMM smoothing from \citet{poliner2006discriminative}. 
+We achieved the best accuracy with the SVM method with HMM smoothing from \citet{poliner2006discriminative}. Across all methods, the raw output contained lots of spurious misclassifications, and smoothing was crucial for increasing accuracy, whether by hidden Markov models in the SVM method or median filtering with supervised NMF and AdaBoost. The AdaBoost method had suprisingly low accuracy relative to the other methods, although we spent the least amount of time optimizing this method. 
+
+We were surprised by the difficulties automated transcription presents. The ASDR envelope of piano notes complicates NMF retrieval of individual notes and results in duplicated notes. Cross-validating smoothing parameters was important for better accuracy. Aligning the spectrogram with ground truth data becomes nontrivial with the constant Q transform; unlike an FFT that has a definable center, the window size of the constant Q transform changes with each frequency. 
+
 
 
 % Which method is fastest
-
 % Which method has the best performance
-
 % Which one is the simplest method
-
 % Future directions
-
 
 \section{Individual Effort}
 \begin{description}
