@@ -1,5 +1,4 @@
-
-function [smooth_pr] = hmm_smooth(raw_pr, nn, priors_cell, trans_mat_cell, em_mat_cell) 
+function [smooth_pr] = smooth_hmm(raw_pr, nn, priors_cell, trans_mat_cell, em_mat_cell) 
   %%% HMM Smooth %%%
   smooth_pr = zeros(size(raw_pr));
 
@@ -14,7 +13,7 @@ function [smooth_pr] = hmm_smooth(raw_pr, nn, priors_cell, trans_mat_cell, em_ma
 
     sequence(sequence==1) = 2;
     sequence(sequence<=0) = 1;
-    states = hmmviterbi(sequence, trans_mat_cell{i}, em_mat_cell{i}); % Where are the priors?
+    states = hmmviterbi(sequence, trans_mat_cell{i}, em_mat_cell{i}); 
     smooth_pr(i,:) = states;
   end
 end

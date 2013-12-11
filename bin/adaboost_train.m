@@ -1,4 +1,4 @@
-function [estimated_pr, pr] = adaboost_transcribe(wav_file, midi_file)
+function adaboost_train(wav_file, midi_file)
   more off;
   % Wav file, midi file
   fprintf('Reading wav file...\n');
@@ -14,19 +14,28 @@ function [estimated_pr, pr] = adaboost_transcribe(wav_file, midi_file)
 
   [magS, f, spec_t] = qgram_cache(wav_file); 
 
-  addpath('../lib/matlab-midi/src');
+  %addpath('../lib/matlab-midi/src');
   addpath('../lib/GML_AdaBoost_Matlab_Toolbox_0.3/');
 
-  fprintf('Reading midi file...\n');
-  midi = readmidi(midi_file);
-  notes = midiInfo(midi,0);
-  [pr, t, nn] = piano_roll(notes);
+  %fprintf('Reading midi file...\n');
+  %midi = readmidi(midi_file);
+  %notes = midiInfo(midi,0);
+  %[pr, t, nn] = piano_roll(notes);
 
+  [pr, nn] = midi_cache(midi_file);
+  
   % Train the decision tree on the spectrogram and midi note labels
   % Randomly select 
 
+  subset = 1000;
+  view_piano_roll(spec_t(1:subset), nn, pr(:,1:subset), 'MIDI notes');
+
+
   num_notes = nn(end)-nn(1)+1;
   
+  rlearners_cell = cell(1,num_notes);
+  rweights_cell = cell(1,num_notes);
+
   for i=1:num_notes
       fprintf('Training stumps %d...\n', i);
       note_vec = pr(i,:);
@@ -39,10 +48,10 @@ function [estimated_pr, pr] = adaboost_transcribe(wav_file, midi_file)
       pos = find(note_vec == 1);
 
       num_examples = 0;
-      if length(pos) < 100
+      if length(pos) < 50
       	 num_examples = length(pos);
       else
-	 num_examples = 100;
+	 num_examples = 50;
          pos = pos(randperm(length(pos)));
       end
 
@@ -57,20 +66,23 @@ function [estimated_pr, pr] = adaboost_transcribe(wav_file, midi_file)
       
       midi_note = nn(i);
 
-      % Train SVM on these samples
       training_labels = [ones(1,num_examples) -1*ones(1,num_examples)];
       training_input = [pos_examples neg_examples];
 
-      max_iter = 50;
+      max_iter = 10;
       weak_learner = tree_node_w(1); % pass the number of tree splits to the constructor
       [rlearners, rweights] = RealAdaBoost(weak_learner, training_input, training_labels, max_iter);
-
+      rlearners_cell{i} = rlearners;
+      rweights_cell{i} = rweights;
+      
       rresult = sign(Classify(rlearners, rweights, training_input));
       
-      rerror = sum(training_labels ~= rresult) / length(training_labels);
-      rerror 
-
+      rresult
+      rerror = sum(training_labels ~= rresult) / length(training_labels)
+      %rerror 
   end
 
+  estimated_pr = zeros(size(pr,1), size(magS,2));
 
+  save('adaboost_stumps', 'rlearners_cell', 'rweights_cell');
 end
