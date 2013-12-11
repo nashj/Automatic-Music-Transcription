@@ -1,6 +1,6 @@
 function [pr, nn] = midi_cache(midi_file)
   more off;
-  mat_cache = strcat(midi_file, '.cache');
+  mat_cache = strcat(midi_file, '.cache.mat');
   try 
       load(mat_cache);
       fprintf('Cached MIDI found!\n');
