@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{12}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
@@ -19,18 +19,59 @@
   (ICASSP), 2012 IEEE International Conference on},
   \bibinfo{organization}{IEEE}, pp. \bibinfo{pages}{121--124}.
 %Type = Article
-\bibitem[{Lee and Seung(1999)}]{lee1999learning}
-\bibinfo{author}{D.~D. Lee}, \bibinfo{author}{H.~S. Seung},
-\newblock \bibinfo{title}{Learning the parts of objects by non-negative matrix
-  factorization},
-\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{401}
-  (\bibinfo{year}{1999}) \bibinfo{pages}{788--791}.
+\bibitem[{Poliner and Ellis(2006)}]{poliner2006discriminative}
+\bibinfo{author}{G.~E. Poliner}, \bibinfo{author}{D.~P. Ellis},
+\newblock \bibinfo{title}{A discriminative model for polyphonic piano
+  transcription},
+\newblock \bibinfo{journal}{EURASIP Journal on Advances in Signal Processing}
+  \bibinfo{volume}{2007} (\bibinfo{year}{2006}).
+%Type = Inproceedings
+\bibitem[{Nam et~al.(2011)Nam, Ngiam, Lee, and Slaney}]{nam2011classification}
+\bibinfo{author}{J.~Nam}, \bibinfo{author}{J.~Ngiam}, \bibinfo{author}{H.~Lee},
+  \bibinfo{author}{M.~Slaney},
+\newblock \bibinfo{title}{A classification-based polyphonic piano transcription
+  approach using learned feature representations.},
+\newblock in: \bibinfo{booktitle}{ISMIR}, pp. \bibinfo{pages}{175--180}.
+%Type = Inproceedings
+\bibitem[{Smaragdis and Brown(2003)}]{smaragdis2003non}
+\bibinfo{author}{P.~Smaragdis}, \bibinfo{author}{J.~C. Brown},
+\newblock \bibinfo{title}{Non-negative matrix factorization for polyphonic
+  music transcription},
+\newblock in: \bibinfo{booktitle}{Applications of Signal Processing to Audio
+  and Acoustics, 2003 IEEE Workshop on.}, \bibinfo{organization}{IEEE}, pp.
+  \bibinfo{pages}{177--180}.
 %Type = Article
 \bibitem[{Seung and Lee(2001)}]{seung2001algorithms}
 \bibinfo{author}{D.~Seung}, \bibinfo{author}{L.~Lee},
 \newblock \bibinfo{title}{Algorithms for non-negative matrix factorization},
 \newblock \bibinfo{journal}{Advances in neural information processing systems}
   \bibinfo{volume}{13} (\bibinfo{year}{2001}) \bibinfo{pages}{556--562}.
+%Type = Inproceedings
+\bibitem[{Weninger et~al.(2013)Weninger, Kirst, Schuller, and
+  Bungartz}]{weninger2013discriminative}
+\bibinfo{author}{F.~Weninger}, \bibinfo{author}{C.~Kirst},
+  \bibinfo{author}{B.~Schuller}, \bibinfo{author}{H.-J. Bungartz},
+\newblock \bibinfo{title}{A discriminative approach to polyphonic piano note
+  transcription using supervised non-negative matrix factorization},
+\newblock in: \bibinfo{booktitle}{Acoustics, Speech and Signal Processing
+  (ICASSP), 2013 IEEE International Conference on}, pp. \bibinfo{pages}{6--10}.
+%Type = Inproceedings
+\bibitem[{Abdallah and Plumbley(2004)}]{abdallah2004polyphonic}
+\bibinfo{author}{S.~A. Abdallah}, \bibinfo{author}{M.~D. Plumbley},
+\newblock \bibinfo{title}{Polyphonic music transcription by non-negative sparse
+  coding of power spectra},
+\newblock in: \bibinfo{booktitle}{Proc. 5th Int’l Conf. on Music Information
+  Retrieval (ISMIR)}, pp. \bibinfo{pages}{10--14}.
+%Type = Inproceedings
+\bibitem[{Boulanger-Lewandowski et~al.(2012)Boulanger-Lewandowski, Bengio, and
+  Vincent}]{boulangerlewandowski2012}
+\bibinfo{author}{N.~Boulanger-Lewandowski}, \bibinfo{author}{Y.~Bengio},
+  \bibinfo{author}{P.~Vincent},
+\newblock \bibinfo{title}{Discriminative non-negative matrix factorization for
+  multiple pitch estimation},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 13th International Society
+  for Music Information Retrieval Conference}, \bibinfo{address}{Porto,
+  Portugal}.
 %Type = Article
 \bibitem[{Hoyer(2004)}]{hoyer2004non}
 \bibinfo{author}{P.~O. Hoyer},
@@ -39,19 +80,13 @@
 \newblock \bibinfo{journal}{The Journal of Machine Learning Research}
   \bibinfo{volume}{5} (\bibinfo{year}{2004}) \bibinfo{pages}{1457--1469}.
 %Type = Inproceedings
-\bibitem[{Abdallah and Plumbley(2004)}]{abdallah2004polyphonic}
-\bibinfo{author}{S.~A. Abdallah}, \bibinfo{author}{M.~D. Plumbley},
-\newblock \bibinfo{title}{Polyphonic music transcription by non-negative sparse
-  coding of power spectra},
-\newblock in: \bibinfo{booktitle}{Proc. 5th Int’l Conf. on Music Information
-  Retrieval (ISMIR)}, pp. \bibinfo{pages}{10--14}.
-%Type = Article
-\bibitem[{Poliner and Ellis(2006)}]{poliner2006discriminative}
-\bibinfo{author}{G.~E. Poliner}, \bibinfo{author}{D.~P. Ellis},
-\newblock \bibinfo{title}{A discriminative model for polyphonic piano
-  transcription},
-\newblock \bibinfo{journal}{EURASIP Journal on Advances in Signal Processing}
-  \bibinfo{volume}{2007} (\bibinfo{year}{2006}).
+\bibitem[{Niedermayer(2008)}]{niedermayer2008non}
+\bibinfo{author}{B.~Niedermayer},
+\newblock \bibinfo{title}{Non-negative matrix division for the automatic
+  transcription of polyphonic music.},
+\newblock in: \bibinfo{editor}{J.~P. Bello}, \bibinfo{editor}{E.~Chew},
+  \bibinfo{editor}{D.~Turnbull} (Eds.), \bibinfo{booktitle}{ISMIR}, pp.
+  \bibinfo{pages}{544--549}.
 %Type = Inproceedings
 \bibitem[{Blei et~al.(2010)Blei, Cook, and Hoffman}]{blei2010bayesian}
 \bibinfo{author}{D.~M. Blei}, \bibinfo{author}{P.~R. Cook},

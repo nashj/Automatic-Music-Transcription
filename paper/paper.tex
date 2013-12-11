@@ -245,15 +245,15 @@ This method proposes restricting the problem to determining note onsets. This is
 
 \subsection{Non-negative matrix factorization}
 
-Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduction technique that factors a non-negative matrix $V$ with dimensions $F \times N$ into two matrices,
+Non-negative matrix factorization (NMF) is an unsupervised, dimensionality reduction technique that factors a non-negative matrix $V$ with dimensions $F \times N$ into two non-negative matrices $W$ and $H$.
 
 \[ V \approx WH \]
 
-\noindent where $W$ is an $F \times K$ matrix and $H$ is a $K \times N$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$.
+\noindent where $W$ is an $F \times K$ matrix and $H$ is a $K \times N$ matrix. $K$ is typically chosen so that $F*K + K*N << F*N$. 
 
-In piano transcription, for example, $V$ might be a spectrogram with dimensions $2048xN$, $W$ might be $2048x88$ and encode the spectral envelope for each piano key in each column of the matrix, and $H$ might be $88xN$ sparse piano roll matrix.
+Typically this factorization is performmed with the goal of recovering some useful structure or information from the matrix factors. NMF has been applied to polyphonic transcription and other applications \cite{smaragdis2003non}. NMF also has been used for feature extraction for use with other general-purpose classifiers (e.g. SVMs) for transcription.
 
-There are two cost functions commonly used for NMF. The first is a euclidean distance cost function, defined as the squared difference between the corresponding elements in each matrix:
+NMF is usually posed as a minimization problem. There are two cost functions commonly used for NMF. The first is a euclidean distance cost function, defined as the squared difference between the corresponding elements in each matrix:
 
 \[ \displaystyle ||V-WH||^{2} = \sum_{ij} (V_{ij} - (WH)_{ij})^{2} \]
 
@@ -261,8 +261,9 @@ There are two cost functions commonly used for NMF. The first is a euclidean dis
 
 \[ \displaystyle D(V||WH) = \sum_{ij} (V_{ij} \log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij}) \]
 
+
 % \citet{lee1999learning}
-The functions $||V-WH||^{2}$ and $D(V||WH)$ are convex in W only and H only, but they are not convex in W and H together. There is no known procedure for finding the global minimum of these functions, but \citet{seung2001algorithms} have proposed methods for updating W and H such that the measures above will decrease or remain constant after every update. Their paper proposes a multiplicative update rule and a gradient descent rule.
+The functions $||V-WH||^{2}$ and $D(V||WH)$ are convex in W only and H only, but they are not convex in W and H together. There is no known procedure for finding the global minimum of these functions, but \citet{seung2001algorithms} have proposed methods for updating W and H such that the cost functions above will decrease or remain constant after every update. Their paper proposes a multiplicative update rule and a gradient descent rule.
 
 The multiplicative update rule for improving the Euclidean distance error measure $||V-WH||^{2}$ is:
 
@@ -270,35 +271,46 @@ The multiplicative update rule for improving the Euclidean distance error measur
 
 \noindent Typically, $W$ and $H$ are initialized with random, nonnegative values and iterated until convergence. 
 
+\subsection{NMF for Piano Transcription}
+In piano transcription, $V$ might be a spectrogram with dimensions $2048 \times N$, with $N$ corresponding to the length of the song. $W$ might be $2048 \times 88$ and encode the spectral envelope for each piano key in each column of the matrix. Because of this structure, $W$ is sometimes referred to as a note dictionary matrix. $H$ might be $88 \times N$ sparse piano roll matrix. It is this strong interpretability of the matrix factors $W$,$H$ that makes NMF an attractive technique for transcription.  Since $H$ contains the desired note information for transcription, accurately recovering $H$ is the effective goal of NMF for piano transcription. After $H$ is recovered, post-processing such as smoothing and thresholding is usually applied to remove spurious activations and improve overall results.
 
 % Applying NMF to the piano transcription problem is not as straightforward as computing the above update rules. 
 
 There are a few problems applying NMF as it is presented above to the piano transcription problem:
 
-
 \begin{description}
-\item[$\bullet$] The algorithms from \citet{seung2001algorithms} require that the number of keys present in the song is specified in advance. While a full piano keyboard contains a constant 88 keys, a piano song will often only use a subset of all the keys. In practice, pre-selecting the $W$ matrix to find more keys than are present results in the algorithm discovering parts of notes or the same note at different points in the note's ADSR envelope; for example, the attack of a note can have a different spectral signature than its release. \citet{weninger2013discriminative} use this fact explicitly to learn notes at different points in the ADSR envelope using NMF as a preprocessing step to SVM classification. \citet{} uses cross-validation to select the appropriate number of keys.
+\item[$\bullet$] The algorithms from \citet{seung2001algorithms} require that the number of keys present in the song is specified in advance. While a full piano keyboard contains a constant 88 keys, a piano song will often only use a subset of all the keys. In practice, pre-selecting the $W$ matrix to find more keys than are present results in the algorithm discovering parts of notes or the same note at different points in the note's Attack-Decay-Sustain-Release (ADSR) envelope; for example, the attack of a note can have a different spectral signature than its release. \citet{weninger2013discriminative} use this fact explicitly to learn notes at different points in the ADSR envelope using NMF as a preprocessing step to SVM classification. \citet{} uses cross-validation to select the appropriate number of keys.
+\item[$\bullet$] There is no guarentee that a note will have a representation in $W$, even if it is present in the training data.
 \item[$\bullet$] The piano roll matrix $H$ and the spectrogram $V$ are large and often dense matrices, so convergence using the multiplicative update rules can take on the order of minutes on a modern laptop. 
-\item[$\bullet$] The notes represented in the $W$ and $H$ matrix are not ordered properly. \citet{} resorted to ordering the notes in $W$ by hand. 
+\item[$\bullet$] The notes represented in the $W$ and $H$ matrix are not ordered properly. Ordering does not affect raw performance but greatly detracts from the interpretability. One can attempt to estimate the pitch of the columns of $M$ and then sort. \citet{abdallah2004polyphonic} found that structuring the initial $W$ would lead to a correctly ordered output. \citet{boulangerlewandowski2012} resorted to ordering the notes in $W$ by inspection. 
 \end{description}
 
 \subsection{Sparse non-negative matrix factorization}
 
 One of the great side-effects of NMF is that it often produces a sparse, parts-based representation. This is desirable in music transcription because the piano roll matrix, $H$, is a sparse matrix of note activations. However, the NMF method does not contain an explicit sparsity objective, and so the update rules do not always converge to a sparse solution. \citet{hoyer2004non} extended NMF to contain a tunable sparsity objective. This sparse NMF method in \citet{hoyer2004non} was adopted by \citet{abdallah2004polyphonic} in their transcription system. 
 
+
 % Non-negative Matrix factorization
 
-\subsection{Supervised NMF}
+\subsection{Weakly Supervised NMF}
 
-In the previous NMF methods, we extracted both the note dictionary matrix and the piano roll from the spectrogram. In piano transcription, however, the dictionary matrix should be similar across multiple transcriptions. We can use 
+In the previous NMF methods, we extracted both the note dictionary matrix $W$ and the piano roll from the spectrogram. In piano transcription, however, the dictionary matrix should be similar across multiple transcriptions. We can guide the NMF process by explicity creating a dictionary matrix $W$ off-line. Not only does this alleviate the problem where notes aren't represented in $W$, but it does not require any manual or automatic sorting that is normally required when $W$ is produced by NMF. \citet{weninger2013discriminative} suggest that the W matrix may be constructed by performing NMF with rank one (i.e. K = 1) on recordings of isolated notes, once for each note. The first column of each $W$ matrix is concatenated to form a dictionary matrix for later transcription. One can also construct a dictionary matrix by directly concatenating normalized spectral features\cite{niedermayer2008non}.
 
+Some have suggested adding additional bases to $W$. For example, one could add multiple examples of the same note played on different pianos to prevent from overemphasizing the characterisics of a specific instrument [cite FINDTHIS]. \citet{weninger2013discriminative} found including different spectral features for the onset, sustain and decay of each note to be useful. In these cases, note activations from different bases but which correspond to the same pitch are summed to form $88 \times N$ piano roll matrix.
 
+Once $W$ is determined, the next step is to recover the piano roll matrix $H$. $W$ can be used as an initial value in a standard NMF formulation. Another way to recover $H$ is to use the standard multiplicative update rule for $H$ and skip the updating of $W$ since it is already known. \citet{niedermayer2008non} refers to this variant of NMF as Non-Negative Matrix \textit{Division}, as we're only estimating $H$ in the approximation.
+
+\subsection{Our Implementation}
+
+We implemented a NMF transcription system. We used constructed our $W$ matrix by concatenating spectra from training recording. We tried both a standard STFT spectrogram and constant Q transform spectrogram. We use the normalizations proposed by \citet{niedermayer2008non}. After creating the $W$ matrix, we calculate the $H$ matrix using the previously-defined multiplicative update rule. The $H$ matrix is smoothed using a median filter and thresholded. [TODO: Results]
 
 \subsection{Bayesian nonparametric models}
 One of the downsides of the NMF methods is that they require the number of notes (or sources) to be specified 
 
 
 \subsection{Smoothing}
+The raw output of many transcription techniques is often noisey and contains many short, spurious notes. Additionally, otherwise correctly transcribed notes may contain small unwanted gaps. Obviously these detracts from the quality of the transcription. Smoothing can be used to improve the transcription by removing the small errors described above. Some smoothing techniques are as simple as moving average or median filters, others take advantage of prior knowledge of the temporal structure of music.
+
 \subsubsection{HMM smoothing}
 In many of the techniques used (such as SVM's), notes at a single time step are classified independently of the notes at adjacent time steps. Since these methods do not take advantage of the temporal structure of piano music, hidden Markov models are often used for post-processing the output of the discriminative models. We model each note independently using a two-state HMM, where the states correspond to the note being on or off. The transition matrix and state priors can be estimated from the ground truth piano roll, while the emission matrix can be estimated using the output from the classifier as the observable variables. Applying the Viterbi algorithm to each note class results in a smoother piano roll that eliminates unlikely, spurious, isolated notes. 
 
