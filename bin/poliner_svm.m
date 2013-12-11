@@ -20,7 +20,7 @@ function [estimated_pr, pr] = poliner_svm()
   % Add the libsvm and midi libraries  
   addpath('../lib/libsvm');
   addpath('../lib/matlab-midi/src');
-  
+  shortener = 3000; %don't grab more than 3000 frames from each piano roll
   piano_low = 21;
   piano_high = 107;
   nn_total = linspace(piano_low,piano_high,87);
@@ -44,13 +44,13 @@ function [estimated_pr, pr] = poliner_svm()
     if isOctave
       [S, f, spec_t] = specgram(y, 2048, fs, hanning(.128*fs), 2048 - 160); % Needs to be spectrogram in MATLAB  
     else
-      [S, f, spec_t] = spectrogram(y, 2048, 2048-160, 2048, fs);
+      [S, f, spec_t] = spectrogram(y(:,1), 2048, 2048-160, 2048, fs);
     end
     magS = abs(S);
-    Spec_trains{i,1}=S;
+    Spec_trains{i,1}=S(:,1:shortener);
     Spec_trains{i,2}=f;
-    Spec_trains{i,3}=spec_t;
-    Spec_trains{i,4}=magS;
+    Spec_trains{i,3}=spec_t(1:shortener);
+    Spec_trains{i,4}=magS(:,1:shortener);
     %Also grab the associated midi file...
     prefix = strsplit(train_name_w,'.');
     prefix = prefix{1};
@@ -66,8 +66,8 @@ function [estimated_pr, pr] = poliner_svm()
     %widen piano rolls to go from 21 to 107
     pr = [zeros(nn(1)-piano_low,size(pr,2));pr];
     pr = [pr;zeros(piano_high-nn(end),size(pr,2))]; 
-    pr_trains{i,1} = pr;
-    pr_trains{i,2} = t;
+    pr_trains{i,1} = pr(:,1:shortener);
+    pr_trains{i,2} = t(:,1:shortener);
   end  
     
   for i=1:size(test_wavs,1)
@@ -99,7 +99,7 @@ function [estimated_pr, pr] = poliner_svm()
   end    
    
   %notes
-  pause
+  
   
   
   size(pr)
@@ -107,7 +107,7 @@ function [estimated_pr, pr] = poliner_svm()
   % sum(pr,2)
 
   % Only display a subset of the ground truth for comparison to computed piano roll later
-  subset = 1000;
+  subset = 2000;
   view_piano_roll(pr_tests{1,2}(1:subset),nn_total,pr_tests{1,1}(:,1:subset), 'Ground truth')
   %view_piano_roll(spec_t(1:subset), nn, estimated_pr(:,1:subset));
 
@@ -216,26 +216,13 @@ function [estimated_pr, pr] = poliner_svm()
 	    [predict_label, accuracy, dec] = svmpredict(rand(1), feature', svm_models{j},'-q');
 	    estimated_pr(j,i) = predict_label; % Converts -1 -> 0, 1 -> 1
         
-        %also evaluate svm on training wav file to get training_pr
-        midi_note_train = nn_total(j);
-        if (midi_note_train >= 21 && midi_note_train <= 83) %0-2K
-           feature = magS_long(1:256, i);
-        elseif (midi_note_train > 83 && midi_note_train <= 95) %1K-3K
-           feature = magS_long(129:384, i);          
-        else                                          %2K-4K
-           feature = magS_long(257:512, i);
-        end         
-        feature = feature - means{j}';
-        feature = feature./vars{j}'; 
-	    [predict_label, accuracy, dec] = svmpredict(rand(1), feature', svm_models{j},'-q');
-        training_pr(j,i) = predict_label;
-        
+
       end
   end
   
   view_piano_roll(Spec_tests{1,3}(1:subset), nn_total, estimated_pr(:,1:subset), 'SVM output');
   %if subset gets big, i'll have to do something else
-  view_piano_roll(Spec_trains{1,3}(1:subset), nn_total, training_pr(:,1:subset), 'training SVM output');
+  %view_piano_roll(Spec_trains{1,3}(1:subset), nn_total, training_pr(:,1:subset), 'training SVM output');
   
   fprintf('Running HMM on SVM output\n');
 
@@ -245,45 +232,49 @@ function [estimated_pr, pr] = poliner_svm()
   % Estimation of priors and transition matrix can be done using MIDI files (ground truth)
   % Estimation of emission matrix should be done using predict_label from SVM
   
-  notes_list = unique(notes_long(:,3)); %list of notes that are played on training data
-  true_labels = zeros(size(training_pr));
-  smooth_labels = zeros(size(training_pr));
-  smooth_labels = smooth_labels-1;
-  true_labels = bsxfun(@minus,true_labels,1); %initialize true_labels to -1
-
   for i=1:size(nn_total,2)
     fprintf('Smoothing note %d\n', i);
     cur_note = nn_total(i);
 
   % If cur_note is not actually played in song, skip it
-    if (isempty(find(notes_list == cur_note, 1)))
-        continue;
-    end
+
 
   % Estimate prior
-    on_times = notes_long(notes_long(:,3) == cur_note,:);
-    on_time_total = 0;
-    time_total = t(end); %using this as proxy for total length of time
-    for j = 1:size(on_times,1)
-        %sum the differences between on and off time of note to get total
-        %on_time
-        on_time_total = on_time_total + (on_times(j,6) - on_times(j,5));
-    end
+    on_frames =0;
+    off_frames =0;
+    prev_frame = 0;
+    trans_mat = zeros(2,2);
 
-    prior_on = on_time_total / time_total;
-    prior_off = 1 - prior_on;
+    for j=1:size(pr_long,2)
+        cur_frame = pr_long(i,j);
+        if cur_frame == 1
+            on_frames = on_frames+1;
+        else
+            off_frames = off_frames+1;
+        end
+        
+        if cur_frame == 0 && prev_frame == 0 
+            trans_mat(1,1) = trans_mat(1,1)+1;
+        elseif cur_frame == 1 && prev_frame == 0
+            trans_mat(1,2) = trans_mat(1,2)+1;
+        elseif cur_frame == 0 && prev_frame == 1
+            trans_mat(2,1) = trans_mat(2,1)+1;
+        elseif cur_frame == 1 && prev_frame == 1
+            trans_mat(2,2) = trans_mat(2,2)+1;
+        end
+        prev_frame = cur_frame;
+    end
+    
+    prior_on = on_frames / size(pr_long,2);
+    prior_off = off_frames /size(pr_long,2);
+    trans_mat = trans_mat/size(pr_long,2);
 
   % Estimate a transition matrix
   % Probability of becoming on from off should be total number of on's
   % divided by total number of off frames in song..? And vice versa as well
-    total_frames = time_total * 100;
     
-  % trans_mat(1,2) will be probability of going to on from off
-    trans_mat = zeros(2,2);
-    trans_mat(1,2) = size(on_times,1) / (prior_off*total_frames);
-    trans_mat(2,1) = size(on_times,1) / (prior_on*total_frames);
-    trans_mat(1,1) = 1 - trans_mat(1,2);
-    trans_mat(2,2) = 1 - trans_mat(2,1);
+  % trans_mat(1,2) will be probability of going from off to on
+
 
   % Estimate emission matrix
   
@@ -294,38 +285,16 @@ function [estimated_pr, pr] = poliner_svm()
   % frames completely in the range 14.872 to 16.128 should contain it.
   % this corresponds to frame 1488 through 1600
     
-    for j = 1:size(on_times,1)
-        start_frame = max(ceil((on_times(j,5)-0.128)*100),1);
-        end_frame = min(floor(on_times(j,6)*100),size(true_labels,2));
-        true_labels(i,start_frame:end_frame)=ones(1,end_frame-start_frame+1);
-    end
+
     %compare estimated_pr(i,j) with...true_labels(i,j)
     em_mat = zeros(2,2);
-    diffs = training_pr(i,1:subset)-true_labels(i,1:subset);
-    adds = training_pr(i,1:subset)+true_labels(i,1:subset);
-    em_mat(1,2)= sum(diffs==2);%true value is -1, estimated is 1
-    em_mat(2,1)= sum(diffs==-2);%true value is 1, estimated is -1
-    em_mat(1,1)= sum(adds==-2); %truevalue is -1, estimated is -1
-    if em_mat(1,1)+em_mat(2,1)==subset
-        continue; %then there's nothing to smooth
-    end
-    em_mat(2,2)= sum(adds==2);
-    if sum(em_mat(1,:))~=0
-        em_mat(1,:)=em_mat(1,:)/sum(em_mat(1,:));
-    else
-        continue;
-    end
-    if sum(em_mat(2,:))~=0
-        em_mat(2,:)=em_mat(2,:)/sum(em_mat(2,:));
-    else
-        continue;
-    end
+    em_mat = [0.95 ,0.05 ; 0.01,0.99 ];
     %SEQ must be 1's and 2's.
     SEQ = estimated_pr(i,1:subset);  
     SEQ(SEQ==1)=2;
     SEQ(SEQ==-1)=1;
     trans_mat
-    em_mat
+    
     
     STATES = hmmviterbi(SEQ,trans_mat,em_mat);
     STATES(STATES==1)=-1;
