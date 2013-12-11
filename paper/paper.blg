@@ -1,45 +1,11 @@
-This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
-The top-level auxiliary file: paper.aux
+This is BibTeX, Version 0.99dThe top-level auxiliary file: paper.aux
 The style file: model1-num-names.bst
 Database file #1: transcription.bib
-You've used 8 entries,
-            2616 wiz_defined-function locations,
-            633 strings with 5912 characters,
-and the built_in function-call counts, 4805 in all, are:
-= -- 404
-> -- 159
-< -- 9
-+ -- 63
-- -- 51
-* -- 533
-:= -- 712
-add.period$ -- 8
-call.type$ -- 8
-change.case$ -- 57
-chr.to.int$ -- 8
-cite$ -- 8
-duplicate$ -- 314
-empty$ -- 330
-format.name$ -- 83
-if$ -- 907
-int.to.chr$ -- 1
-int.to.str$ -- 1
-missing$ -- 61
-newline$ -- 46
-num.names$ -- 32
-pop$ -- 67
-preamble$ -- 1
-purify$ -- 57
-quote$ -- 0
-skip$ -- 120
-stack$ -- 0
-substring$ -- 278
-swap$ -- 262
-text.length$ -- 3
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 72
-warning$ -- 0
-while$ -- 40
-width$ -- 0
-write$ -- 110
+A bad cross reference---entry "niedermayer2008non"
+refers to entry "conf/ismir/2008", which doesn't exist
+Warning--I didn't find a database entry for "bank2003physically"
+Warning--I didn't find a database entry for "boogaart2009note"
+Warning--I didn't find a database entry for ""
+Warning--I didn't find a database entry for "conf/ismir/2008"
+Warning--empty pages in boulangerlewandowski2012
+(There was 1 error message)

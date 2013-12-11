@@ -186,14 +186,13 @@ end
 % Thresholding
 
 H4 = zeros(size(H));
-for i = 1:88
-    i
-    for j = 1:length(H)
-        %thresh = 1.5*std(H3(i,:));
-            thresh = std(H3(:, j));
 
-        H4(i, H3(i,:) > thresh ) = 1;
-    end
+for i = 1:88
+
+	thresh = std(H3(i,:));
+
+	H4(i, H3(i,:) > thresh ) = 1;
+
 end
 
 

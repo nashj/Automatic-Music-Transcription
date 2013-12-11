@@ -2,59 +2,90 @@
 \emailauthor{nashj@umich.edu}{Jeremy Nash}
 \emailauthor{pschro@umich.edu}{Paul Schroeder}
 \emailauthor{markmliu@umich.edu}{Mark Liu}
-\citation{stevens1937scale}
-\citation{bock2012polyphonic}
+\citation{bank2003physically}
 \Newlabel{eadd}{a}
 \Newlabel{csadd}{b}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Terminology}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Motivation}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Problem Statement}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Related Work}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Methodologies}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Audio data}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Spectrogram}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Constant Q transform}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Semitone filter bank}{1}}
-\citation{lee1999learning}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Piano physics}{1}}
+\citation{stevens1937scale}
+\citation{bock2012polyphonic}
+\citation{poliner2006discriminative}
+\citation{nam2011classification}
+\citation{boogaart2009note}
+\citation{smaragdis2003non}
 \citation{seung2001algorithms}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Related Work}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Methodologies}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Audio data}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Spectrogram}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Constant Q transform}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Note onset detection}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Discriminative models}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}SVM}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Restricted Boltzmann machine}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Boosted classifier}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Feed forward neural network}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Non-negative matrix factorization}{2}}
+\citation{seung2001algorithms}
+\citation{weninger2013discriminative}
+\citation{}
+\citation{abdallah2004polyphonic}
+\citation{boulangerlewandowski2012}
 \citation{hoyer2004non}
 \citation{hoyer2004non}
 \citation{abdallah2004polyphonic}
+\newlabel{fig:pianorollsong}{{1(a)}{3}}
+\newlabel{sub@fig:pianorollsong}{{(a)}{3}}
+\newlabel{fig:brim2ud}{{1(b)}{3}}
+\newlabel{sub@fig:brim2ud}{{(b)}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces (a) shows the piano roll generated from a MIDI file. (b) shows a spectrogram of the wav file using the constant Q transform with a step size of 10ms. One can immediately see the similarity in the shape of the two plots, although the transcription process is complicated by the overlapping frequencies, changing volume, and noise in the spectrogram plot.}}{3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11}NMF for Piano Transcription}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12}Sparse non-negative matrix factorization}{3}}
+\citation{weninger2013discriminative}
+\citation{niedermayer2008non}
+\citation{weninger2013discriminative}
+\citation{niedermayer2008non}
+\citation{niedermayer2008non}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.13}Weakly Supervised NMF}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.14}Our Implementation}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.15}Bayesian nonparametric models}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.16}Smoothing}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.16.1}HMM smoothing}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.16.2}Probabilistic spectral smoothness}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.17}Recurrent neural network}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}MIDI databases}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Evaluation measures}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Overall accuracy}{4}}
 \citation{poliner2006discriminative}
 \citation{blei2010bayesian}
 \citation{abdallah2004polyphonic}
 \citation{poliner2006discriminative}
 \citation{bock2012polyphonic}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Note onset detection}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Discriminative models}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}SVM}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Feed forward neural network}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Non-negative matrix factorization}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Sparse non-negative matrix factorization}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.11}Bayesian nonparametric models}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.12}Smoothing}{2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.12.1}HMM smoothing}{2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.12.2}Probabilistic spectral smoothness}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.13}Recurrent neural network}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}MIDI databases}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Evaluation measures}{2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}}{2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Frame-level transcription error score}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Method comparison}{2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}Reported measures}{2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}Our evaluation}{2}}
 \citation{bock2012polyphonic}
 \bibstyle{model1-num-names}
 \bibdata{transcription}
 \bibcite{stevens1937scale}{{1}{1937}{{Stevens et~al.}}{{Stevens, Volkmann, and Newman}}}
 \bibcite{bock2012polyphonic}{{2}{2012}{{Bock and Schedl}}{{}}}
-\bibcite{lee1999learning}{{3}{1999}{{Lee and Seung}}{{}}}
-\bibcite{seung2001algorithms}{{4}{2001}{{Seung and Lee}}{{}}}
-\bibcite{hoyer2004non}{{5}{2004}{{Hoyer}}{{}}}
-\bibcite{abdallah2004polyphonic}{{6}{2004}{{Abdallah and Plumbley}}{{}}}
-\bibcite{poliner2006discriminative}{{7}{2006}{{Poliner and Ellis}}{{}}}
-\bibcite{blei2010bayesian}{{8}{2010}{{Blei et~al.}}{{Blei, Cook, and Hoffman}}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Individual Effort}{3}}
+\bibcite{poliner2006discriminative}{{3}{2006}{{Poliner and Ellis}}{{}}}
+\bibcite{nam2011classification}{{4}{2011}{{Nam et~al.}}{{Nam, Ngiam, Lee, and Slaney}}}
+\bibcite{smaragdis2003non}{{5}{2003}{{Smaragdis and Brown}}{{}}}
+\bibcite{seung2001algorithms}{{6}{2001}{{Seung and Lee}}{{}}}
+\bibcite{weninger2013discriminative}{{7}{2013}{{Weninger et~al.}}{{Weninger, Kirst, Schuller, and Bungartz}}}
+\bibcite{abdallah2004polyphonic}{{8}{2004}{{Abdallah and Plumbley}}{{}}}
+\bibcite{boulangerlewandowski2012}{{9}{2012}{{Boulanger-Lewandowski et~al.}}{{Boulanger-Lewandowski, Bengio, and Vincent}}}
+\bibcite{hoyer2004non}{{10}{2004}{{Hoyer}}{{}}}
+\bibcite{niedermayer2008non}{{11}{2008}{{Niedermayer}}{{}}}
+\bibcite{blei2010bayesian}{{12}{2010}{{Blei et~al.}}{{Blei, Cook, and Hoffman}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Frame-level transcription error score}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}Note Onset Detection}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Method comparison}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.4.1}Reported measures}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.4.2}Our evaluation}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Individual Effort}{5}}
