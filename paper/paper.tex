@@ -87,7 +87,7 @@ Timbre represents the spectral envelope, time envelope, noise, tonality, and ons
 
 Pitches are represented by the notes used in musical notation. Pitches are a psychological perception and not an objective physical property. While we can intuitively assign a linear order to pitches (by referring to pitches as lower or higher than other pitches), pitches are rarely a single frequency and are instead a function of their timbre.
 
-Polyphony means multiple simultaneous notes. Monophony means only a single note at a time. These terms carry slightly different meanings outside of automated transcription research.
+Polyphony means multiple simultaneous notes. Mono-phony means only a single note at a time. These terms carry slightly different meanings outside of automated transcription research.
 
 \section{Motivation}
 % No more than one page
@@ -160,7 +160,7 @@ The physical description of sound production in a piano is complex. \citet{bank2
 There are currently two main approaches to polyphonic music transcription. The first approach learns a supervised learning model that uses frequency magnitudes to predict the presence of a note. The second approach uses unsupervised learning techniques to simultaneously extract notes and a musical score from a spectrogram. The following sections detail the most popular techniques within these general approaches.
 
 \subsection{Audio data}
-Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying the controlling and playing of digital instruments. A MIDI specifies the instruments, notes, volumes and the other information needed to digitally synthesize(sp?) a song. MIDI files may specify a type of instrument but the exact sonic characteristics of the virtual instrument are defined by the synthesizer. That is, two identical midi files played with different sythnesizers may sound different.
+Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying the controlling and playing of digital instruments. A MIDI specifies the instruments, notes, volumes and the other information needed to digitally synthesize a song. MIDI files may specify a type of instrument but the exact sonic characteristics of the virtual instrument are defined by the synthesizer. That is, two identical midi files played with different sythnesizers may sound different.
 
 MIDI is an eminently useful technology for the development of transcription technology. It contains both the time-coded note information and is capable of producing the corresponding audio file, which are respectively the output and input of the transcription system. Having raw audio and note information that are time-aligned is important as the note information can act as the labels in supervised learning.
 
@@ -217,11 +217,11 @@ This method proposes restricting the problem to determining note onsets. This is
 Applying discriminative machine learning models to detect notes is a dominant approach in transcription research. A discriminative model can be learned for each note (for pianos, 88 classifiers) over the frequency magnitudes of the song's spectrogram. Each note classifier outputs whether the note is present or absent at each time step determined by the time step used in the spectrogram. Many researchers have chosen nonlinear or kernel-based methods due to the complexity of the input space.
 
 \subsection{SVM}
-
-
-
 % use support vector machines to predict note presence or absence at 10ms time steps based on
-\citet{poliner2006discriminative} first used short-time Fourier transforms were applied to the audio data.  Then,  87(they omit the highest note) one-versus-all (OVA) SVM classifiers were trained, one for each note.  The SVM's were then used to predict the test data, and HMM's were used for post-process smoothing.
+
+
+\citet{poliner2006discriminative} first proposed applying support vector machines to piano transcription. Their system uses 87 SVM classifiers, one for each piano key (but omitting the highest piano key), that predicts if its note is present or absent given the frequency magnitudes at a given time step. The SVMs are trained in a one-versus-all fashion. To speed up training and testing, the input space of frequency magnitudes is partitioned into lower and higher frequencies for the lower note and higher note classifiers, respectively. Their paper also implements a hidden Markov model to smooth the raw outputs from the SVMs.
+
 % one vs all
 % frequency partition
 
@@ -242,8 +242,8 @@ To increase the previous system's robustness to noise, \citet{nam2011classificat
 \label{fig:stftdict}
 }
 \subfigure[]{
-\includegraphics[scale=.6]{cqt-dictionary}
-\label{fig:cqtdict}
+\includegraphics[scale=.6]{H-matrix}
+\label{fig:H-matrix}
 }
 \end{center}
 \caption{ Two W dictionary matrices computed for the supervised NMF method. Each column represents the spectral signature of a piano note. (a) The W dictionary matrix computed using an STFT. (b) The W dictionary matrix computed using constant Q transform.}
@@ -306,7 +306,7 @@ Once $W$ is determined, the next step is to recover the piano roll matrix $H$. $
 
 \subsection{Our Implementation}
 
-We implemented a NMF transcription system. We used constructed our $W$ matrix by concatenating spectra from training recording. We tried both a standard STFT spectrogram and constant Q transform spectrogram. We use the normalizations proposed by \citet{niedermayer2008non}. After creating the $W$ matrix, we calculate the $H$ matrix using the previously-defined multiplicative update rule. The $H$ matrix is smoothed using a median filter and thresholded. [TODO: Results]
+We implemented a NMF transcription system. We used constructed our $W$ matrix by concatenating spectra from training recording. We tried both a standard STFT spectrogram and constant Q transform spectrogram. We use the normalizations proposed by \citet{niedermayer2008non}. After creating the $W$ matrix, we calculate the $H$ matrix using the previously-defined multiplicative update rule. The $H$ matrix is smoothed using a median filter and thresholded. 
 
 \subsection{Bayesian nonparametric models}
 One of the downsides of the NMF methods is that they require the number of notes (or sources) to be specified in advance. In piano transcription, we know that there are a constant 88 keys, but it is very often the case that only a subset of all keys will be used in a given song. Choosing the number of sources to be 88 in this case often results in duplicate notes or parts of notes in the dictionary matrix. \citet{blei2010bayesian} offers a Bayesian nonparametric method for transcription, similar to topic modeling, that automatically determines the appropriate number of sources.
@@ -382,22 +382,26 @@ AdaBoost & 75.2\% & - \\ \hline
 
 \subsubsection{Our evaluation}
 
-The following table captures our evaluation of these methods. We expect these accuracy measures to be lower than they were reported in the original papers because we are using a smaller training dataset and not attempting to optimize the methods.
+Table \ref{table:ourevals} captures our evaluation of these methods. We expect these accuracy measures to be lower than they were reported in the original papers because we are using a smaller training dataset and not attempting to optimize the methods.
 
 \begin{center}
+\label{table:ourevals}
 \begin{tabular}{|l|l|l|}
 \hline
+
 Algorithm & Accuracy & $E_{tot}$ \\ \hline
 SVM & 51.7\% & 84.7  \\ \hline
 SVM with HMM & 62.7\% & 53.8  \\ \hline
 Sup. NMF & 30.4\% & 92.4 \\ \hline
 AdaBoost & 42.5\% & 113.9 \\ \hline
+
 \end{tabular}
+
 \end{center}
 
 \section{Conclusion}
 
-We achieved the best results with...
+We achieved the best accuracy with the SVM method with HMM smoothing from \citet{poliner2006discriminative}. 
 
 
 % Which method is fastest
