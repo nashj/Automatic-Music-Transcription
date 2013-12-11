@@ -119,9 +119,6 @@ Applications of a music transcription are versatile. Transcription produces a co
 
 % Explain like you're at a whiteboard
 
-
-
-
 % Here's why people want to do this
 % Study of music - understanding music
 % recommender systems
@@ -172,8 +169,11 @@ This is typically the lowest
 There are currently two main approaches to polyphonic music transcription. The first approach learns a supervised learning model that uses frequency magnitudes to predict the presence of a note. The second approach uses unsupervised learning techniques to extract
 
 \subsection{Audio data}
+Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying the controlling and playing of digital instruments. A MIDI specifies the instruments, notes, volumes and the other information needed to digitally synthesize(sp?) a song. MIDI files may specify a type of instrument but the exact sonic characteristics of the virtual instrument are defined by the synthesizer. That is, two identical midi files played with different sythnesizers may sound different.
 
-Our training data comes from a large database of piano MIDI files. MIDI is a standard for specifying...
+MIDI is an eminently useful technology for the development of transcription technology. It contains both the time-coded note information and is capable of producing the corresponding audio file, which are respectively the output and input of the transcription system. Having raw audio and note information that are time-aligned is important as the note information can act as the labels in supervised learning.
+
+Digital audio can be stored using WAV files. WAV files are uncompressed and directly store digital audio samples. A typical WAV file is at CD quality: 16 bit samples at 44.1 KSa/s. We found that many transcription techniques downsample the audio (e.g. to 8 or 16 KSa/s) before processing, with the idea being that the higher frequency information lost in downsampling is not useful for transcription and that transcription is faster with fewer samples to process \citet{}.
 %musical score
 %While MIDI specifies the type of instrument, 
 % MIDI instrument not specified in the file 
@@ -257,7 +257,7 @@ This method proposes restricting the problem to determining note onsets. This is
 \label{fig:cqtdict}
 }
 \end{center}
-\caption{(a) shows the W dictionary matrix computed for the supervised NMF method. Each column represents the spectral signature of a piano note. Notice how the base frequencies follow an exponential curve. (b) shows the H piano roll matrix output from the supervised NMF method.}
+\caption{ Two W dictionary matrices computed for the supervised NMF method. Each column represents the spectral signature of a piano note. (a) The W dictionary matrix computed using an STFT. (b) The W dictionary matrix computed using constant Q transform.}
 \end{figure*}
 
 \subsection{Non-negative matrix factorization}

@@ -1,11 +1,56 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: paper.aux
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: paper.aux
 The style file: model1-num-names.bst
 Database file #1: transcription.bib
+Repeated entry---line 156 of file transcription.bib
+ : @inproceedings{weninger2013discriminative
+ :                                          ,
+I'm skipping whatever remains of this entry
 A bad cross reference---entry "niedermayer2008non"
 refers to entry "conf/ismir/2008", which doesn't exist
-Warning--I didn't find a database entry for "bank2003physically"
-Warning--I didn't find a database entry for "boogaart2009note"
 Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "conf/ismir/2008"
 Warning--empty pages in boulangerlewandowski2012
-(There was 1 error message)
+You've used 13 entries,
+            2616 wiz_defined-function locations,
+            660 strings with 7252 characters,
+and the built_in function-call counts, 8439 in all, are:
+= -- 680
+> -- 319
+< -- 15
++ -- 126
+- -- 105
+* -- 936
+:= -- 1236
+add.period$ -- 13
+call.type$ -- 13
+change.case$ -- 101
+chr.to.int$ -- 13
+cite$ -- 14
+duplicate$ -- 552
+empty$ -- 582
+format.name$ -- 153
+if$ -- 1611
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 106
+newline$ -- 71
+num.names$ -- 54
+pop$ -- 131
+preamble$ -- 1
+purify$ -- 99
+quote$ -- 0
+skip$ -- 219
+stack$ -- 0
+substring$ -- 453
+swap$ -- 464
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 117
+warning$ -- 1
+while$ -- 67
+width$ -- 0
+write$ -- 178
+(There were 2 error messages)

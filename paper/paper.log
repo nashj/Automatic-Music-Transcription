@@ -1,24 +1,17 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2013.12.10)  11 DEC 2013 01:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.12.2)  11 DEC 2013 12:27
 entering extended mode
-**M:/git/Automatic-Music-Transcription/paper/paper.tex
-(M:/git/Automatic-Music-Transcription/paper/paper.tex
-LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
-vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
-an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
-romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
-sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
-senglishmax, welsh, loaded.
-(M:\git\Automatic-Music-Transcription\paper\elsarticle.cls
+ \write18 enabled.
+ %&-line parsing enabled.
+**paper.tex
+(./paper.tex
+LaTeX2e <2011/06/27>
+Babel <3.9f> and hyphenation patterns for 2 languages loaded.
+(./elsarticle.cls
 Document Class: elsarticle 2009/09/17, 1.20b: Elsevier Ltd
 \@bls=\dimen102
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\base\article.cls"
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\base\size10.clo"
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -33,48 +26,48 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen103
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count87
 ))
 \Gin@req@height=\dimen104
 \Gin@req@width=\dimen105
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\psnfss\pifont.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/pifont.sty
 Package: pifont 2005/04/12 PSNFSS-v9.2a Pi font support (SPQR) 
 LaTeX Font Info:    Try loading font information for U+pzd on input line 63.
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\psnfss\upzd.fd"
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
 LaTeX Font Info:    Try loading font information for U+psy on input line 64.
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\psnfss\upsy.fd"
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/upsy.fd
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 ))
 \c@tnote=\count88
@@ -94,9 +87,8 @@ File: upsy.fd 2001/06/04 font definitions for U/psy.
 \@enLab=\toks16
 \@sep=\skip43
 \@@sep=\skip44
-
-(M:\git\Automatic-Music-Transcription\paper\paper.spl)
-(C:\Users\pschro\AppData\Roaming\MiKTeX\2.9\tex\latex\natbib\natbib.sty
+ (./paper.spl)
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip45
 \bibsep=\skip46
@@ -104,19 +96,21 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count94
 )
 \splwrite=\write3
+\openout3 = `paper.spl'.
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
-Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count95
@@ -131,36 +125,35 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layouthoffset=\dimen115
 \Gm@layoutvoffset=\dimen116
 \Gm@dimlist=\toks17
-
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\base\fleqn.clo"
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fleqn.clo
 File: fleqn.clo 1998/08/17 v1.1c Standard LaTeX option (flush left equations)
 \mathindent=\dimen117
 )
 \appnamewidth=\dimen118
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf.sty
 Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
-Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
-Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 ))
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
-Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
-Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
-Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
@@ -169,8 +162,9 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
@@ -180,42 +174,46 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 452.
-))
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\ams\math\amsmath.sty"
-Package: amsmath 2000/07/18 v2.13 AMS math features
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip47
 
 For additional information on amsmath, use the `?' option.
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\ams\math\amstext.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\ams\math\amsgen.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks18
 \ex@=\dimen119
 ))
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\ams\math\amsbsy.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen120
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\ams\math\amsopn.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count98
-LaTeX Info: Redefining \frac on input line 211.
+LaTeX Info: Redefining \frac on input line 210.
 \uproot@=\count99
 \leftroot@=\count100
-LaTeX Info: Redefining \overline on input line 307.
+LaTeX Info: Redefining \overline on input line 306.
 \classnum@=\count101
 \DOTSCASE@=\count102
-LaTeX Info: Redefining \ldots on input line 379.
-LaTeX Info: Redefining \dots on input line 382.
-LaTeX Info: Redefining \cdots on input line 467.
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
 \Mathstrutbox@=\box30
 \strutbox@=\box31
 \big@size=\dimen121
-LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \macc@depth=\count103
 \c@MaxMatrixCols=\count104
 \dotsspace@=\muskip10
@@ -236,16 +234,16 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \multlinegap=\skip48
 \multlinetaggap=\skip49
 \mathdisplay@stack=\toks22
-LaTeX Info: Redefining \[ on input line 2666.
-LaTeX Info: Redefining \] on input line 2667.
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
 )
-(C:\Users\pschro\AppData\Roaming\MiKTeX\2.9\tex\latex\mhchem\mhchem.sty
-Package: mhchem 2013/06/17 v3.12 for typesetting chemical formulae
+(/usr/share/texlive/texmf-dist/tex/latex/mhchem/mhchem.sty
+Package: mhchem 2011/06/03 v3.11 for typesetting chemical formulae
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\tools\calc.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count110
 \calc@Bcount=\count111
@@ -258,87 +256,87 @@ LaTeX Info: Redefining \addtolength on input line 77.
 \calc@Ccount=\count112
 \calc@Cskip=\skip52
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\oberdiek\twoopt.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/twoopt.sty
 Package: twoopt 2008/08/11 v1.5 Definitions with two optional arguments (HO)
 )
-\mhchem@ce@result=\toks23
-\mhchem@ce@part=\toks24
-\mhchem@arrow@deployType=\toks25
-\mhchem@arrow@params=\toks26
-\mhchem@arrowlength@pgf=\skip53
-\mhchem@bondwidth=\skip54
-\mhchem@bondheight=\skip55
-\mhchem@smallbondwidth@tmpA=\skip56
-\mhchem@smallbondwidth@tmpB=\skip57
-\mhchem@smallbondwidth=\skip58
-\mhchem@cf@result=\toks27
-\mhchem@cf@element=\toks28
-\mhchem@cf@amount=\toks29
-\mhchem@cf@sup=\toks30
-\mhchem@cf@presub=\toks31
-\mhchem@cf@presup=\toks32
-\mhchem@cf@replaceMath@result=\toks33
-\mhchem@cf@replaceMathMinusDot@result=\toks34
-\mhchem@prepostscript@tmp@i=\skip59
-\mhchem@prepostscript@tmp@ii=\skip60
-\mhchem@mathbox@tmp@i=\skip61
-\mhchem@mathbox@tmp@ii=\skip62
-\mhchem@minispace@tmp=\skip63
-\mhchem@option@minussidebearingleft=\skip64
-\mhchem@option@minussidebearingright=\skip65
+\tok@mhchem@ce@iii=\toks23
+\mhchem@arrowminlength=\skip53
+\mhchem@arrows@box=\box32
+\mhchem@arrowlength@pgf=\skip54
+\mhchem@arrowminlength@pgf=\skip55
+\mhchem@bondwidth=\skip56
+\mhchem@bondheight=\skip57
+\mhchem@smallbondwidth@tmpA=\skip58
+\mhchem@smallbondwidth@tmpB=\skip59
+\mhchem@smallbondwidth=\skip60
+\mhchem@cf@result=\toks24
+\mhchem@cf@element=\toks25
+\mhchem@cf@amount=\toks26
+\mhchem@cf@sup=\toks27
+\mhchem@cf@presub=\toks28
+\mhchem@cf@presup=\toks29
+\mhchem@cf@replaceMath@result=\toks30
+\mhchem@cf@replaceMathMinusDot@result=\toks31
+\mhchem@prepostscript@tmp@i=\skip61
+\mhchem@prepostscript@tmp@ii=\skip62
+\mhchem@mathbox@tmp@i=\skip63
+\mhchem@mathbox@tmp@ii=\skip64
+\mhchem@minispace@tmp=\skip65
+\mhchem@option@minussidebearingleft=\skip66
+\mhchem@option@minussidebearingright=\skip67
 
 
 Package mhchem Warning: You did not specify a 'version' option for the mhchem
 (mhchem)                package. If you are about to create a new document,
-(mhchem)                please write \usepackage[version=3]{mhchem} in your
-(mhchem)                preamble in order to use the most recent version of
-(mhchem)                mhchem.
+(mhchem)                please write \usepackage[version=3]{mhchem} in your pre
+amble in
+(mhchem)                order to use the most recent version of mhchem.
 
-) ("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
+) (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 )
-(C:\Users\pschro\AppData\Roaming\MiKTeX\2.9\tex\latex\colortbl\colortbl.sty
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\tools\array.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen130
 \extrarowheight=\dimen131
-\NC@list=\toks35
-\extratabsurround=\skip66
-\backup@length=\skip67
+\NC@list=\toks32
+\extratabsurround=\skip68
+\backup@length=\skip69
 )
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\graphics\color.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
-("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 130.
 )
-\everycr=\toks36
-\minrowclearance=\skip68
+\everycr=\toks33
+\minrowclearance=\skip70
 )
-(C:\Users\pschro\AppData\Roaming\MiKTeX\2.9\tex\latex\fancyhdr\fancyhdr.sty
-\fancy@headwidth=\skip69
-\f@ncyO@elh=\skip70
-\f@ncyO@erh=\skip71
-\f@ncyO@olh=\skip72
-\f@ncyO@orh=\skip73
-\f@ncyO@elf=\skip74
-\f@ncyO@erf=\skip75
-\f@ncyO@olf=\skip76
-\f@ncyO@orf=\skip77
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip71
+\f@ncyO@elh=\skip72
+\f@ncyO@erh=\skip73
+\f@ncyO@olh=\skip74
+\f@ncyO@orh=\skip75
+\f@ncyO@elf=\skip76
+\f@ncyO@erf=\skip77
+\f@ncyO@olf=\skip78
+\f@ncyO@orf=\skip79
 )
-(C:\Users\pschro\AppData\Roaming\MiKTeX\2.9\tex\latex\subfigure\subfigure.sty
-Package: subfigure 2002/07/30 v2.1.4 subfigure package
-\subfigtopskip=\skip78
-\subfigcapskip=\skip79
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip80
+\subfigcapskip=\skip81
 \subfigcaptopadj=\dimen132
-\subfigbottomskip=\skip80
+\subfigbottomskip=\skip82
 \subfigcapmargin=\dimen133
-\subfiglabelskip=\skip81
+\subfiglabelskip=\skip83
 \c@subfigure=\count113
 \c@lofdepth=\count114
 \c@subtable=\count115
@@ -347,13 +345,14 @@ Package: subfigure 2002/07/30 v2.1.4 subfigure package
 ****************************************
 * Local config file subfigure.cfg used *
 ****************************************
-(C:\Users\pschro\AppData\Roaming\MiKTeX\2.9\tex\latex\subfigure\subfigure.cfg)
-\subfig@top=\skip82
-\subfig@bottom=\skip83
-) ("Q:\PROTEXT.3\MiKTeX 2.9\tex\latex\tools\multicol.sty"
-Package: multicol 2008/12/05 v1.6h multicolumn formatting (FMi)
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip84
+\subfig@bottom=\skip85
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
 \c@tracingmulticols=\count117
-\mult@box=\box32
+\mult@box=\box33
 \multicol@leftmargin=\dimen134
 \c@unbalance=\count118
 \c@collectmore=\count119
@@ -364,15 +363,14 @@ Package: multicol 2008/12/05 v1.6h multicolumn formatting (FMi)
 \page@free=\dimen136
 \premulticols=\dimen137
 \postmulticols=\dimen138
-\multicolsep=\skip84
-\multicolbaselineskip=\skip85
-\partial@page=\box33
-\last@line=\box34
-\mult@rightbox=\box35
-\mult@grightbox=\box36
-\mult@gfirstbox=\box37
-\mult@firstbox=\box38
-\@tempa=\box39
+\multicolsep=\skip86
+\multicolbaselineskip=\skip87
+\partial@page=\box34
+\last@line=\box35
+\mult@rightbox=\box36
+\mult@grightbox=\box37
+\mult@gfirstbox=\box38
+\mult@firstbox=\box39
 \@tempa=\box40
 \@tempa=\box41
 \@tempa=\box42
@@ -389,28 +387,45 @@ Package: multicol 2008/12/05 v1.6h multicolumn formatting (FMi)
 \@tempa=\box53
 \@tempa=\box54
 \@tempa=\box55
+\@tempa=\box56
 \c@columnbadness=\count123
 \c@finalcolumnbadness=\count124
 \last@try=\dimen139
 \multicolovershoot=\dimen140
 \multicolundershoot=\dimen141
-\mult@nat@firstbox=\box56
-\colbreak@box=\box57
-)
-(M:\git\Automatic-Music-Transcription\paper\paper.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
+\mult@nat@firstbox=\box57
+\colbreak@box=\box58
+\multicol@sort@counter=\count125
+) (./paper.aux)
+\openout1 = `paper.aux'.
 
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count126
+\scratchdimen=\dimen142
+\scratchbox=\box59
+\nofMPsegments=\count127
+\nofMParguments=\count128
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count129
+\MPscratchDim=\dimen143
+\MPnumerator=\count130
+\makeMPintoPDFobject=\count131
+\everyMPtoPDFconversion=\toks35
+)
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -448,90 +463,96 @@ LaTeX Font Info:    ... okay on input line 13.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-Overfull \hbox (18.82465pt too wide) in paragraph at lines 88--89
+Overfull \hbox (18.82465pt too wide) in paragraph at lines 90--91
 []\OT1/cmr/m/n/10 Polyphony means mul-ti-ple si-mul-ta-ne-ous notes. Monophony
  []
 
 
-Overfull \hbox (5.76894pt too wide) in paragraph at lines 98--99
+Overfull \hbox (5.76894pt too wide) in paragraph at lines 100--101
 []\OT1/cmr/m/n/10 Applications of a mu-sic tran-scrip-tion are ver-sa-tile. Tra
 n-
  []
 
-
-Package natbib Warning: Citation `bank2003physically' on page 1 undefined on in
-put line 154.
-
-[1{C:/Users/pschro/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+[1{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Overfull \hbox (0.27826pt too wide) in paragraph at lines 195--196
+Overfull \hbox (0.27826pt too wide) in paragraph at lines 197--198
 \OT1/cmr/m/n/10 pro-cess-ing step be-fore ap-ply-ing their spe-cial-ized al-go-
 rithm.
  []
 
-<pianorollsong.pdf, id=14, 420.57124pt x 316.18124pt>
+<pianorollsong.pdf, id=15, 420.57124pt x 316.18124pt>
 File: pianorollsong.pdf Graphic file (type pdf)
  <use pianorollsong.pdf>
-Package pdftex.def Info: pianorollsong.pdf used on input line 203.
+Package pdftex.def Info: pianorollsong.pdf used on input line 205.
 (pdftex.def)             Requested size: 252.3447pt x 189.7102pt.
 
-<brim2ud.pdf, id=15, 420.57124pt x 316.18124pt>
+<brim2ud.pdf, id=16, 420.57124pt x 316.18124pt>
 File: brim2ud.pdf Graphic file (type pdf)
  <use brim2ud.pdf>
-Package pdftex.def Info: brim2ud.pdf used on input line 207.
+Package pdftex.def Info: brim2ud.pdf used on input line 209.
 (pdftex.def)             Requested size: 252.3447pt x 189.7102pt.
 
+Overfull \hbox (2.4727pt too wide) in paragraph at lines 242--243
+[]\OT1/cmr/m/n/10 Boogaart and Lien-hart [][][] pro-poses a cas-cade of boosted
 
-Package natbib Warning: Citation `boogaart2009note' on page 2 undefined on inpu
-t line 240.
+ []
 
+<stft-dictionary.pdf, id=17, 420.57124pt x 316.18124pt>
+File: stft-dictionary.pdf Graphic file (type pdf)
 
-Overfull \hbox (3.32344pt too wide) in paragraph at lines 256--257
+<use stft-dictionary.pdf>
+Package pdftex.def Info: stft-dictionary.pdf used on input line 254.
+(pdftex.def)             Requested size: 252.3447pt x 189.7102pt.
+
+<cqt-dictionary.pdf, id=18, 420.57124pt x 316.18124pt>
+File: cqt-dictionary.pdf Graphic file (type pdf)
+
+<use cqt-dictionary.pdf>
+Package pdftex.def Info: cqt-dictionary.pdf used on input line 258.
+(pdftex.def)             Requested size: 252.3447pt x 189.7102pt.
+ [2]
+Overfull \hbox (3.32344pt too wide) in paragraph at lines 273--274
 []\OT1/cmr/m/n/10 NMF is usu-ally posed as a min-i-miza-tion prob-lem. There
  []
 
-[2] [3 <M:/git/Automatic-Music-Transcription/paper/pianorollsong.pdf> <M:/git/A
-utomatic-Music-Transcription/paper/brim2ud.pdf>] [4]
-Overfull \hbox (7.07553pt too wide) in paragraph at lines 398--399
-[]\OT1/cmr/m/n/10 implemented the LSTM net-work in Bock and Schedl
+[3 <./pianorollsong.pdf> <./brim2ud.pdf>] [4 <./stft-dictionary.pdf> <./cqt-dic
+tionary.pdf>] [5]
+Overfull \hbox (2.88943pt too wide) in paragraph at lines 415--416
+\OT1/cmr/m/n/10 tion method in Ab-dal-lah and Plumb-ley [][][] and wrote
  []
 
-(M:\git\Automatic-Music-Transcription\paper\paper.bbl
+(./paper.bbl
 Missing character: There is no â in font cmr8!
 Missing character: There is no € in font cmr8!
 Missing character: There is no ™ in font cmr8!
- [5])
-
-Package natbib Warning: There were undefined citations.
-
-[6
-
-] (M:\git\Automatic-Music-Transcription\paper\paper.aux) ) 
+) [6] [7] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 3885 strings out of 494049
- 54209 string characters out of 3150091
- 145837 words of memory out of 3000000
- 7084 multiletter control sequences out of 15000+200000
- 8878 words of font info for 32 fonts, out of 3000000 for 9000
- 715 hyphenation exceptions out of 8191
- 42i,8n,43p,990b,308s stack positions out of 5000i,500n,10000p,200000b,50000s
-<Q:/PROTEXT.3/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmex10.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmmi10.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mmi7.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><Q:/
-PROTEXT.3/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><Q:/PROTEXT.3/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmr8.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmsy10.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mti10.pfb><Q:/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti7.pfb><Q:
-/PROTEXT.3/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb><Q:/PROTEXT.3/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on paper.pdf (6 pages, 370750 bytes).
+ 4226 strings out of 495035
+ 58214 string characters out of 6181702
+ 151921 words of memory out of 5000000
+ 7339 multiletter control sequences out of 15000+600000
+ 8878 words of font info for 32 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 42i,12n,43p,947b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmti7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmti8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmtt8.pfb>
+Output written on paper.pdf (7 pages, 416640 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
+ 112 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

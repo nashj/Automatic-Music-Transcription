@@ -1,7 +1,17 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{13}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Bank et~al.(2003)Bank, Avanzini, Borin, De~Poli, Fontana, and
+  Rocchesso}]{bank2003physically}
+\bibinfo{author}{B.~Bank}, \bibinfo{author}{F.~Avanzini},
+  \bibinfo{author}{G.~Borin}, \bibinfo{author}{G.~De~Poli},
+  \bibinfo{author}{F.~Fontana}, \bibinfo{author}{D.~Rocchesso},
+\newblock \bibinfo{title}{Physically informed signal processing methods for
+  piano sound synthesis: a research overview},
+\newblock \bibinfo{journal}{EURASIP Journal on Applied Signal Processing}
+  \bibinfo{volume}{2003} (\bibinfo{year}{2003}) \bibinfo{pages}{941--952}.
 %Type = Article
 \bibitem[{Stevens et~al.(1937)Stevens, Volkmann, and Newman}]{stevens1937scale}
 \bibinfo{author}{S.~S. Stevens}, \bibinfo{author}{J.~Volkmann},
@@ -33,6 +43,14 @@
   approach using learned feature representations.},
 \newblock in: \bibinfo{booktitle}{ISMIR}, pp. \bibinfo{pages}{175--180}.
 %Type = Inproceedings
+\bibitem[{Boogaart and Lienhart(2009)}]{boogaart2009note}
+\bibinfo{author}{C.~Boogaart}, \bibinfo{author}{R.~Lienhart},
+\newblock \bibinfo{title}{Note onset detection for the transcription of
+  polyphonic piano music},
+\newblock in: \bibinfo{booktitle}{Multimedia and Expo, 2009. ICME 2009. IEEE
+  International Conference on}, \bibinfo{organization}{IEEE}, pp.
+  \bibinfo{pages}{446--449}.
+%Type = Inproceedings
 \bibitem[{Smaragdis and Brown(2003)}]{smaragdis2003non}
 \bibinfo{author}{P.~Smaragdis}, \bibinfo{author}{J.~C. Brown},
 \newblock \bibinfo{title}{Non-negative matrix factorization for polyphonic
@@ -54,7 +72,8 @@
 \newblock \bibinfo{title}{A discriminative approach to polyphonic piano note
   transcription using supervised non-negative matrix factorization},
 \newblock in: \bibinfo{booktitle}{Acoustics, Speech and Signal Processing
-  (ICASSP), 2013 IEEE International Conference on}, pp. \bibinfo{pages}{6--10}.
+  (ICASSP), 2013 IEEE International Conference on},
+  \bibinfo{organization}{IEEE}, pp. \bibinfo{pages}{6--10}.
 %Type = Inproceedings
 \bibitem[{Abdallah and Plumbley(2004)}]{abdallah2004polyphonic}
 \bibinfo{author}{S.~A. Abdallah}, \bibinfo{author}{M.~D. Plumbley},
@@ -87,13 +106,5 @@
 \newblock in: \bibinfo{editor}{J.~P. Bello}, \bibinfo{editor}{E.~Chew},
   \bibinfo{editor}{D.~Turnbull} (Eds.), \bibinfo{booktitle}{ISMIR}, pp.
   \bibinfo{pages}{544--549}.
-%Type = Inproceedings
-\bibitem[{Blei et~al.(2010)Blei, Cook, and Hoffman}]{blei2010bayesian}
-\bibinfo{author}{D.~M. Blei}, \bibinfo{author}{P.~R. Cook},
-  \bibinfo{author}{M.~Hoffman},
-\newblock \bibinfo{title}{Bayesian nonparametric matrix factorization for
-  recorded music},
-\newblock in: \bibinfo{booktitle}{Proceedings of the 27th International
-  Conference on Machine Learning (ICML-10)}, pp. \bibinfo{pages}{439--446}.
 
 \end{thebibliography}
