@@ -1,4 +1,4 @@
 AutomaticMusicTranscription
 ===========================
 
-Exploring methods to automatically transcribe polyphonic music
+Exploring methods to automatically transcribe polyphonic music.
